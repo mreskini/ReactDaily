@@ -4,9 +4,9 @@ export default function Login(){
         <div className="text-white">
             <div className="container-fluid">
                 <div className="row">
-                    <div className="login-bg-object login-bg-object1"></div>
-                    <div className="login-bg-object login-bg-object2"></div>
-                    <div className="login-bg-object login-bg-object3"></div>
+                    <div className="bg-object bg-object1"></div>
+                    <div className="bg-object bg-object2"></div>
+                    <div className="bg-object bg-object3"></div>
                     <p className="text-dark-orange col-lg-12 text-center pt-5">
                         <span className="display-1 text-white">
                             React
@@ -18,7 +18,7 @@ export default function Login(){
                             Daily
                         </span>
                     </p>
-                    <p className="col-lg-12 text-center h3">
+                    <p className="col-lg-12 text-center text-secondary h3">
                         Enter your Username & Password to sign in.
                     </p>
                    <form className="col-lg-6 mx-auto mt-4 p-0">
@@ -26,7 +26,7 @@ export default function Login(){
                         <input type="password" placeholder="Password" className="login-form-input" />
                    </form>
                     <div className="col-lg-12 text-center mt-5">
-                        <Link to="/login" className="btn btn-outline-dark-orange px-5 btn-lg">
+                        <Link to="/" className="btn btn-outline-dark-orange px-5 btn-lg">
                             Sign In
                         </Link>
                     </div>

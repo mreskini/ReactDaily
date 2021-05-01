@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import TodoListData from "./data/todoListData";
-export default function Home(){
+export default function Todos(){
     const [todos, setTodos] = useState(
         TodoListData.data
     )

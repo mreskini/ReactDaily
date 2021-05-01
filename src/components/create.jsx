@@ -15,7 +15,7 @@ export default function Create(){
                 }
             )
             setEmptyError(false)
-            history.push("/")
+            history.push("/todos")
         }else{
             setEmptyError(true)
         }
@@ -51,7 +51,7 @@ export default function Create(){
                             :
                             <></>
                         }
-                        <input type="text" placeholder="Task Message" className="login-form-input" /> <br/>
+                        <input type="text" autoFocus placeholder="Task Message" className="login-form-input" /> <br/>
                         <input type="submit" value="Add" className="btn btn-outline-dark-orange px-5 mt-5 btn-lg"/>
                    </form>
                 </div>

@@ -26,7 +26,7 @@ export default function Login(){
                         <input type="password" placeholder="Password" className="login-form-input" />
                    </form>
                     <div className="col-lg-12 text-center mt-5">
-                        <Link to="/" className="btn btn-outline-dark-orange px-5 btn-lg">
+                        <Link to="/todos" className="btn btn-outline-dark-orange px-5 btn-lg">
                             Sign In
                         </Link>
                     </div>

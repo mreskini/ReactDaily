@@ -1,22 +1,25 @@
 import Login from "./components/login"
-import Home from "./components/home"
+import Todos from "./components/home"
 import Create from "./components/create"
-
 import {
-  BrowserRouter,
+  HashRouter,
   Switch,
-  Route
+  Route,
+  Redirect
 } from "react-router-dom"
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Switch>
-        <Route exact path="/" component={Home} />
+        <Route exact path="/">
+            <Redirect to="/login"/>
+        </Route>
+        <Route path="/todos" component={Todos} />
         <Route path="/login" component={Login} />
         <Route path="/create" component={Create} />
       </Switch>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 

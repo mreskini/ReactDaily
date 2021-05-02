@@ -9,6 +9,7 @@ export default function Todos(){
         setTodos( () => {
             return todos.filter( todo => todo.id != id)
         })
+        TodoListData.data = TodoListData.data.filter( todo => todo.id != id)
     }
     const todosBuilder = todos.map( (todo) => {
         return(

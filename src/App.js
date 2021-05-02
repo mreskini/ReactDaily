@@ -1,5 +1,5 @@
 import Login from "./components/login"
-import Todos from "./components/home"
+import Todos from "./components/todos"
 import Create from "./components/create"
 import {
   HashRouter,

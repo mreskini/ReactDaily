@@ -1,6 +1,8 @@
 import Login from "./components/login"
 import Todos from "./components/todos"
 import Create from "./components/create"
+import Logout from "./components/logout"
+
 import {
   HashRouter,
   Switch,
@@ -18,6 +20,7 @@ function App() {
         <Route path="/todos" component={Todos} />
         <Route path="/login" component={Login} />
         <Route path="/create" component={Create} />
+        <Route path="/logout" component={Logout} />
       </Switch>
     </HashRouter>
   );

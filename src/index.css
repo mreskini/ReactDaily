@@ -94,5 +94,11 @@
   margin: 2%;
 }
 
-.modal{
+.add-exit-btn{
+  position: fixed;
+  right: 125px;
+  z-index: 999;
+  bottom: 0;
+  margin: 2%;
 }
+

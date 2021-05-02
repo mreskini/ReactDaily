@@ -4,7 +4,6 @@ import axios from "axios";
 export default function Todos(){
     const history = useHistory()
     const [todos, setTodos] = useState([])
-    const [user, setUser] = useState({})
     const goToLogin = () => {
         history.push("/login")
     }
@@ -60,6 +59,9 @@ export default function Todos(){
                     <div className="bg-object bg-object3"></div>
                     <Link to="/create" className="btn btn-lg btn-dark-orange add-new-btn" >
                         Add New
+                    </Link>
+                    <Link to="/logout" className="btn btn-lg btn-outline-light add-exit-btn" >
+                        Log Out
                     </Link>
                     {
                         todos.length == 0 ? nothingToShow : todosBuilder

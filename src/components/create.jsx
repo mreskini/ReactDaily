@@ -1,6 +1,6 @@
 //requirements
 import { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 
 export default function Create(){
@@ -79,6 +79,7 @@ export default function Create(){
                             <></>
                         }
                         <input type="text" autoFocus placeholder="Task Message" className="login-form-input" /> <br/>
+                        <Link to="/todos" className="btn btn-outline-light px-5 mt-5 btn-lg mr-3">Cancel</Link>
                         <input type="submit" value="Add" className="btn btn-outline-dark-orange px-5 mt-5 btn-lg"/>
                    </form>
                 </div>

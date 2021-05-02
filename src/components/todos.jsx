@@ -1,6 +1,7 @@
 //requirements
 import { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
+import { BsBookmark } from "react-icons/bs";
 import axios from "axios";
 
 export default function Todos(){
@@ -43,6 +44,9 @@ export default function Todos(){
                     {
                         todo.task
                     }
+                    <div className="btn btn-outline-light btn-sm ml-5">
+                        <BsBookmark />
+                    </div>
                 </div>
             </div>
         )

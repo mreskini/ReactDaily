@@ -64,6 +64,17 @@ export default function Todos(){
                     <div className="bg-object bg-object1"></div>
                     <div className="bg-object bg-object2"></div>
                     <div className="bg-object bg-object3"></div>
+                    <p className="text-dark-orange col-lg-12 text-center pt-2">
+                        <span className="display-1 text-white">
+                            Daily
+                        </span>
+                        <span className="display-3 px-5 align-middle text-white">
+                            •
+                        </span>
+                        <span className="display-1">
+                            Todos
+                        </span>
+                    </p>
                     <Link to="/create" className="btn btn-lg btn-dark-orange add-new-btn" >
                         Add New
                     </Link>

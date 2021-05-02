@@ -25,10 +25,8 @@ export default function Login(){
         .then((response) => {
             if(response.status == 200)
             {
-                dispatch({
-                    type: "SET_USER",
-                    user: response.data,
-                })
+                if (typeof(Storage) !== "undefined")
+                    localStorage.setItem("user_token", response.data.user_token);
                 return history.push("/todos")
             }
             else

@@ -1,29 +1,40 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
-import TodoListData from "./data/todoListData";
-import { useSelector } from "react-redux"
+import axios from "axios";
 export default function Create(){
     const history = useHistory()
-    try{
-        const user = useSelector(state => state.user)
-    }
-    catch(e){
+    const [user, setUser] = useState({})
+    const goToLogin = () => {
         history.push("/login")
     }
-
+    if(localStorage.getItem("user_token") === null)
+        goToLogin()
+    const getUserByToken = async () => {
+        let userToken = localStorage.getItem("user_token")
+        console.log(userToken)
+        axios.post(`${process.env.REACT_APP_SERVER_HOST}/auth/getUserByToken`, {userToken,})
+        .then((response) => {
+            if(response.status == 200)
+                setUser(response.data)
+        })
+    }
     const [todoValue, setTodoValue] = useState("")
     const [emptyError, setEmptyError] = useState(false)
     const handleSubmit = (e) => {
         e.preventDefault()
         if(todoValue.length > 0){
-            TodoListData.data.push(
-                {
-                    task: todoValue,
-                    id: Math.random().toString().substr(2, 9),
+            const todo = {
+                task: todoValue,
+                id: user.id,
+            }
+            axios.post(`${process.env.REACT_APP_SERVER_HOST}/todos/add`, todo)
+            .then((response) => {
+                if(response.status == 200){
+                    setEmptyError(false)
+                    history.push("/todos")
                 }
-            )
-            setEmptyError(false)
-            history.push("/todos")
+            })
+            .catch((e) => {})
         }else{
             setEmptyError(true)
         }
@@ -31,6 +42,9 @@ export default function Create(){
     const onTodoInputChange = (e) => {
         setTodoValue(e.target.value)
     }
+    useEffect( async () => {
+        await getUserByToken()
+    }, [])
     return(
         <div className="text-white">
             <div className="container-fluid">

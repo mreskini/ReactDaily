@@ -1,23 +1,40 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { useSelector } from "react-redux"
-import TodoListData from "./data/todoListData";
+import axios from "axios";
 export default function Todos(){
     const history = useHistory()
-    try{
-        const user = useSelector(state => state.user)
-    }
-    catch(e){
+    const [todos, setTodos] = useState([])
+    const [user, setUser] = useState({})
+    const goToLogin = () => {
         history.push("/login")
     }
-    const [todos, setTodos] = useState(
-        TodoListData.data
-    )
-    const removeTodo = (id) => {
-        setTodos( () => {
-            return todos.filter( todo => todo.id != id)
+    if(localStorage.getItem("user_token") === null)
+        goToLogin()
+
+    const getTodos = () => {
+        let userToken = localStorage.getItem("user_token")
+        axios.post(`${process.env.REACT_APP_SERVER_HOST}/auth/getUserByToken`, {userToken,})
+        .then((response) => {
+            if(response.status == 200)
+            {
+                let {id} = response.data
+                console.log(id)
+                axios.post(`${process.env.REACT_APP_SERVER_HOST}/todos/get`, {id,})
+                .then((response) => {
+                    setTodos(response.data)
+                })
+            }
         })
-        TodoListData.data = TodoListData.data.filter( todo => todo.id != id)
+    }
+
+    const removeTodo = (id) => {
+        axios.post(`${process.env.REACT_APP_SERVER_HOST}/todos/delete`, {id,})
+        .then( (response) => {
+            if(response.status == 200){
+                getTodos()
+            }
+        })
+        .catch((e) => {})
     }
     const todosBuilder = todos.map( (todo) => {
         return(
@@ -31,6 +48,9 @@ export default function Todos(){
         )
     })
     const nothingToShow = <p className="col-lg-12 display-4 text-center">Nothing to show</p>
+    useEffect(async () => {
+        getTodos()
+    }, [])
     return(
         <div className="text-white">
             <div className="container-fluid">

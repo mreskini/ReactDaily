@@ -65,7 +65,7 @@ export default function Create(){
                             •
                         </span>
                         <span className="display-1">
-                            ToDo
+                            Todo
                         </span>
                     </p>
                    <form className="col-lg-6 mx-auto mt-4 p-0 text-center" onChange={onTodoInputChange} onSubmit={handleSubmit}>

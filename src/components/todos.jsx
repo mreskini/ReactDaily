@@ -1,7 +1,7 @@
 //requirements
 import { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { BsBookmark } from "react-icons/bs";
+import { BsBookmarkFill, BsFillTrashFill, BsBookmark } from "react-icons/bs";
 import axios from "axios";
 
 export default function Todos(){
@@ -9,6 +9,7 @@ export default function Todos(){
     //properties
     const history = useHistory()
     const [todos, setTodos] = useState([])
+    const [markedTodos, setmarkedTodos] = useState([])
 
     //auth check
     if(localStorage.getItem("user_token") === null)
@@ -22,8 +23,21 @@ export default function Todos(){
             if(response.status === 200)
             {
                 let {id} = response.data
-                return axios.post(`${process.env.REACT_APP_SERVER_HOST}/todos/get`, {id,})
+                return axios.post(`${process.env.REACT_APP_SERVER_HOST}/todos/getUnmarked`, {id,})
                 .then( response => setTodos(response.data) )
+            }
+        })
+    }
+
+    const getMarkedTodos = async () => {
+        let userToken = localStorage.getItem("user_token")
+        return axios.post(`${process.env.REACT_APP_SERVER_HOST}/auth/getUserByToken`, {userToken,})
+        .then( async (response) => {
+            if(response.status === 200)
+            {
+                let {id} = response.data
+                return axios.post(`${process.env.REACT_APP_SERVER_HOST}/todos/getMarked`, {id,})
+                .then( response => setmarkedTodos(response.data) )
             }
         })
     }
@@ -32,30 +46,83 @@ export default function Todos(){
         return axios.post(`${process.env.REACT_APP_SERVER_HOST}/todos/delete`, {id,})
         .then( (response) => {
             if(response.status === 200)
-                return getTodos()
+            {
+                getTodos()
+                getMarkedTodos()
+            }
+        })
+        .catch((e) => {})
+    }
+
+    const markTodo = async (id) => {
+        return axios.post(`${process.env.REACT_APP_SERVER_HOST}/todos/mark`, {id,})
+        .then( (response) => {
+            if(response.status === 200)
+            {
+                getTodos()
+                getMarkedTodos()
+            }
+        })
+        .catch((e) => {})
+    }
+
+    const unmarkTodo = async (id) => {
+        return axios.post(`${process.env.REACT_APP_SERVER_HOST}/todos/unmark`, {id,})
+        .then( (response) => {
+            if(response.status === 200)
+            {
+                getTodos()
+                getMarkedTodos()
+            }
         })
         .catch((e) => {})
     }
     //partial components
     const todosBuilder = todos.map( (todo) => {
         return(
-            <div className="col-lg-3 p-3" key={todo.id} onDoubleClick={() => removeTodo(todo.id)}>
-                <div className="w-100 btn btn-outline-dark-orange py-4">
+            <div className="col-lg-4 p-3" key={todo.id}>
+                <div className="w-100 todo-card py-4">
+                    <br/>
                     {
                         todo.task
                     }
-                    <div className="btn btn-outline-light btn-sm ml-5">
-                        <BsBookmark />
+                    <div className="btn btn-lg mark-icon">
+                        <BsBookmark onClick={() => markTodo(todo.id)}/>
+                    </div>
+                    <div className="btn btn-lg trash-icon">
+                        <BsFillTrashFill onClick={() => removeTodo(todo.id)}/>
                     </div>
                 </div>
             </div>
         )
     })
 
-    const nothingToShow = <p className="col-lg-12 display-4 text-center">Nothing to show</p>
+    const markedTodosBuilder = markedTodos.map( (todo) => {
+        return(
+            <div className="col-lg-4 p-3" key={todo.id}>
+                <div className="w-100 marked todo-card py-4">
+                    <br/>
+                    {
+                        todo.task
+                    }
+                    <div className="btn btn-lg marked mark-icon">
+                        <BsBookmarkFill onClick={() => unmarkTodo(todo.id)} />
+                    </div>
+                    <div className="btn btn-lg marked trash-icon">
+                        <BsFillTrashFill onClick={() => removeTodo(todo.id)}/>
+                    </div>
+                </div>
+            </div>
+        )
+    })
+
+    const nothingToShow = <p className="col-lg-12 h2 text-center">Nothing to show</p>
 
     //hooks
-    useEffect( () => getTodos(), [])
+    useEffect( () => {
+        getTodos()
+        getMarkedTodos()
+    }, [])
 
     return(
         <div className="text-white">
@@ -75,15 +142,24 @@ export default function Todos(){
                             Todos
                         </span>
                     </p>
+                    <p className="col-lg-12 display-4">
+                        •   Marked
+                    </p>
+                    {
+                        markedTodos.length === 0 ? nothingToShow : markedTodosBuilder
+                    }
+                    <p className="col-lg-12 display-4 mt-3">
+                        •   Other
+                    </p>
+                    {
+                        todos.length === 0 ? nothingToShow : todosBuilder
+                    }
                     <Link to="/create" className="btn btn-lg btn-dark-orange add-new-btn" >
                         Add New
                     </Link>
                     <Link to="/logout" className="btn btn-lg btn-outline-light add-exit-btn" >
                         Log Out
                     </Link>
-                    {
-                        todos.length === 0 ? nothingToShow : todosBuilder
-                    }
                 </div>
             </div>
         </div>

@@ -1,32 +1,31 @@
+//requirements
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux"
 import axios  from "axios";
+
 export default function Login(){
 
-    const dispatch = useDispatch()
+    //properties
     const history = useHistory()
-
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState(false)
 
-    const handleUsernameChange = (e) => {
-        setUsername(e.target.value)
-    }
-    const handlePasswordChange = (e) => {
-        setPassword(e.target.value)
-    }
+    //methods
+    const handleUsernameChange = (e) => setUsername(e.target.value)
+
+    const handlePasswordChange = (e) => setPassword(e.target.value)
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        if(username.length == 0 || password.length == 0)
-        return setError(true)
-        axios.post(`${process.env.REACT_APP_SERVER_HOST}/auth/login`, {username, password})
-        .then((response) => {
+        if( username.length == 0 || password.length == 0 )
+            return setError(true)
+        return axios.post(`${process.env.REACT_APP_SERVER_HOST}/auth/login`, {username, password})
+        .then( response => {
             if(response.status == 200)
             {
-                if (typeof(Storage) !== "undefined")
-                    localStorage.setItem("user_token", response.data.user_token);
+                if (typeof(Storage) !== "undefined") //check if the browser supports localstorages
+                    return localStorage.setItem("user_token", response.data.user_token);
                 return history.push("/todos")
             }
             else

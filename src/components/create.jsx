@@ -9,16 +9,15 @@ export default function Create(){
     const history = useHistory()
     const [user, setUser] = useState({})
     const [todoValue, setTodoValue] = useState("")
-    const [emptyError, setEmptyError] = useState(false)
+    const [error, setError] = useState(false)
 
     //methods
     const getUserByToken = async () => {
         let userToken = localStorage.getItem("user_token")
-        console.log(userToken)
         axios.post(`${process.env.REACT_APP_SERVER_HOST}/auth/getUserByToken`, {userToken,})
         .then((response) => {
             if(response.status == 200)
-                setUser(response.data)
+                return setUser(response.data)
         })
     }
     const handleSubmit = (e) => {
@@ -31,13 +30,15 @@ export default function Create(){
             return axios.post(`${process.env.REACT_APP_SERVER_HOST}/todos/add`, todo)
             .then((response) => {
                 if(response.status == 200){
-                    setEmptyError(false)
-                    history.push("/todos")
+                    setError(false)
+                    return history.push("/todos")
                 }
             })
-            .catch((e) => {})
+            .catch((e) => {
+                return setError(true)
+            })
         }
-        return setEmptyError(true)
+        return setError(true)
     }
     const onTodoInputChange = (e) => setTodoValue(e.target.value)
 
@@ -64,10 +65,10 @@ export default function Create(){
                     </p>
                    <form className="col-lg-6 mx-auto mt-4 p-0 text-center" onChange={onTodoInputChange} onSubmit={handleSubmit}>
                         {
-                            emptyError
+                            error
                             ?
                             <p className="col-lg-12 text-left text-danger h5">
-                                The Field Is Empty
+                                The Field Is Invalid
                             </p>
                             :
                             <></>

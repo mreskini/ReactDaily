@@ -15,7 +15,13 @@ function App() {
     <HashRouter>
       <Switch>
         <Route exact path="/">
-            <Redirect to="/login"/>
+        {
+          localStorage.getItem("user_token") === null
+          ?
+          <Redirect to="/login"/>
+          :
+          <Redirect to="/todos"/>
+        }
         </Route>
         <Route path="/todos" component={Todos} />
         <Route path="/login" component={Login} />

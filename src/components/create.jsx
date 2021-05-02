@@ -1,14 +1,17 @@
+//requirements
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
+
 export default function Create(){
+
+    //properties
     const history = useHistory()
     const [user, setUser] = useState({})
-    const goToLogin = () => {
-        history.push("/login")
-    }
-    if(localStorage.getItem("user_token") === null)
-        goToLogin()
+    const [todoValue, setTodoValue] = useState("")
+    const [emptyError, setEmptyError] = useState(false)
+
+    //methods
     const getUserByToken = async () => {
         let userToken = localStorage.getItem("user_token")
         console.log(userToken)
@@ -18,8 +21,6 @@ export default function Create(){
                 setUser(response.data)
         })
     }
-    const [todoValue, setTodoValue] = useState("")
-    const [emptyError, setEmptyError] = useState(false)
     const handleSubmit = (e) => {
         e.preventDefault()
         if(todoValue.length > 0){
@@ -27,7 +28,7 @@ export default function Create(){
                 task: todoValue,
                 id: user.id,
             }
-            axios.post(`${process.env.REACT_APP_SERVER_HOST}/todos/add`, todo)
+            return axios.post(`${process.env.REACT_APP_SERVER_HOST}/todos/add`, todo)
             .then((response) => {
                 if(response.status == 200){
                     setEmptyError(false)
@@ -35,16 +36,14 @@ export default function Create(){
                 }
             })
             .catch((e) => {})
-        }else{
-            setEmptyError(true)
         }
+        return setEmptyError(true)
     }
-    const onTodoInputChange = (e) => {
-        setTodoValue(e.target.value)
-    }
-    useEffect( async () => {
-        await getUserByToken()
-    }, [])
+    const onTodoInputChange = (e) => setTodoValue(e.target.value)
+
+    //hooks
+    useEffect( async () => await getUserByToken() , [])
+
     return(
         <div className="text-white">
             <div className="container-fluid">

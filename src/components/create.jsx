@@ -21,7 +21,7 @@ export default function Create(){
         let userToken = localStorage.getItem("user_token")
         axios.post(`${process.env.REACT_APP_SERVER_HOST}/auth/getUserByToken`, {userToken,})
         .then((response) => {
-            if(response.status == 200)
+            if(response.status === 200)
                 return setUser(response.data)
         })
     }
@@ -34,7 +34,7 @@ export default function Create(){
             }
             return axios.post(`${process.env.REACT_APP_SERVER_HOST}/todos/add`, todo)
             .then((response) => {
-                if(response.status == 200){
+                if(response.status === 200){
                     setError(false)
                     return history.push("/todos")
                 }
@@ -48,7 +48,7 @@ export default function Create(){
     const onTodoInputChange = (e) => setTodoValue(e.target.value)
 
     //hooks
-    useEffect( async () => await getUserByToken() , [])
+    useEffect( () => getUserByToken() , [])
 
     return(
         <div className="text-white">

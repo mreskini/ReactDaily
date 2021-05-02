@@ -18,7 +18,7 @@ export default function Todos(){
         let userToken = localStorage.getItem("user_token")
         return axios.post(`${process.env.REACT_APP_SERVER_HOST}/auth/getUserByToken`, {userToken,})
         .then( async (response) => {
-            if(response.status == 200)
+            if(response.status === 200)
             {
                 let {id} = response.data
                 return axios.post(`${process.env.REACT_APP_SERVER_HOST}/todos/get`, {id,})
@@ -30,7 +30,7 @@ export default function Todos(){
     const removeTodo = async (id) => {
         return axios.post(`${process.env.REACT_APP_SERVER_HOST}/todos/delete`, {id,})
         .then( (response) => {
-            if(response.status == 200)
+            if(response.status === 200)
                 return getTodos()
         })
         .catch((e) => {})
@@ -51,9 +51,7 @@ export default function Todos(){
     const nothingToShow = <p className="col-lg-12 display-4 text-center">Nothing to show</p>
 
     //hooks
-    useEffect( async () => {
-        getTodos()
-    }, [])
+    useEffect( () => getTodos(), [])
 
     return(
         <div className="text-white">
@@ -69,7 +67,7 @@ export default function Todos(){
                         Log Out
                     </Link>
                     {
-                        todos.length == 0 ? nothingToShow : todosBuilder
+                        todos.length === 0 ? nothingToShow : todosBuilder
                     }
                 </div>
             </div>

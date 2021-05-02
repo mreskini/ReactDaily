@@ -18,11 +18,11 @@ export default function Login(){
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if( username.length == 0 || password.length == 0 )
+        if( username.length === 0 || password.length === 0 )
             return setError(true)
         return axios.post(`${process.env.REACT_APP_SERVER_HOST}/auth/login`, {username, password})
         .then( response => {
-            if(response.status == 200)
+            if(response.status === 200)
             {
                 if (typeof(Storage) !== "undefined") //check if the browser supports localstorages
                     localStorage.setItem("user_token", response.data.user_token);

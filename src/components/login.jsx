@@ -25,7 +25,7 @@ export default function Login(){
             if(response.status == 200)
             {
                 if (typeof(Storage) !== "undefined") //check if the browser supports localstorages
-                    return localStorage.setItem("user_token", response.data.user_token);
+                    localStorage.setItem("user_token", response.data.user_token);
                 return history.push("/todos")
             }
             else

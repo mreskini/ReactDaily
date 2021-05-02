@@ -14,28 +14,24 @@ export default function Todos(){
         history.push("/login")
 
     //methods
-    const getTodos = () => {
+    const getTodos = async () => {
         let userToken = localStorage.getItem("user_token")
-        axios.post(`${process.env.REACT_APP_SERVER_HOST}/auth/getUserByToken`, {userToken,})
-        .then((response) => {
+        return axios.post(`${process.env.REACT_APP_SERVER_HOST}/auth/getUserByToken`, {userToken,})
+        .then( async (response) => {
             if(response.status == 200)
             {
                 let {id} = response.data
-                console.log(id)
-                axios.post(`${process.env.REACT_APP_SERVER_HOST}/todos/get`, {id,})
-                .then((response) => {
-                    setTodos(response.data)
-                })
+                return axios.post(`${process.env.REACT_APP_SERVER_HOST}/todos/get`, {id,})
+                .then( response => setTodos(response.data) )
             }
         })
     }
 
-    const removeTodo = (id) => {
-        axios.post(`${process.env.REACT_APP_SERVER_HOST}/todos/delete`, {id,})
+    const removeTodo = async (id) => {
+        return axios.post(`${process.env.REACT_APP_SERVER_HOST}/todos/delete`, {id,})
         .then( (response) => {
-            if(response.status == 200){
-                getTodos()
-            }
+            if(response.status == 200)
+                return getTodos()
         })
         .catch((e) => {})
     }

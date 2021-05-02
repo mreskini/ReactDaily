@@ -1,7 +1,15 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { useSelector } from "react-redux"
 import TodoListData from "./data/todoListData";
 export default function Todos(){
+    const history = useHistory()
+    try{
+        const user = useSelector(state => state.user)
+    }
+    catch(e){
+        history.push("/login")
+    }
     const [todos, setTodos] = useState(
         TodoListData.data
     )

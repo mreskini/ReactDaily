@@ -1,10 +1,18 @@
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import TodoListData from "./data/todoListData";
+import { useSelector } from "react-redux"
 export default function Create(){
+    const history = useHistory()
+    try{
+        const user = useSelector(state => state.user)
+    }
+    catch(e){
+        history.push("/login")
+    }
+
     const [todoValue, setTodoValue] = useState("")
     const [emptyError, setEmptyError] = useState(false)
-    const history = useHistory()
     const handleSubmit = (e) => {
         e.preventDefault()
         if(todoValue.length > 0){

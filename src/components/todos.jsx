@@ -1,15 +1,19 @@
+//requirements
 import { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
+
 export default function Todos(){
+
+    //properties
     const history = useHistory()
     const [todos, setTodos] = useState([])
-    const goToLogin = () => {
-        history.push("/login")
-    }
-    if(localStorage.getItem("user_token") === null)
-        goToLogin()
 
+    //auth check
+    if(localStorage.getItem("user_token") === null)
+        history.push("/login")
+
+    //methods
     const getTodos = () => {
         let userToken = localStorage.getItem("user_token")
         axios.post(`${process.env.REACT_APP_SERVER_HOST}/auth/getUserByToken`, {userToken,})
@@ -35,6 +39,7 @@ export default function Todos(){
         })
         .catch((e) => {})
     }
+    //partial components
     const todosBuilder = todos.map( (todo) => {
         return(
             <div className="col-lg-3 p-3" key={todo.id} onDoubleClick={() => removeTodo(todo.id)}>
@@ -46,10 +51,14 @@ export default function Todos(){
             </div>
         )
     })
+
     const nothingToShow = <p className="col-lg-12 display-4 text-center">Nothing to show</p>
-    useEffect(async () => {
+
+    //hooks
+    useEffect( async () => {
         getTodos()
     }, [])
+
     return(
         <div className="text-white">
             <div className="container-fluid">

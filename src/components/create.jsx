@@ -11,6 +11,11 @@ export default function Create(){
     const [todoValue, setTodoValue] = useState("")
     const [error, setError] = useState(false)
 
+
+    //auth check
+    if(localStorage.getItem("user_token") === null)
+        history.push("/login")
+
     //methods
     const getUserByToken = async () => {
         let userToken = localStorage.getItem("user_token")

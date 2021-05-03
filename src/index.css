@@ -177,3 +177,17 @@
   background-color: transparent !important;
   border-color: var(--theme-text-color) !important;
 }
+
+.todo-counter{
+  width: 103.5px;
+  height: 100px;
+  line-height: 86px;
+  font-size: 25px;
+  border-width: 7px;
+  border-style: solid;
+  border-color: var(--theme-text-color);
+  border-left-color: var(--light-dark-bg);
+  border-right-color: var(--light-dark-bg);
+  border-radius: 100%;
+  text-align: center;
+}

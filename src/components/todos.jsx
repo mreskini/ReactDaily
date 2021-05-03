@@ -162,7 +162,9 @@ export default function Todos(){
                     <div className="bg-object bg-object2"></div>
                     <div className="bg-object bg-object3"></div>
                     <div className="todo-counter">
-                        13
+                        {
+                            todos.length + markedTodos.length
+                        }
                     </div>
                     <p className="text-dark-orange col-lg-12 text-center pt-2">
                         <span className="display-1 text-white">

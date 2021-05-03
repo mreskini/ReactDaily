@@ -87,7 +87,7 @@
   border-width: 3px !important;
   font-weight: bold !important;
   font-size: 20px !important;
-  border-style: dashed;
+  border-style: dashed !important;
 }
 
 .btn-outline-dark-orange {
@@ -153,3 +153,27 @@
   color: lightgrey !important;
 }
 
+.copy-icon{
+  position: absolute;
+  right: 24%;
+  top: 20%;
+  color: var(--theme-text-color) !important;
+  padding: 0px !important;
+  transition: 500ms;
+}
+.copy-icon:hover{
+  color: lightgrey !important;
+}
+
+.notification{
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  margin-top: 5.7%;
+  margin-left: 6%;
+  font-size: 15px;
+  padding: 5px 10px !important;
+  color: var(--theme-text-color) !important;
+  background-color: transparent !important;
+  border-color: var(--theme-text-color) !important;
+}

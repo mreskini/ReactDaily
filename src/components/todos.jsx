@@ -1,7 +1,7 @@
 //requirements
 import { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { BsBookmarkFill, BsFillTrashFill, BsBookmark } from "react-icons/bs";
+import { BsBookmarkFill, BsFillTrashFill, BsBookmark, BsFiles } from "react-icons/bs";
 import axios from "axios";
 
 export default function Todos(){
@@ -10,6 +10,7 @@ export default function Todos(){
     const history = useHistory()
     const [todos, setTodos] = useState([])
     const [markedTodos, setmarkedTodos] = useState([])
+    const [copiedTodoId, setCopiedTodoId] = useState(-1)
 
     //auth check
     if(localStorage.getItem("user_token") === null)
@@ -77,6 +78,11 @@ export default function Todos(){
         })
         .catch((e) => {})
     }
+
+    const copyTodo = (todo) => {
+        navigator.clipboard.writeText(todo.task)
+        setCopiedTodoId(todo.id)
+    }
     //partial components
     const todosBuilder = todos.map( (todo) => {
         return(
@@ -86,11 +92,23 @@ export default function Todos(){
                     {
                         todo.task
                     }
+                    {
+                        todo.id == copiedTodoId
+                        ?
+                        <div class="alert alert-info notification font-weight-bold" role="alert">
+                            Copied!
+                        </div>
+                        :
+                        <></>
+                    }
                     <div className="btn btn-lg mark-icon">
                         <BsBookmark onClick={() => markTodo(todo.id)}/>
                     </div>
                     <div className="btn btn-lg trash-icon">
                         <BsFillTrashFill onClick={() => removeTodo(todo.id)}/>
+                    </div>
+                    <div className="btn btn-lg copy-icon" onClick={() => copyTodo(todo)}>
+                        <BsFiles />
                     </div>
                 </div>
             </div>
@@ -105,11 +123,23 @@ export default function Todos(){
                     {
                         todo.task
                     }
+                    {
+                        todo.id == copiedTodoId
+                        ?
+                        <div class="alert alert-info notification" role="alert">
+                            Copied!
+                        </div>
+                        :
+                        <></>
+                    }
                     <div className="btn btn-lg marked mark-icon">
                         <BsBookmarkFill onClick={() => unmarkTodo(todo.id)} />
                     </div>
                     <div className="btn btn-lg marked trash-icon">
                         <BsFillTrashFill onClick={() => removeTodo(todo.id)}/>
+                    </div>
+                    <div className="btn btn-lg marked copy-icon" onClick={() => copyTodo(todo)}>
+                        <BsFiles />
                     </div>
                 </div>
             </div>

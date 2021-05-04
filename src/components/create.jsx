@@ -12,8 +12,9 @@ export default function Create(){
     const [user, setUser] = useState({})
     const [todoValue, setTodoValue] = useState("")
     const [error, setError] = useState(false)
-
-
+    const [fileUploadProgress, setFileUploadProgress] = useState(0.0)
+    const [uploadedFileUrl, setUploadedFileUrl] = useState("")
+    const [uploaded, setUploaded] = useState(false)
     //auth check
     if(localStorage.getItem("user_token") === null)
         history.push("/login")
@@ -49,6 +50,29 @@ export default function Create(){
     }
     const onTodoInputChange = (e) => setTodoValue(e.target.value)
 
+    const handleAttachFileChange = async (e) => {
+        e.preventDefault()
+        const file = e.target.files[0];
+        const fd = new FormData()
+
+        setFileUploadProgress(0.0)
+
+        fd.append("file", file)
+
+        return axios.post(`${process.env.REACT_APP_SERVER_HOST}/todos/uploadFile`, fd, {
+            onUploadProgress: ProgressEvent => {
+                setFileUploadProgress(Math.floor(ProgressEvent.loaded / ProgressEvent.total * 100))
+            }
+        })
+        .then( (response) => {
+            if(response.status == 200)
+            {
+                setUploadedFileUrl(response.data.fileDestinationUrl)
+                setUploaded(true)
+            }
+        })
+        .catch((e) => {})
+    }
     //hooks
     useEffect( () => getUserByToken() , [])
 
@@ -88,14 +112,20 @@ export default function Create(){
                                     Add a File
                                 </span>
                             </label>
-                            <span className="text-lightgrey pl-3">
-                                File Attached!
-                            </span>
+                            {
+                                uploaded
+                                ?
+                                <span className="text-lightgrey pl-3">
+                                    File Attached!
+                                </span>
+                                :
+                                <></>
+                            }
                         </div>
                         <div className="login-form-input border-0 p-0">
-                            <ProgressBar variant="" label="100%" striped now={100} max={100} className="bg-light-darkish mt-4" />
+                            <ProgressBar variant="" label={uploaded ? "100%" : ""} striped now={fileUploadProgress} max={100} className="bg-light-darkish mt-4" />
                         </div>
-                        <input type="file" className="d-none" id="add-a-file"/>
+                        <input type="file" onChange={handleAttachFileChange} className="d-none" id="add-a-file"/>
                         <Link to="/todos" className="btn btn-outline-light px-5 mt-5 btn-lg mr-3">Cancel</Link>
                         <input type="submit" value="Add" className="btn btn-outline-dark-orange px-5 mt-5 btn-lg"/>
                    </form>

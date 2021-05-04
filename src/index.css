@@ -4,13 +4,21 @@
   --theme-text-color: #D27769;
 }
 *{
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 .bg-darkish{
-  background-color: var(--dark-bg);
+  background-color: var(--dark-bg) !important;
 }
 .bg-light-darkish{
-  background-color: var(--light-dark-bg);
+  background-color: var(--light-dark-bg) !important;
+}
+
+.progress-bar{
+  background-color: var(--theme-text-color) !important;
+}
+
+.text-lightgrey{
+  color: lightgrey;
 }
 .login{
   height: 100%;
@@ -24,8 +32,8 @@
 }
 .bg-object1{
   background-image: url("https://demos.creative-tim.com/blk-design-system-pro-react/static/media/blob.714796fa.png");
-  width: 40%;
-  height: 75%;
+  width: 50%;
+  height: 100%;
   right: 0px;
   top: 0px;
 }

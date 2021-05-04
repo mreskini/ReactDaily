@@ -1,7 +1,9 @@
 //requirements
 import { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
+import { AiOutlinePaperClip } from "react-icons/ai";
 import axios from "axios";
+import { ProgressBar } from "react-bootstrap";
 
 export default function Create(){
 
@@ -79,6 +81,21 @@ export default function Create(){
                             <></>
                         }
                         <input type="text" autoFocus placeholder="Task Message" className="login-form-input" /> <br/>
+                        <div className="col-lg-12 border-0 text-left mt-3">
+                            <label htmlFor="add-a-file" className="btn btn-outline-dark-orange col-lg-4 h5">
+                                <AiOutlinePaperClip className="h4 align-middle my-auto mr-1" />
+                                <span className="align-middle">
+                                    Add a File
+                                </span>
+                            </label>
+                            <span className="text-lightgrey pl-3">
+                                File Attached!
+                            </span>
+                        </div>
+                        <div className="login-form-input border-0 p-0">
+                            <ProgressBar variant="" label="100%" striped now={100} max={100} className="bg-light-darkish mt-4" />
+                        </div>
+                        <input type="file" className="d-none" id="add-a-file"/>
                         <Link to="/todos" className="btn btn-outline-light px-5 mt-5 btn-lg mr-3">Cancel</Link>
                         <input type="submit" value="Add" className="btn btn-outline-dark-orange px-5 mt-5 btn-lg"/>
                    </form>

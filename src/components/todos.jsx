@@ -172,25 +172,25 @@ export default function Todos(){
                             Log Out
                         </Link>
                     </div>
-                    <p className="text-dark-orange col-lg-12 text-center pt-2">
-                        <span className="display-1 text-white">
+                    <p className="text-dark-orange display-1 col-lg-12 text-center pt-2">
+                        <span className="text-white">
                             Daily
                         </span>
-                        <span className="display-3 px-5 align-middle text-white">
+                        <span className="px-5 align-middle text-white">
                             •
                         </span>
-                        <span className="display-1">
+                        <span>
                             Todos
                         </span>
                     </p>
                     <p className="col-lg-12 display-4">
-                        •   Marked
+                        <span className="display-1 align-middle">•</span>Marked
                     </p>
                     {
                         markedTodos.length === 0 ? nothingToShow : markedTodosBuilder
                     }
                     <p className="col-lg-12 display-4 mt-3">
-                        •   Other
+                        <span className="display-1 align-middle">•</span>Other
                     </p>
                     {
                         todos.length === 0 ? nothingToShow : todosBuilder

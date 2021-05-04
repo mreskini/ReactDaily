@@ -15,6 +15,7 @@ export default function Create(){
     const [fileUploadProgress, setFileUploadProgress] = useState(0.0)
     const [uploadedFileUrl, setUploadedFileUrl] = useState("")
     const [uploaded, setUploaded] = useState(false)
+
     //auth check
     if(localStorage.getItem("user_token") === null)
         history.push("/login")
@@ -83,14 +84,14 @@ export default function Create(){
                     <div className="bg-object bg-object1"></div>
                     <div className="bg-object bg-object2"></div>
                     <div className="bg-object bg-object3"></div>
-                    <p className="text-dark-orange col-lg-12 text-center pt-5">
-                        <span className="display-1 text-white">
+                    <p className="text-dark-orange col-lg-12 display-1 text-center pt-5">
+                        <span className="text-white">
                             Add
                         </span>
-                        <span className="display-3 px-5 align-middle text-white">
+                        <span className="px-5 align-middle text-white">
                             •
                         </span>
-                        <span className="display-1">
+                        <span>
                             Todo
                         </span>
                     </p>

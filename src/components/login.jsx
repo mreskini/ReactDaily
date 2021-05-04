@@ -43,14 +43,14 @@ export default function Login(){
                     <div className="bg-object bg-object1"></div>
                     <div className="bg-object bg-object2"></div>
                     <div className="bg-object bg-object3"></div>
-                    <p className="text-dark-orange col-lg-12 text-center pt-5">
-                        <span className="display-1 text-white">
+                    <p className="text-dark-orange col-lg-12 display-1 text-center pt-5">
+                        <span className="text-white">
                             React
                         </span>
-                        <span className="display-3 px-5 align-middle text-white">
+                        <span className="px-5 align-middle text-white">
                             •
                         </span>
-                        <span className="display-1">
+                        <span>
                             Daily
                         </span>
                     </p>

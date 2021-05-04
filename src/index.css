@@ -92,9 +92,7 @@
 }
 
 .marked{
-  border-width: 3px !important;
-  font-weight: bold !important;
-  font-size: 20px !important;
+  border-width: 2px;
   border-style: dashed !important;
 }
 

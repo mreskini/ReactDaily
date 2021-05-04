@@ -96,25 +96,25 @@ export default function Todos(){
                     {
                         todo.id == copiedTodoId
                         ?
-                        <div class="alert alert-info notification font-weight-bold" role="alert">
+                        <div class="alert alert-info notification font-weight-bold bg-transparent position-absolute" role="alert">
                             Copied!
                         </div>
                         :
                         <></>
                     }
-                    <div className="btn btn-lg mark-icon">
+                    <div className="btn btn-lg p-0 todo-icon mark-icon">
                         <BsBookmark onClick={() => markTodo(todo.id)}/>
                     </div>
-                    <div className="btn btn-lg trash-icon">
+                    <div className="btn btn-lg p-0 todo-icon trash-icon">
                         <BsFillTrashFill onClick={() => removeTodo(todo.id)}/>
                     </div>
-                    <div className="btn btn-lg copy-icon" onClick={() => copyTodo(todo)}>
+                    <div className="btn btn-lg p-0 todo-icon copy-icon" onClick={() => copyTodo(todo)}>
                         <BsFiles />
                     </div>
                     {
                         todo.file_url.length != 0
                         ?
-                        <a href={todo.file_url} target="_blank" className="btn btn-lg attach-icon">
+                        <a href={todo.file_url} target="_blank" className="btn btn-lg p-0 todo-icon attach-icon">
                             <BsPaperclip />
                         </a>
                         :
@@ -136,21 +136,30 @@ export default function Todos(){
                     {
                         todo.id == copiedTodoId
                         ?
-                        <div class="alert alert-info notification" role="alert">
+                        <div class="alert alert-info notification position-absolute bg-transparent" role="alert">
                             Copied!
                         </div>
                         :
                         <></>
                     }
-                    <div className="btn btn-lg marked mark-icon">
+                    <div className="btn btn-lg todo-icon p-0 marked mark-icon">
                         <BsBookmarkFill onClick={() => unmarkTodo(todo.id)} />
                     </div>
-                    <div className="btn btn-lg marked trash-icon">
+                    <div className="btn btn-lg todo-icon p-0 marked trash-icon">
                         <BsFillTrashFill onClick={() => removeTodo(todo.id)}/>
                     </div>
-                    <div className="btn btn-lg marked copy-icon" onClick={() => copyTodo(todo)}>
+                    <div className="btn btn-lg todo-icon p-0 marked copy-icon" onClick={() => copyTodo(todo)}>
                         <BsFiles />
                     </div>
+                    {
+                        todo.file_url.length != 0
+                        ?
+                        <a href={todo.file_url} target="_blank" className="btn btn-lg p-0 todo-icon attach-icon">
+                            <BsPaperclip />
+                        </a>
+                        :
+                        <></>
+                    }
                 </div>
             </div>
         )
@@ -172,12 +181,12 @@ export default function Todos(){
                     <div className="bg-object bg-object2"></div>
                     <div className="bg-object bg-object3"></div>
                     <div className="row">
-                        <div className="todo-counter">
+                        <div className="todo-counter text-center">
                         {
                             todos.length + markedTodos.length
                         }
                         </div>
-                        <Link  to="/logout" className="btn btn-lg btn-outline-dark-orange exit-btn my-auto ml-4">
+                        <Link  to="/logout" className="btn btn-lg custom-btn btn-outline-dark-orange exit-btn my-auto ml-4">
                             Log Out
                         </Link>
                     </div>
@@ -204,7 +213,7 @@ export default function Todos(){
                     {
                         todos.length === 0 ? nothingToShow : todosBuilder
                     }
-                    <Link to="/create" className="add-new-btn p-0 m-3" >
+                    <Link to="/create" className="add-new-btn custom-btn p-0 m-3" >
                         <BsPlusCircle />
                     </Link>
                 </div>

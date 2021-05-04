@@ -1,29 +1,28 @@
+/* variables */
 :root{
   --dark-bg: #1E1E2F;
   --light-dark-bg: #27293D;
   --theme-text-color: #D27769;
 }
+/* end variables */
 *{
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
+/* bg-colors */
 .bg-darkish{
   background-color: var(--dark-bg) !important;
 }
 .bg-light-darkish{
   background-color: var(--light-dark-bg) !important;
 }
-
 .progress-bar{
   background-color: var(--theme-text-color) !important;
 }
-
-.text-lightgrey{
-  color: lightgrey;
-}
+/* end bg-colors */
 .login{
   height: 100%;
 }
-
+/* bg-objects */
 .bg-object{
   background-repeat: no-repeat;
   background-size: cover;
@@ -37,7 +36,6 @@
   right: 0px;
   top: 0px;
 }
-
 .bg-object2{
   background-image: url("https://demos.creative-tim.com/blk-design-system-pro-react/static/media/path2.2f0ee6e4.png");
   width: 20%;
@@ -53,11 +51,15 @@
   left: 5%;
   bottom: 5%;
 }
-
+/* end bg-objects */
+/* text colors */
 .text-dark-orange{
   color: var(--theme-text-color);
 }
-
+.text-lightgrey{
+  color: lightgrey;
+}
+/* end text colors */
 .login-form-input{
   width: 100%;
   padding: 2%;
@@ -67,135 +69,106 @@
   border: 1px solid rgba(255, 255, 255, 0.5);
   background-color: transparent;
 }
-
 ::placeholder{
   color: lightgray
 }
-
 .todo-card{
   display: inline-block;
-  font-weight: 400;
   color: #212529;
   text-align: center;
   vertical-align: middle;
-  -webkit-user-select: none;
   user-select: none;
-  background-color: transparent;
-  border: 1px solid transparent;
+  border: 1px solid var(--theme-text-color);
   padding: .375rem .75rem;
   font-size: 1rem;
   line-height: 1.5;
   border-radius: .25rem;
   transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
   color: var(--theme-text-color) !important;
-  border-color: var(--theme-text-color) !important;
 }
-
 .marked{
   border-width: 2px;
   border-style: dashed !important;
 }
-
+/* buttons */
 .btn-outline-dark-orange {
   color: var(--theme-text-color) !important;
   border-color: var(--theme-text-color) !important;
 }
-
 .btn-outline-dark-orange:hover {
   color: #fff !important;
   background-color: var(--theme-text-color) !important;
   border-color: var(--theme-text-color) !important;
 }
-
 .btn-dark-orange{
   color: white !important;
   background-color: var(--theme-text-color) !important;
 }
-
 .btn-dark-orange:hover{
   color: var(--theme-text-color) !important;
   background-color: transparent !important;
   border-color: var(--theme-text-color);
 }
-
-.add-new-btn{
+.custom-btn{
   text-align: center;
+  background-color: transparent;
+  color: var(--theme-text-color);
+  transition: 300ms;
+}
+.add-new-btn{
   position: fixed;
   right: 0;
   bottom: 0;
-  z-index: 999;
   font-size: 45px;
-  transition: 300ms;
   border-radius: 100%;
-  color: var(--theme-text-color);
-  background-color: transparent;
 }
-
 .add-new-btn:hover{
   color: lightgrey;
 }
-
 .exit-btn{
-  text-align: center;
   font-size: 50px;
-  transition: 300ms;
-  border-radius: 100%;
-  color: var(--theme-text-color);
-  background-color: transparent;
   height: max-content;
 }
-
-.mark-icon{
+/* end buttons */
+/* icons */
+.todo-icon{
   position: absolute;
+  transition: 500ms;
+}
+.mark-icon{
   right: 10%;
   top: 20%;
   color: var(--theme-text-color) !important;
-  padding: 0px !important;
-  transition: 500ms;
 }
 .mark-icon:hover{
   color: lightgrey !important;
 }
-
-
 .trash-icon{
-  position: absolute;
   right: 17%;
   top: 20%;
   color: var(--theme-text-color) !important;
-  padding: 0px !important;
-  transition: 500ms;
 }
 .trash-icon:hover{
   color: lightgrey !important;
 }
-
 .copy-icon{
-  position: absolute;
   right: 24%;
   top: 20%;
   color: var(--theme-text-color) !important;
-  padding: 0px !important;
-  transition: 500ms;
 }
 .copy-icon:hover{
   color: lightgrey !important;
 }
-
 .attach-icon{
-  position: absolute;
   right: 30%;
   top: 20%;
   color: lightgrey !important;
-  padding: 0px !important;
-  transition: 500ms;
 }
 .attach-icon:hover{
   color: var(--theme-text-color) !important;
 }
-
+/* end icons */
 .notification{
-  position: absolute !important;
   top: 0;
   left: 0;
   margin-top: 5.7%;
@@ -203,10 +176,8 @@
   font-size: 15px;
   padding: 5px 10px !important;
   color: var(--theme-text-color) !important;
-  background-color: transparent !important;
   border-color: var(--theme-text-color) !important;
 }
-
 .todo-counter{
   width: 103.5px;
   height: 100px;
@@ -216,7 +187,6 @@
   border-style: solid;
   border-color: var(--theme-text-color);
   border-left-color: var(--light-dark-bg);
-  border-right-color: var(--light-dark-bg);
+  /* border-right-color: var(--light-dark-bg); */
   border-radius: 100%;
-  text-align: center;
 }

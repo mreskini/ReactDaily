@@ -1,7 +1,7 @@
 //requirements
 import { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { BsBookmarkFill, BsFillTrashFill, BsBookmark, BsFiles, BsPlusCircle } from "react-icons/bs";
+import { BsBookmarkFill, BsFillTrashFill, BsBookmark, BsFiles, BsPlusCircle, BsPaperclip } from "react-icons/bs";
 import axios from "axios";
 import { Dropdown } from "react-bootstrap";
 
@@ -111,6 +111,15 @@ export default function Todos(){
                     <div className="btn btn-lg copy-icon" onClick={() => copyTodo(todo)}>
                         <BsFiles />
                     </div>
+                    {
+                        todo.file_url.length != 0
+                        ?
+                        <a href={todo.file_url} target="_blank" className="btn btn-lg attach-icon">
+                            <BsPaperclip />
+                        </a>
+                        :
+                        <></>
+                    }
                 </div>
             </div>
         )

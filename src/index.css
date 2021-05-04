@@ -113,19 +113,30 @@
 }
 
 .add-new-btn{
+  text-align: center;
   position: fixed;
   right: 0;
-  z-index: 999;
   bottom: 0;
-  margin: 2%;
+  z-index: 999;
+  font-size: 45px;
+  transition: 300ms;
+  border-radius: 100%;
+  color: var(--theme-text-color);
+  background-color: transparent;
 }
 
-.add-exit-btn{
-  position: fixed;
-  right: 125px;
-  z-index: 999;
-  bottom: 0;
-  margin: 2%;
+.add-new-btn:hover{
+  color: lightgrey;
+}
+
+.exit-btn{
+  text-align: center;
+  font-size: 50px;
+  transition: 300ms;
+  border-radius: 100%;
+  color: var(--theme-text-color);
+  background-color: transparent;
+  height: max-content;
 }
 
 .mark-icon{

@@ -1,8 +1,9 @@
 //requirements
 import { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { BsBookmarkFill, BsFillTrashFill, BsBookmark, BsFiles } from "react-icons/bs";
+import { BsBookmarkFill, BsFillTrashFill, BsBookmark, BsFiles, BsPlusCircle } from "react-icons/bs";
 import axios from "axios";
+import { Dropdown } from "react-bootstrap";
 
 export default function Todos(){
 
@@ -161,10 +162,15 @@ export default function Todos(){
                     <div className="bg-object bg-object1"></div>
                     <div className="bg-object bg-object2"></div>
                     <div className="bg-object bg-object3"></div>
-                    <div className="todo-counter">
+                    <div className="row">
+                        <div className="todo-counter">
                         {
                             todos.length + markedTodos.length
                         }
+                        </div>
+                        <Link  to="/logout" className="btn btn-lg btn-outline-dark-orange exit-btn my-auto ml-4">
+                            Log Out
+                        </Link>
                     </div>
                     <p className="text-dark-orange col-lg-12 text-center pt-2">
                         <span className="display-1 text-white">
@@ -189,11 +195,8 @@ export default function Todos(){
                     {
                         todos.length === 0 ? nothingToShow : todosBuilder
                     }
-                    <Link to="/create" className="btn btn-lg btn-dark-orange add-new-btn" >
-                        Add New
-                    </Link>
-                    <Link to="/logout" className="btn btn-lg btn-outline-light add-exit-btn" >
-                        Log Out
+                    <Link to="/create" className="add-new-btn p-0 m-3" >
+                        <BsPlusCircle />
                     </Link>
                 </div>
             </div>

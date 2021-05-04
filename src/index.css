@@ -85,6 +85,14 @@
   border-radius: .25rem;
   transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
   color: var(--theme-text-color) !important;
+  transition: 400ms;
+}
+.add-todo-card{
+  font-size: 30px;
+}
+.add-todo-card:hover{
+  color: white !important;
+  border-color: white !important;
 }
 .marked{
   border-width: 2px;

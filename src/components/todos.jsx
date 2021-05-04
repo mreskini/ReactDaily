@@ -1,9 +1,8 @@
 //requirements
 import { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { BsBookmarkFill, BsFillTrashFill, BsBookmark, BsFiles, BsPlusCircle, BsPaperclip } from "react-icons/bs";
+import { BsBookmarkFill, BsFillTrashFill, BsBookmark, BsFiles, BsPlusCircle, BsPaperclip, BsPlus } from "react-icons/bs";
 import axios from "axios";
-import { Dropdown } from "react-bootstrap";
 
 export default function Todos(){
 
@@ -210,12 +209,14 @@ export default function Todos(){
                     <p className="col-lg-12 display-4 mt-3">
                         <span className="display-1 align-middle">•</span>Other
                     </p>
+                    <Link to="/create" className="col-lg-4 p-3">
+                        <div className="w-100 marked add-todo-card todo-card py-4">
+                            <BsPlus className="align-middle mx-auto my-auto" />
+                        </div>
+                    </Link>
                     {
                         todos.length === 0 ? nothingToShow : todosBuilder
                     }
-                    <Link to="/create" className="add-new-btn custom-btn p-0 m-3" >
-                        <BsPlusCircle />
-                    </Link>
                 </div>
             </div>
         </div>

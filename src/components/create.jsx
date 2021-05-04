@@ -15,6 +15,7 @@ export default function Create(){
     const [fileUploadProgress, setFileUploadProgress] = useState(0.0)
     const [uploadedFileUrl, setUploadedFileUrl] = useState("")
     const [uploaded, setUploaded] = useState(false)
+    const [pending, setPending] = useState(false)
 
     //auth check
     if(localStorage.getItem("user_token") === null)
@@ -34,6 +35,7 @@ export default function Create(){
         if(todoValue.length > 0){
             const todo = {
                 task: todoValue,
+                fileUrl: uploadedFileUrl,
                 id: user.id,
             }
             return axios.post(`${process.env.REACT_APP_SERVER_HOST}/todos/add`, todo)
@@ -53,6 +55,7 @@ export default function Create(){
 
     const handleAttachFileChange = async (e) => {
         e.preventDefault()
+        setPending(true)
         const file = e.target.files[0];
         const fd = new FormData()
 
@@ -70,6 +73,7 @@ export default function Create(){
             {
                 setUploadedFileUrl(response.data.fileDestinationUrl)
                 setUploaded(true)
+                setPending(false)
             }
         })
         .catch((e) => {})
@@ -95,7 +99,7 @@ export default function Create(){
                             Todo
                         </span>
                     </p>
-                   <form className="col-lg-6 mx-auto mt-4 p-0 text-center" onChange={onTodoInputChange} onSubmit={handleSubmit}>
+                   <form className="col-lg-6 mx-auto mt-4 p-0 text-center"  onSubmit={handleSubmit}>
                         {
                             error
                             ?
@@ -105,7 +109,7 @@ export default function Create(){
                             :
                             <></>
                         }
-                        <input type="text" autoFocus placeholder="Task Message" className="login-form-input" /> <br/>
+                        <input type="text" autoFocus placeholder="Task Message" onChange={onTodoInputChange} className="login-form-input" /> <br/>
                         <div className="col-lg-12 border-0 text-left mt-3">
                             <label htmlFor="add-a-file" className="btn btn-outline-dark-orange col-lg-4 h5">
                                 <AiOutlinePaperClip className="h4 align-middle my-auto mr-1" />
@@ -128,7 +132,13 @@ export default function Create(){
                         </div>
                         <input type="file" onChange={handleAttachFileChange} className="d-none" id="add-a-file"/>
                         <Link to="/todos" className="btn btn-outline-light px-5 mt-5 btn-lg mr-3">Cancel</Link>
-                        <input type="submit" value="Add" className="btn btn-outline-dark-orange px-5 mt-5 btn-lg"/>
+                        {
+                            pending
+                            ?
+                            <input type="submit" disabled value="Add" className="btn disabled btn-secondary px-5 mt-5 btn-lg"/>
+                            :
+                            <input type="submit" value="Add" className="btn btn-outline-dark-orange px-5 mt-5 btn-lg"/>
+                        }
                    </form>
                 </div>
             </div>

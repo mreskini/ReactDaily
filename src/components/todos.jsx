@@ -85,6 +85,8 @@ export default function Todos(){
     }
     //partial components
     const todosBuilder = todos.map( (todo) => {
+        const date = new Date(todo.created_at)
+        const todoDate = date.getDay() + "/" + date.getMonth() + "/" + date.getFullYear()
         return(
             <div className="col-lg-4 p-3" key={todo.id}>
                 <div className="w-100 todo-card py-4">
@@ -119,12 +121,19 @@ export default function Todos(){
                         :
                         <></>
                     }
+                    <div className="creation-date mx-auto">
+                    {
+                        todoDate
+                    }
+                    </div>
                 </div>
             </div>
         )
     })
 
     const markedTodosBuilder = markedTodos.map( (todo) => {
+        const date = new Date(todo.created_at)
+        const todoDate = date.getDay() + "/" + date.getMonth() + "/" + date.getFullYear()
         return(
             <div className="col-lg-4 p-3" key={todo.id}>
                 <div className="w-100 marked todo-card py-4">
@@ -159,6 +168,11 @@ export default function Todos(){
                         :
                         <></>
                     }
+                    <div className="creation-date mx-auto">
+                    {
+                        todoDate
+                    }
+                    </div>
                 </div>
             </div>
         )

@@ -22,7 +22,6 @@ export default function Todos(){
     //properties
     const history = useHistory()
     const [todos, setTodos] = useState([])
-    const [markedTodos, setmarkedTodos] = useState([])
     const [copiedTodoId, setCopiedTodoId] = useState(-1)
 
     //auth check
@@ -30,28 +29,17 @@ export default function Todos(){
         history.push("/login")
 
     //methods
-    const getTodos = async () => {
-        let userToken = localStorage.getItem("user_token")
+    const getData = async () => {
+        const userToken = localStorage.getItem("user_token")
+        //here I need to check that the uesrToken is valid.
+        //I get all the todos (marked & unmarked) here:
         return axios.post(`${process.env.REACT_APP_SERVER_HOST}/auth/getUserByToken`, {userToken,})
         .then( async (response) => {
             if(response.status === 200)
             {
                 let {id} = response.data
-                return axios.post(`${process.env.REACT_APP_SERVER_HOST}/todos/getUnmarked`, {id,})
+                return axios.post(`${process.env.REACT_APP_SERVER_HOST}/todos/get`, {id,})
                 .then( response => setTodos(response.data) )
-            }
-        })
-    }
-
-    const getMarkedTodos = async () => {
-        let userToken = localStorage.getItem("user_token")
-        return axios.post(`${process.env.REACT_APP_SERVER_HOST}/auth/getUserByToken`, {userToken,})
-        .then( async (response) => {
-            if(response.status === 200)
-            {
-                let {id} = response.data
-                return axios.post(`${process.env.REACT_APP_SERVER_HOST}/todos/getMarked`, {id,})
-                .then( response => setmarkedTodos(response.data) )
             }
         })
     }
@@ -61,8 +49,7 @@ export default function Todos(){
         .then( (response) => {
             if(response.status === 200)
             {
-                getTodos()
-                getMarkedTodos()
+                getData()
             }
         })
         .catch((e) => {})
@@ -73,8 +60,7 @@ export default function Todos(){
         .then( (response) => {
             if(response.status === 200)
             {
-                getTodos()
-                getMarkedTodos()
+                getData()
             }
         })
         .catch((e) => {})
@@ -85,8 +71,7 @@ export default function Todos(){
         .then( (response) => {
             if(response.status === 200)
             {
-                getTodos()
-                getMarkedTodos()
+                getData()
             }
         })
         .catch((e) => {})
@@ -96,10 +81,15 @@ export default function Todos(){
         navigator.clipboard.writeText(todo.task)
         setCopiedTodoId(todo.id)
     }
+
+    const getFullDateFromDateString = (dateString) => {
+        const date = new Date(dateString)
+        const fullDate = date.getDay() + "/" + date.getMonth() + "/" + date.getFullYear()
+        return fullDate
+    }
     //partial components
-    const todosBuilder = todos.map( (todo) => {
-        const date = new Date(todo.created_at)
-        const todoDate = date.getDay() + "/" + date.getMonth() + "/" + date.getFullYear()
+    const todosBuilder = todos.filter(todo => todo.marked == 0).map((todo) => {
+        const todoDate = getFullDateFromDateString(todo.created_at)
         return(
             <div className="col-lg-4 p-3" key={todo.id}>
                 <div className="w-100 todo-card py-4">
@@ -144,9 +134,8 @@ export default function Todos(){
         )
     })
 
-    const markedTodosBuilder = markedTodos.map( (todo) => {
-        const date = new Date(todo.created_at)
-        const todoDate = date.getDay() + "/" + date.getMonth() + "/" + date.getFullYear()
+    const markedTodosBuilder = todos.filter(todo => todo.marked == 1).map( (todo) => {
+        const todoDate = getFullDateFromDateString(todo.created_at)
         return(
             <div className="col-lg-4 p-3" key={todo.id}>
                 <div className="w-100 marked todo-card py-4">
@@ -193,10 +182,9 @@ export default function Todos(){
 
     const nothingToShow = <p className="col-lg-12 h2 text-center">Nothing to show</p>
 
-    //hooks
+    //hooks (this method will be fired only once on the laod time)
     useEffect( () => {
-        getTodos()
-        getMarkedTodos()
+        getData()
     }, [])
 
     return(
@@ -209,7 +197,7 @@ export default function Todos(){
                     <div className="row col-lg-12">
                         <div className="todo-counter text-center">
                         {
-                            todos.length + markedTodos.length
+                            todos.length
                         }
                         </div>
                         <Link  to="/logout" autoComplete="nope" className="btn btn-lg custom-btn btn-outline-dark-orange exit-btn my-auto ml-4">
@@ -231,7 +219,7 @@ export default function Todos(){
                         <span className="display-1 align-middle">•</span>Marked
                     </p>
                     {
-                        markedTodos.length === 0 ? nothingToShow : markedTodosBuilder
+                        todos.filter(todo => todo.marked == 1).length === 0 ? nothingToShow : markedTodosBuilder
                     }
                     <p className="col-lg-12 display-4 mt-3">
                         <span className="display-1 align-middle">•</span>Other
@@ -242,7 +230,7 @@ export default function Todos(){
                         </div>
                     </Link>
                     {
-                        todos.length === 0 ? nothingToShow : todosBuilder
+                        todos.filter(todo => todo.marked == 0).length === 0 ? nothingToShow : todosBuilder
                     }
                 </div>
             </div>

@@ -92,7 +92,7 @@ export default function Create(){
                     <div className="bg-object bg-object1"></div>
                     <div className="bg-object bg-object2"></div>
                     <div className="bg-object bg-object3"></div>
-                    <p className="text-dark-orange col-lg-12 display-1 text-center pt-5">
+                    <p className="text-dark-orange col-lg-12 display-1 text-center pt-5 mt-5">
                         <span className="text-white">
                             Add
                         </span>

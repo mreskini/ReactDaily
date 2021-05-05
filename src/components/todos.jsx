@@ -88,7 +88,7 @@ export default function Todos(){
         return fullDate
     }
     //partial components
-    const todosBuilder = todos.filter(todo => todo.marked == 0).map((todo) => {
+    const todosBuilder = todos.filter(todo => todo.marked === 0).map((todo) => {
         const todoDate = getFullDateFromDateString(todo.created_at)
         return(
             <div className="col-lg-4 p-3" key={todo.id}>
@@ -98,7 +98,7 @@ export default function Todos(){
                         todo.task
                     }
                     {
-                        todo.id == copiedTodoId
+                        todo.id === copiedTodoId
                         ?
                         <div class="alert alert-info notification font-weight-bold bg-transparent position-absolute" role="alert">
                             Copied!
@@ -116,9 +116,9 @@ export default function Todos(){
                         <BsFiles />
                     </div>
                     {
-                        todo.file_url.length != 0
+                        todo.file_url.length !== 0
                         ?
-                        <a href={todo.file_url} target="_blank" className="btn btn-lg p-0 todo-icon attach-icon">
+                        <a href={todo.file_url} rel="noreferrer" target="_blank" className="btn btn-lg p-0 todo-icon attach-icon">
                             <BsPaperclip />
                         </a>
                         :
@@ -134,7 +134,7 @@ export default function Todos(){
         )
     })
 
-    const markedTodosBuilder = todos.filter(todo => todo.marked == 1).map( (todo) => {
+    const markedTodosBuilder = todos.filter(todo => todo.marked === 1).map( (todo) => {
         const todoDate = getFullDateFromDateString(todo.created_at)
         return(
             <div className="col-lg-4 p-3" key={todo.id}>
@@ -144,7 +144,7 @@ export default function Todos(){
                         todo.task
                     }
                     {
-                        todo.id == copiedTodoId
+                        todo.id === copiedTodoId
                         ?
                         <div class="alert alert-info notification position-absolute bg-transparent" role="alert">
                             Copied!
@@ -162,9 +162,9 @@ export default function Todos(){
                         <BsFiles />
                     </div>
                     {
-                        todo.file_url.length != 0
+                        todo.file_url.length !== 0
                         ?
-                        <a href={todo.file_url} target="_blank" className="btn btn-lg p-0 todo-icon attach-icon">
+                        <a href={todo.file_url} rel="noreferrer" target="_blank" className="btn btn-lg p-0 todo-icon attach-icon">
                             <BsPaperclip />
                         </a>
                         :
@@ -219,7 +219,7 @@ export default function Todos(){
                         <span className="display-1 align-middle">•</span>Marked
                     </p>
                     {
-                        todos.filter(todo => todo.marked == 1).length === 0 ? nothingToShow : markedTodosBuilder
+                        todos.filter(todo => todo.marked === 1).length === 0 ? nothingToShow : markedTodosBuilder
                     }
                     <p className="col-lg-12 display-4 mt-3">
                         <span className="display-1 align-middle">•</span>Other
@@ -230,7 +230,7 @@ export default function Todos(){
                         </div>
                     </Link>
                     {
-                        todos.filter(todo => todo.marked == 0).length === 0 ? nothingToShow : todosBuilder
+                        todos.filter(todo => todo.marked === 0).length === 0 ? nothingToShow : todosBuilder
                     }
                 </div>
             </div>

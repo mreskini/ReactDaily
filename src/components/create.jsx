@@ -77,7 +77,7 @@ export default function Create(){
                 setFileUploadProgress(Math.floor(ProgressEvent.loaded / ProgressEvent.total * 100))
         })
         .then( response => {
-            if(response.status == 200)
+            if(response.status === 200)
             {
                 setUploadedFileUrl(response.data.fileDestinationUrl)
                 setUploaded(true)

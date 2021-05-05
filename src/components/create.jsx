@@ -1,6 +1,12 @@
 //requirements
-import { useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import {
+    useState,
+    useEffect
+} from "react";
+import {
+    Link,
+    useHistory
+} from "react-router-dom";
 import { AiOutlinePaperClip } from "react-icons/ai";
 import axios from "axios";
 import { ProgressBar } from "react-bootstrap";

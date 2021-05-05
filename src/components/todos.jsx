@@ -1,7 +1,20 @@
 //requirements
-import { useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
-import { BsBookmarkFill, BsFillTrashFill, BsBookmark, BsFiles, BsPlusCircle, BsPaperclip, BsPlus } from "react-icons/bs";
+import {
+    useState,
+    useEffect
+} from "react";
+import {
+    Link,
+    useHistory
+} from "react-router-dom";
+import {
+    BsBookmarkFill,
+    BsFillTrashFill,
+    BsBookmark,
+    BsFiles,
+    BsPaperclip,
+    BsPlus
+} from "react-icons/bs";
 import axios from "axios";
 
 export default function Todos(){
@@ -193,13 +206,13 @@ export default function Todos(){
                     <div className="bg-object bg-object1"></div>
                     <div className="bg-object bg-object2"></div>
                     <div className="bg-object bg-object3"></div>
-                    <div className="row">
+                    <div className="row col-lg-12">
                         <div className="todo-counter text-center">
                         {
                             todos.length + markedTodos.length
                         }
                         </div>
-                        <Link  to="/logout" className="btn btn-lg custom-btn btn-outline-dark-orange exit-btn my-auto ml-4">
+                        <Link  to="/logout" autoComplete="nope" className="btn btn-lg custom-btn btn-outline-dark-orange exit-btn my-auto ml-4">
                             Log Out
                         </Link>
                     </div>

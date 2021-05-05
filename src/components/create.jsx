@@ -28,11 +28,12 @@ export default function Create(){
     //methods
     const getUserByToken = async () => {
         let userToken = localStorage.getItem("user_token")
-        //need some more auth check here to be sure that the use_token value i valid :)
         return axios.post(`${process.env.REACT_APP_SERVER_HOST}/auth/getUserByToken`, {userToken,})
         .then((response) => {
             if(response.status === 200)
                 return setUser(response.data)
+            else
+                return history.push("/login")
         })
     }
 

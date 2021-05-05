@@ -24,14 +24,9 @@ export default function Todos(){
     const [todos, setTodos] = useState([])
     const [copiedTodoId, setCopiedTodoId] = useState(-1)
 
-    //auth check
-    if(localStorage.getItem("user_token") === null)
-        history.push("/login")
-
     //methods
     const getData = async () => {
         const userToken = localStorage.getItem("user_token")
-        //here I need to check that the uesrToken is valid.
         //I get all the todos (marked & unmarked) here:
         return axios.post(`${process.env.REACT_APP_SERVER_HOST}/auth/getUserByToken`, {userToken,})
         .then( async (response) => {
@@ -40,6 +35,8 @@ export default function Todos(){
                 let {id} = response.data
                 return axios.post(`${process.env.REACT_APP_SERVER_HOST}/todos/get`, {id,})
                 .then( response => setTodos(response.data) )
+            }else{
+                history.push("/login")
             }
         })
     }

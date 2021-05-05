@@ -1,25 +1,29 @@
 import { Redirect, Route } from "react-router"
-
 export const ProtectedRoute = ({
     component: Component,
     ...rest
 }) => {
-    let isAuthenticated = localStorage.getItem("user_token");
+    let isAuthenticated = localStorage.getItem("user_token") !== null
     return (
         <Route
             {...rest}
             render={
                 props => {
                     if(isAuthenticated)
-                        return (<Component {...props} />)
+                        return <Component {...props} />
                     else
                         return (
-                            <Redirect to="/login" />
+                            <Redirect to={
+                                {
+                                    pathname: "/login",
+                                    state: {
+                                        from: props.location
+                                    }
+                                }
+                            } />
                         )
                 }
             }
-        >
-
-        </Route>
+        />
     )
 }

@@ -43,7 +43,7 @@ export default function Login(){
                     <div className="bg-object bg-object1"></div>
                     <div className="bg-object bg-object2"></div>
                     <div className="bg-object bg-object3"></div>
-                    <p className="text-dark-orange col-lg-12 display-1 text-center pt-5">
+                    <p className="text-dark-orange col-lg-12 display-1 text-center pt-5 mt-5">
                         <span className="text-white">
                             React
                         </span>
@@ -54,13 +54,13 @@ export default function Login(){
                             Daily
                         </span>
                     </p>
-                    <p className="col-lg-12 text-center text-secondary h3">
-                        Enter your Username & Password to sign in.
+                    <p className="col-lg-12 text-center text-lightgrey font-weight-normal h1">
+                        Welcome Back
                     </p>
-                    {
-                        error && <p className="col-lg-12 text-danger text-center mx-auto h5 mt-3">Invalid Username Or Password</p>
-                    }
-                   <form className="col-lg-6 mx-auto mt-4 p-0" onSubmit={handleSubmit}>
+                   <form className="col-lg-5 mx-auto mt-4 p-0" onSubmit={handleSubmit}>
+                        {
+                            error && <p className="col-lg-12 text-danger text-left mx-auto h5 mt-3 font-weight-normal">Invalid Username Or Password</p>
+                        }
                         <input type="text" onChange={handleUsernameChange} placeholder="Username" className="login-form-input" /> <br/>
                         <input type="password" onChange={handlePasswordChange} placeholder="Password" className="login-form-input" />
                         <div className="col-lg-12 text-center mt-5">

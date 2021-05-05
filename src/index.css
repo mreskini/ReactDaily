@@ -62,15 +62,15 @@
 /* end text colors */
 .login-form-input{
   width: 100%;
-  padding: 2%;
-  margin: 2%;
+  padding: 1.5%;
+  margin: 1.5%;
   border-radius: 4px;
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: lightgrey;
+  border: 1px solid rgba(158, 156, 156, 0.5);
   background-color: transparent;
 }
 ::placeholder{
-  color: lightgray
+  color: rgba(228, 222, 222, 0.5)
 }
 .todo-card{
   display: inline-block;

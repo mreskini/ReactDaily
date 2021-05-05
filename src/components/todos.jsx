@@ -2,8 +2,11 @@
 import {
     useState,
     useEffect
-} from "react"
-import { Link } from "react-router-dom"
+} from "react";
+import {
+    Link,
+    useHistory
+} from "react-router-dom";
 import {
     BsBookmarkFill,
     BsFillTrashFill,
@@ -11,14 +14,19 @@ import {
     BsFiles,
     BsPaperclip,
     BsPlus
-} from "react-icons/bs"
-import axios from "axios"
+} from "react-icons/bs";
+import axios from "axios";
 
 export default function Todos(){
 
     //properties
+    const history = useHistory()
     const [todos, setTodos] = useState([])
     const [copiedTodoId, setCopiedTodoId] = useState(-1)
+
+    //auth check
+    if(localStorage.getItem("user_token") === null)
+        history.push("/login")
 
     //methods
     const getData = async () => {

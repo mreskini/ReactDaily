@@ -24,6 +24,10 @@ export default function Todos(){
     const [todos, setTodos] = useState([])
     const [copiedTodoId, setCopiedTodoId] = useState(-1)
 
+    //auth check
+    if(localStorage.getItem("user_token") === null)
+        history.push("/login")
+
     //methods
     const getData = async () => {
         const userToken = localStorage.getItem("user_token")

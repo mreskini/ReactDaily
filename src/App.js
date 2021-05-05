@@ -6,27 +6,18 @@ import Logout from "./components/logout"
 import {
   HashRouter,
   Switch,
-  Route,
-  Redirect
+  Route
 } from "react-router-dom"
+import { ProtectedRoute } from "./protectedRoute"
 
 function App() {
   return (
     <HashRouter>
       <Switch>
-        <Route exact path="/">
-        {
-          localStorage.getItem("user_token") === null
-          ?
-          <Redirect to="/login"/>
-          :
-          <Redirect to="/todos"/>
-        }
-        </Route>
-        <Route path="/todos" component={Todos} />
         <Route path="/login" component={Login} />
-        <Route path="/create" component={Create} />
         <Route path="/logout" component={Logout} />
+        <ProtectedRoute path="/todos" component={Todos} />
+        <ProtectedRoute path="/create" component={Create} />
       </Switch>
     </HashRouter>
   );

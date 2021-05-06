@@ -31,12 +31,12 @@ export default function Todos(){
         return axios.post(
             `${process.env.REACT_APP_SERVER_HOST}/auth/getUserByToken`,
             {userToken,},
-            // { headers:
-            //     {
-            //         "api-key": process.env.REACT_APP_API_KEY,
-            //         "Content-Type": "application/json"
-            //     }
-            // }
+            { headers:
+                {
+                    "api-key": process.env.REACT_APP_API_KEY,
+                    "Content-Type": "application/json"
+                }
+            }
         )
         .then( async response => {
             if(response.status === 200)
@@ -45,12 +45,12 @@ export default function Todos(){
                 return axios.post(
                     `${process.env.REACT_APP_SERVER_HOST}/todos/get`,
                     {id,},
-                    // { headers:
-                    //     {
-                    //         "api-key": process.env.REACT_APP_API_KEY,
-                    //         "Content-Type": "application/json"
-                    //     }
-                    // }
+                    { headers:
+                        {
+                            "api-key": process.env.REACT_APP_API_KEY,
+                            "Content-Type": "application/json"
+                        }
+                    }
                 ).then( response => {
                     if(response.status === 200)
                         return setTodos(response.data)
@@ -61,10 +61,12 @@ export default function Todos(){
         })
     }
 
-    const removeTodo = async (id) => {
+    const removeTodo = async (todo) => {
+        if(todo === null)
+            return false
         return axios.post(
             `${process.env.REACT_APP_SERVER_HOST}/todos/delete`,
-            {id,},
+            {id : todo.id},
             { headers:
                 {
                     "api-key": process.env.REACT_APP_API_KEY,
@@ -122,8 +124,10 @@ export default function Todos(){
     }
 
     const copyTodo = (todo) => {
+        if(todo === null)
+            return false
         navigator.clipboard.writeText(todo.task)
-        setCopiedTodoId(todo.id)
+        return setCopiedTodoId(todo.id)
     }
 
     const getFullDateFromDateString = (dateString) => {
@@ -132,7 +136,7 @@ export default function Todos(){
         return fullDate
     }
     //partial components
-    const todosBuilder = todos.filter(todo => todo.marked === 0).map((todo) => {
+    const todosBuilder = todos === null ? nothingToShow : todos.filter(todo => todo.marked === 0).map((todo) => {
         const todoDate = getFullDateFromDateString(todo.created_at)
         return(
             <div className="col-lg-4 p-3" key={todo.id}>
@@ -154,13 +158,13 @@ export default function Todos(){
                         <BsBookmark onClick={() => markTodo(todo.id)}/>
                     </div>
                     <div className="btn btn-lg p-0 todo-icon trash-icon">
-                        <BsFillTrashFill onClick={() => removeTodo(todo.id)}/>
+                        <BsFillTrashFill onClick={() => removeTodo(todo)}/>
                     </div>
                     <div className="btn btn-lg p-0 todo-icon copy-icon" onClick={() => copyTodo(todo)}>
                         <BsFiles />
                     </div>
                     {
-                        todo.file_url.length !== 0
+                        todo?.file_url?.length !== 0
                         ?
                         <a href={todo.file_url} rel="noreferrer" target="_blank" className="btn btn-lg p-0 todo-icon attach-icon">
                             <BsPaperclip />
@@ -200,7 +204,7 @@ export default function Todos(){
                         <BsBookmarkFill onClick={() => unmarkTodo(todo.id)} />
                     </div>
                     <div className="btn btn-lg todo-icon p-0 marked trash-icon">
-                        <BsFillTrashFill onClick={() => removeTodo(todo.id)}/>
+                        <BsFillTrashFill onClick={() => removeTodo(todo)}/>
                     </div>
                     <div className="btn btn-lg todo-icon p-0 marked copy-icon" onClick={() => copyTodo(todo)}>
                         <BsFiles />

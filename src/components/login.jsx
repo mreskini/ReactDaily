@@ -18,9 +18,19 @@ export default function Login(){
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        console.log(process.env.REACT_APP_API_KEY)
         if( username.length === 0 || password.length === 0 )
             return setError(true)
-        return axios.post(`${process.env.REACT_APP_SERVER_HOST}/auth/login`, {username, password})
+        return axios.post(
+            `${process.env.REACT_APP_SERVER_HOST}/auth/login`,
+            { username, password },
+            { headers:
+                {
+                    "api-key": process.env.REACT_APP_API_KEY,
+                    "Content-Type": "application/json"
+                }
+            }
+        )
         .then( response => {
             if(response.status === 200)
             {

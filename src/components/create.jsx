@@ -28,7 +28,16 @@ export default function Create(){
     //methods
     const getUserByToken = async () => {
         let userToken = localStorage.getItem("user_token")
-        return axios.post(`${process.env.REACT_APP_SERVER_HOST}/auth/getUserByToken`, {userToken,})
+        return axios.post(
+            `${process.env.REACT_APP_SERVER_HOST}/auth/getUserByToken`,
+            {userToken,},
+            { headers:
+                {
+                    "api-key": process.env.REACT_APP_API_KEY,
+                    "Content-Type": "application/json"
+                }
+            }
+        )
         .then((response) => {
             if(response.status === 200)
                 return setUser(response.data)
@@ -40,12 +49,20 @@ export default function Create(){
     const handleSubmit = (e) => {
         e.preventDefault()
         if(todoValue.length > 0)
-            return axios.post(`${process.env.REACT_APP_SERVER_HOST}/todos/add`,
-            {
-                task: todoValue,
-                fileUrl: uploadedFileUrl,
-                id: user.id,
-            })
+            return axios.post(
+                `${process.env.REACT_APP_SERVER_HOST}/todos/add`,
+                {
+                    task: todoValue,
+                    fileUrl: uploadedFileUrl,
+                    id: user.id,
+                },
+                { headers:
+                    {
+                        "api-key": process.env.REACT_APP_API_KEY,
+                        "Content-Type": "application/json"
+                    }
+                }
+            )
             .then( response => {
                 if(response.status === 200)
                     return history.push("/todos")
@@ -68,10 +85,19 @@ export default function Create(){
         fd.append("file", file)
 
         //uploading the file to the server
-        return axios.post(`${process.env.REACT_APP_SERVER_HOST}/todos/uploadFile`, fd, {
-            onUploadProgress: ProgressEvent =>
-                setFileUploadProgress(Math.floor(ProgressEvent.loaded / ProgressEvent.total * 100))
-        })
+        return axios.post(
+            `${process.env.REACT_APP_SERVER_HOST}/todos/uploadFile`,
+            fd,
+            {
+                headers:
+                {
+                    "api-key": process.env.REACT_APP_API_KEY,
+                    "Content-Type": "application/json"
+                },
+                onUploadProgress: ProgressEvent =>
+                    setFileUploadProgress(Math.floor(ProgressEvent.loaded / ProgressEvent.total * 100))
+            }
+        )
         .then( response => {
             if(response.status === 200)
             {

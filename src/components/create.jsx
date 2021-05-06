@@ -38,12 +38,9 @@ export default function Create(){
                 }
             }
         )
-        .then((response) => {
-            if(response.status === 200)
-                return setUser(response.data)
-            else
-                return history.push("/login")
-        })
+        .then( response =>
+            response.status === 200 ? setUser(response.data) : history.push("/login")
+        )
     }
 
     const handleSubmit = (e) => {

@@ -55,9 +55,8 @@ export default function Todos(){
                     if(response.status === 200)
                         return setTodos(response.data)
                 })
-            }else{
-                history.push("/login")
             }
+            return history.push("/login")
         })
     }
 
@@ -76,9 +75,7 @@ export default function Todos(){
         )
         .then( (response) => {
             if(response.status === 200)
-            {
-                getData()
-            }
+                return getData()
         })
         .catch((e) => {})
     }
@@ -96,9 +93,7 @@ export default function Todos(){
         )
         .then( (response) => {
             if(response.status === 200)
-            {
-                getData()
-            }
+                return getData()
         })
         .catch((e) => {})
     }
@@ -114,11 +109,9 @@ export default function Todos(){
                 }
             }
         )
-        .then( (response) => {
+        .then( response => {
             if(response.status === 200)
-            {
-                getData()
-            }
+                return getData()
         })
         .catch((e) => {})
     }
@@ -132,8 +125,7 @@ export default function Todos(){
 
     const getFullDateFromDateString = (dateString) => {
         const date = new Date(dateString)
-        const fullDate = date.getDay() + "/" + date.getMonth() + "/" + date.getFullYear()
-        return fullDate
+        return date.getDay() + "/" + date.getMonth() + "/" + date.getFullYear()
     }
     //partial components
     const todosBuilder = todos === null ? nothingToShow : todos.filter(todo => todo.marked === 0).map((todo) => {

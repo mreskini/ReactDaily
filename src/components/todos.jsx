@@ -28,13 +28,33 @@ export default function Todos(){
     const getData = async () => {
         const userToken = localStorage.getItem("user_token")
         //I get all the todos (marked & unmarked) here:
-        return axios.post(`${process.env.REACT_APP_SERVER_HOST}/auth/getUserByToken`, {userToken,})
-        .then( async (response) => {
+        return axios.post(
+            `${process.env.REACT_APP_SERVER_HOST}/auth/getUserByToken`,
+            {userToken,},
+            // { headers:
+            //     {
+            //         "api-key": process.env.REACT_APP_API_KEY,
+            //         "Content-Type": "application/json"
+            //     }
+            // }
+        )
+        .then( async response => {
             if(response.status === 200)
             {
                 let {id} = response.data
-                return axios.post(`${process.env.REACT_APP_SERVER_HOST}/todos/get`, {id,})
-                .then( response => setTodos(response.data) )
+                return axios.post(
+                    `${process.env.REACT_APP_SERVER_HOST}/todos/get`,
+                    {id,},
+                    // { headers:
+                    //     {
+                    //         "api-key": process.env.REACT_APP_API_KEY,
+                    //         "Content-Type": "application/json"
+                    //     }
+                    // }
+                ).then( response => {
+                    if(response.status === 200)
+                        return setTodos(response.data)
+                })
             }else{
                 history.push("/login")
             }
@@ -42,7 +62,16 @@ export default function Todos(){
     }
 
     const removeTodo = async (id) => {
-        return axios.post(`${process.env.REACT_APP_SERVER_HOST}/todos/delete`, {id,})
+        return axios.post(
+            `${process.env.REACT_APP_SERVER_HOST}/todos/delete`,
+            {id,},
+            { headers:
+                {
+                    "api-key": process.env.REACT_APP_API_KEY,
+                    "Content-Type": "application/json"
+                }
+            }
+        )
         .then( (response) => {
             if(response.status === 200)
             {
@@ -53,7 +82,16 @@ export default function Todos(){
     }
 
     const markTodo = async (id) => {
-        return axios.post(`${process.env.REACT_APP_SERVER_HOST}/todos/mark`, {id,})
+        return axios.post(
+            `${process.env.REACT_APP_SERVER_HOST}/todos/mark`,
+            {id,},
+            { headers:
+                {
+                    "api-key": process.env.REACT_APP_API_KEY,
+                    "Content-Type": "application/json"
+                }
+            }
+        )
         .then( (response) => {
             if(response.status === 200)
             {
@@ -64,7 +102,16 @@ export default function Todos(){
     }
 
     const unmarkTodo = async (id) => {
-        return axios.post(`${process.env.REACT_APP_SERVER_HOST}/todos/unmark`, {id,})
+        return axios.post(
+            `${process.env.REACT_APP_SERVER_HOST}/todos/unmark`,
+            {id,},
+            { headers:
+                {
+                    "api-key": process.env.REACT_APP_API_KEY,
+                    "Content-Type": "application/json"
+                }
+            }
+        )
         .then( (response) => {
             if(response.status === 200)
             {
@@ -183,7 +230,6 @@ export default function Todos(){
     useEffect( () => {
         getData()
     }, [])
-
     return(
         <div className="text-white">
             <div className="container-fluid">

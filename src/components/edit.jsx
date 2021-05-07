@@ -44,7 +44,7 @@ export default function Edit(){
             if(response.status === 200){
                 setUser(response.data)
                 return axios.post(
-                    `${process.env.REACT_APP_SERVER_HOST}/todos/getSingleTodo`,
+                    `${process.env.REACT_APP_SERVER_HOST}/todos/getSingle`,
                     {id,},
                     { headers:
                         {
@@ -57,6 +57,12 @@ export default function Edit(){
                     if(response?.status === 200)
                     {
                         setTodoValue(response?.data?.task)
+                        setUploadedFileUrl(response?.data?.file_url)
+                        if(response?.data?.file_url?.length > 0){
+                            setPending(false)
+                            setFileUploadProgress(100)
+                            setUploaded(true)
+                        }
                     }
                 })
             }

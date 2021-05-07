@@ -5,7 +5,8 @@ import {
 } from "react";
 import {
     Link,
-    useHistory
+    useHistory,
+    useParams
 } from "react-router-dom";
 import { AiOutlinePaperClip } from "react-icons/ai";
 import axios from "axios";
@@ -15,6 +16,7 @@ export default function Edit(){
 
     //properties
     const history = useHistory()
+    const {todo_id: id} = useParams()
     const [user, setUser] = useState({})
     const [error, setError] = useState("")
     const [fileUploadProgress, setFileUploadProgress] = useState(0.0)
@@ -26,7 +28,7 @@ export default function Edit(){
     const [uploadedFileUrl, setUploadedFileUrl] = useState("")
 
     //methods
-    const getUserByToken = async () => {
+    const getData = async () => {
         let userToken = localStorage.getItem("user_token")
         return axios.post(
             `${process.env.REACT_APP_SERVER_HOST}/auth/getUserByToken`,
@@ -38,9 +40,28 @@ export default function Edit(){
                 }
             }
         )
-        .then( response =>
-            response.status === 200 ? setUser(response.data) : history.push("/login")
-        )
+        .then( response => {
+            if(response.status === 200){
+                setUser(response.data)
+                return axios.post(
+                    `${process.env.REACT_APP_SERVER_HOST}/todos/getSingleTodo`,
+                    {id,},
+                    { headers:
+                        {
+                            "api-key": process.env.REACT_APP_API_KEY,
+                            "Content-Type": "application/json"
+                        }
+                    }
+                )
+                .then( response => {
+                    if(response?.status === 200)
+                    {
+                        setTodoValue(response?.data?.task)
+                    }
+                })
+            }
+            return history.push("/login")
+        })
     }
 
     const handleSubmit = (e) => {
@@ -106,7 +127,7 @@ export default function Edit(){
         .catch((e) => {})
     }
     //hooks
-    useEffect( () => getUserByToken() , [])
+    useEffect( () => getData() , [])
 
     return(
         <div className="text-white">
@@ -130,7 +151,7 @@ export default function Edit(){
                         {
                             error?.length > 0 &&  <p className="col-lg-12 text-left text-danger text-error"> { error } </p>
                         }
-                        <input type="text" autoFocus placeholder="Task Message" onChange={onTodoInputChange} className="login-form-input" /> <br/>
+                        <input type="text" autoFocus placeholder="Task Message" value={todoValue} onChange={onTodoInputChange} className="login-form-input" /> <br/>
                         <div className="col-lg-12 border-0 text-left mt-3">
                             <label htmlFor="add-a-file" className="btn btn-outline-dark-orange col-lg-4 h5">
                                 <AiOutlinePaperClip className="h4 align-middle my-auto mr-1" />

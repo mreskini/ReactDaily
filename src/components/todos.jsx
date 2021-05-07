@@ -13,7 +13,9 @@ import {
     BsBookmark,
     BsFiles,
     BsPaperclip,
-    BsPlus
+    BsPlus,
+    BsMoon,
+    BsSun
 } from "react-icons/bs";
 import axios from "axios";
 
@@ -23,8 +25,11 @@ export default function Todos(){
     const history = useHistory()
     const [todos, setTodos] = useState([])
     const [copiedTodoId, setCopiedTodoId] = useState(-1)
-
+    const [darkTheme, setDarkTheme] = useState(true)
     //methods
+    const toggleTheme= () => {
+        setDarkTheme(!darkTheme)
+    }
     const getData = async () => {
         const userToken = localStorage.getItem("user_token")
         //I get all the todos (marked & unmarked) here:
@@ -222,6 +227,15 @@ export default function Todos(){
 
     const nothingToShow = <p className="col-lg-12 h2 text-center">Nothing to show</p>
 
+    const themeSwitcher = darkTheme?
+            <div onClick={toggleTheme} className="text-center theme-switcher-dark">
+                <BsMoon />
+            </div>
+            :
+            <div onClick={toggleTheme} className="text-center theme-switcher-light">
+                <BsSun />
+            </div>
+
     //hooks (this method will be fired only once on the laod time)
     useEffect( () => {
         getData()
@@ -271,6 +285,9 @@ export default function Todos(){
                     {
                         todos.filter(todo => todo.marked === 0).length === 0 ? nothingToShow : todosBuilder
                     }
+                    {/* {
+                        themeSwitcher
+                    } */}
                 </div>
             </div>
         </div>

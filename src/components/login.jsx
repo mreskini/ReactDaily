@@ -9,7 +9,7 @@ export default function Login(){
     const history = useHistory()
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
-    const [error, setError] = useState(false)
+    const [error, setError] = useState("")
 
     //methods
     const handleUsernameChange = (e) => setUsername(e.target.value)
@@ -19,7 +19,7 @@ export default function Login(){
     const handleSubmit = (e) => {
         e.preventDefault();
         if( username.length === 0 || password.length === 0 )
-            return setError(true)
+            return setError("Username Or Password Cannot Be Empty!")
         return axios.post(
             `${process.env.REACT_APP_SERVER_HOST}/auth/login`,
             { username, password },
@@ -38,10 +38,10 @@ export default function Login(){
                 return history.push("/todos")
             }
             else
-               return setError(true)
+               return setError("User Not Found")
         })
         .catch((error) => {
-            return setError(true)
+            return setError("Something Went Wrong")
         })
     }
 
@@ -68,7 +68,7 @@ export default function Login(){
                     </p>
                    <form className="col-lg-5 mx-auto mt-4 p-0" onSubmit={handleSubmit}>
                         {
-                            error && <p className="col-lg-12 text-danger text-left mx-auto h5 mt-3 font-weight-normal">Invalid Username Or Password</p>
+                            error?.length > 0 && <p className="col-lg-12 text-danger text-left mx-auto error-text mt-3 font-weight-normal">{ error }</p>
                         }
                         <input type="text" onChange={handleUsernameChange} placeholder="Username" className="login-form-input" /> <br/>
                         <input type="password" onChange={handlePasswordChange} placeholder="Password" className="login-form-input" />

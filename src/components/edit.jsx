@@ -74,11 +74,11 @@ export default function Edit(){
         e.preventDefault()
         if(todoValue.length > 0)
             return axios.post(
-                `${process.env.REACT_APP_SERVER_HOST}/todos/add`,
+                `${process.env.REACT_APP_SERVER_HOST}/todos/update`,
                 {
                     task: todoValue,
                     fileUrl: uploadedFileUrl,
-                    id: user.id,
+                    id,
                 },
                 { headers:
                     {

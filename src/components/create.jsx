@@ -16,7 +16,7 @@ export default function Create(){
     //properties
     const history = useHistory()
     const [user, setUser] = useState({})
-    const [error, setError] = useState(false)
+    const [error, setError] = useState("")
     const [fileUploadProgress, setFileUploadProgress] = useState(0.0)
     const [uploaded, setUploaded] = useState(false)
     const [pending, setPending] = useState(false)
@@ -64,8 +64,8 @@ export default function Create(){
                 if(response.status === 200)
                     return history.push("/todos")
             })
-            .catch( e => setError(true))
-        return setError(true)
+            .catch( e => setError("Something Went Wrong!"))
+        return setError("Task Cannot Be Empty!")
     }
     const onTodoInputChange = (e) => setTodoValue(e.target.value)
 
@@ -128,13 +128,7 @@ export default function Create(){
                     </p>
                    <form className="col-lg-6 mx-auto mt-4 p-0 text-center"  onSubmit={handleSubmit}>
                         {
-                            error
-                            ?
-                            <p className="col-lg-12 text-left text-danger h5">
-                                The Field Is Invalid
-                            </p>
-                            :
-                            <></>
+                            error?.length > 0 &&  <p className="col-lg-12 text-left text-danger text-error"> { error } </p>
                         }
                         <input type="text" autoFocus placeholder="Task Message" onChange={onTodoInputChange} className="login-form-input" /> <br/>
                         <div className="col-lg-12 border-0 text-left mt-3">

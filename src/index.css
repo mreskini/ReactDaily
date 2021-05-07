@@ -167,8 +167,16 @@
 .copy-icon:hover{
   color: lightgrey !important;
 }
+.edit-icon{
+  right: 31%;
+  top: 20%;
+  color: var(--theme-text-color) !important;
+}
+.edit-icon:hover{
+  color: lightgrey !important;
+}
 .attach-icon{
-  right: 30%;
+  right: 37%;
   top: 20%;
   color: lightgrey !important;
 }

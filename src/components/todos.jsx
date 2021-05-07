@@ -15,7 +15,8 @@ import {
     BsPaperclip,
     BsPlus,
     BsMoon,
-    BsSun
+    BsSun,
+    BsPencil,
 } from "react-icons/bs";
 import axios from "axios";
 
@@ -160,6 +161,9 @@ export default function Todos(){
                     <div className="btn btn-lg p-0 todo-icon copy-icon" onClick={() => copyTodo(todo)}>
                         <BsFiles />
                     </div>
+                    <Link to={`/edit/${todo.id}`} className="btn btn-lg p-0 todo-icon edit-icon">
+                        <BsPencil />
+                    </Link>
                     {
                         todo?.file_url?.length !== 0
                         ?
@@ -206,6 +210,9 @@ export default function Todos(){
                     <div className="btn btn-lg todo-icon p-0 marked copy-icon" onClick={() => copyTodo(todo)}>
                         <BsFiles />
                     </div>
+                    <Link to={`/edit/${todo.id}`} className="btn btn-lg p-0 todo-icon edit-icon">
+                        <BsPencil />
+                    </Link>
                     {
                         todo.file_url.length !== 0
                         ?

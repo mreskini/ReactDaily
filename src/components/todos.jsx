@@ -212,24 +212,34 @@ export default function Todos(){
                         :
                         <></>
                     }
-                    <div className="btn btn-lg todo-icon p-0 marked mark-icon">
-                        <BsBookmarkFill onClick={() => unmarkTodo(todo.id)} />
-                    </div>
-                    <div className="btn btn-lg todo-icon p-0 marked trash-icon">
-                        <BsFillTrashFill onClick={() => removeTodo(todo)}/>
-                    </div>
-                    <div className="btn btn-lg todo-icon p-0 marked copy-icon" onClick={() => copyTodo(todo)}>
-                        <BsFiles />
-                    </div>
-                    <Link to={`/edit/${todo.id}`} className="btn btn-lg p-0 todo-icon edit-icon">
-                        <BsPencil />
-                    </Link>
+                    <OverlayTrigger overlay={<Tooltip>Unmark</Tooltip>}>
+                        <div className="btn btn-lg todo-icon p-0 marked mark-icon">
+                            <BsBookmarkFill onClick={() => unmarkTodo(todo.id)} />
+                        </div>
+                    </OverlayTrigger>
+                    <OverlayTrigger overlay={<Tooltip>Remove</Tooltip>}>
+                        <div className="btn btn-lg todo-icon p-0 marked trash-icon">
+                            <BsFillTrashFill onClick={() => removeTodo(todo)}/>
+                        </div>
+                    </OverlayTrigger>
+                    <OverlayTrigger overlay={<Tooltip>Copy</Tooltip>}>
+                        <div className="btn btn-lg todo-icon p-0 marked copy-icon" onClick={() => copyTodo(todo)}>
+                            <BsFiles />
+                        </div>
+                    </OverlayTrigger>
+                    <OverlayTrigger overlay={<Tooltip>Edit</Tooltip>}>
+                        <Link to={`/edit/${todo.id}`} className="btn btn-lg p-0 todo-icon edit-icon">
+                            <BsPencil />
+                        </Link>
+                    </OverlayTrigger>
                     {
                         todo.file_url.length !== 0
                         ?
-                        <a href={todo.file_url} rel="noreferrer" target="_blank" className="btn btn-lg p-0 todo-icon attach-icon">
-                            <BsPaperclip />
-                        </a>
+                        <OverlayTrigger overlay={<Tooltip>File</Tooltip>}>
+                            <a href={todo.file_url} rel="noreferrer" target="_blank" className="btn btn-lg p-0 todo-icon attach-icon">
+                                <BsPaperclip />
+                            </a>
+                        </OverlayTrigger>
                         :
                         <></>
                     }

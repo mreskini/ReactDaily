@@ -22,6 +22,8 @@ export default function Edit(){
     const [fileUploadProgress, setFileUploadProgress] = useState(0.0)
     const [uploaded, setUploaded] = useState(false)
     const [pending, setPending] = useState(false)
+    const [removed, setRemoved] = useState(false)
+
 
     //properties - from data
     const [todoValue, setTodoValue] = useState("")
@@ -96,6 +98,15 @@ export default function Edit(){
     }
     const onTodoInputChange = (e) => setTodoValue(e.target.value)
 
+    const removeAttachedFile = () => {
+        setRemoved(true)
+        setFileUploadProgress(0.0)
+        setPending(false)
+        setUploaded(false)
+        setUploadedFileUrl("")
+        return setTimeout( () => { setRemoved(false) } , 3000 )
+    }
+
     const handleAttachFileChange = async (e) => {
         setPending(true)
 
@@ -159,7 +170,7 @@ export default function Edit(){
                         }
                         <input type="text" autoFocus placeholder="Task Message" value={todoValue} onChange={onTodoInputChange} className="login-form-input" /> <br/>
                         <div className="col-lg-12 border-0 text-left mt-3">
-                            <label htmlFor="add-a-file" className="btn btn-outline-dark-orange col-lg-4 h5">
+                            <label htmlFor="add-a-file" className="btn btn-outline-dark-orange my-auto col-lg-4 h5">
                                 <AiOutlinePaperClip className="h4 align-middle my-auto mr-1" />
                                 <span className="align-middle">
                                     Add a File
@@ -169,7 +180,12 @@ export default function Edit(){
                                 uploaded
                                 ?
                                 <span className="text-lightgrey pl-3">
-                                    File Attached!
+                                    <span className="mr-2 btn btn-outline-danger" onClick={removeAttachedFile}>
+                                        X
+                                    </span>
+                                    <span className="align-middle">
+                                        File Attached!
+                                    </span>
                                 </span>
                                 :
                                 <></>
@@ -188,6 +204,13 @@ export default function Edit(){
                             <input type="submit" value="Edit" className="btn btn-outline-dark-orange px-5 mt-5 btn-lg"/>
                         }
                    </form>
+                    {
+                        removed
+                        &&
+                        <div class="alert alert-info notification position-fixed border-0">
+                            Removed Attached File
+                        </div>
+                    }
                 </div>
             </div>
         </div>

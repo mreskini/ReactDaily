@@ -136,10 +136,6 @@ export default function Todos(){
         return date.getDay() + "/" + date.getMonth() + "/" + date.getFullYear()
     }
 
-    const closeCopyAlert = () => {
-        setCopied(false)
-    }
-
     //partial components
     const todosBuilder = todos === null ? nothingToShow : todos.filter(todo => todo.marked === 0).map((todo) => {
         const todoDate = getFullDateFromDateString(todo.created_at)

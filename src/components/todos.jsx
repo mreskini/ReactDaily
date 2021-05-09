@@ -26,7 +26,7 @@ export default function Todos(){
     //properties
     const history = useHistory()
     const [todos, setTodos] = useState([])
-    const [copiedTodoId, setCopiedTodoId] = useState(-1)
+    const [copied, setCopied] = useState(false)
     const [darkTheme, setDarkTheme] = useState(true)
     //methods
     const toggleTheme= () => {
@@ -127,13 +127,19 @@ export default function Todos(){
         if(todo === null)
             return false
         navigator.clipboard.writeText(todo.task)
-        return setCopiedTodoId(todo.id)
+        setTimeout( () => setCopied(false), 3000)
+        return setCopied(true)
     }
 
     const getFullDateFromDateString = (dateString) => {
         const date = new Date(dateString)
         return date.getDay() + "/" + date.getMonth() + "/" + date.getFullYear()
     }
+
+    const closeCopyAlert = () => {
+        setCopied(false)
+    }
+
     //partial components
     const todosBuilder = todos === null ? nothingToShow : todos.filter(todo => todo.marked === 0).map((todo) => {
         const todoDate = getFullDateFromDateString(todo.created_at)
@@ -143,15 +149,6 @@ export default function Todos(){
                     <br/>
                     {
                         todo.task
-                    }
-                    {
-                        todo.id === copiedTodoId
-                        ?
-                        <div class="alert alert-info notification font-weight-bold bg-transparent position-absolute" role="alert">
-                            Copied!
-                        </div>
-                        :
-                        <></>
                     }
                     <OverlayTrigger overlay={<Tooltip>Mark</Tooltip>}>
                         <div className="btn btn-lg p-0 todo-icon mark-icon">
@@ -203,15 +200,6 @@ export default function Todos(){
                     {
                         todo.task
                     }
-                    {
-                        todo.id === copiedTodoId
-                        ?
-                        <div class="alert alert-info notification position-absolute bg-transparent" role="alert">
-                            Copied!
-                        </div>
-                        :
-                        <></>
-                    }
                     <OverlayTrigger overlay={<Tooltip>Unmark</Tooltip>}>
                         <div className="btn btn-lg todo-icon p-0 marked mark-icon">
                             <BsBookmarkFill onClick={() => unmarkTodo(todo.id)} />
@@ -255,7 +243,7 @@ export default function Todos(){
 
     const nothingToShow = <p className="col-lg-12 h2 text-center">Nothing to show</p>
 
-    const themeSwitcher = darkTheme?
+    const themeSwitcher = darkTheme ?
             <div onClick={toggleTheme} className="text-center theme-switcher-dark">
                 <BsMoon />
             </div>
@@ -313,9 +301,13 @@ export default function Todos(){
                     {
                         todos.filter(todo => todo.marked === 0).length === 0 ? nothingToShow : todosBuilder
                     }
-                    {/* {
-                        themeSwitcher
-                    } */}
+                    {
+                        copied
+                        &&
+                        <div class="alert alert-info notification position-fixed border-0">
+                            Copied To Clipboard
+                        </div>
+                    }
                 </div>
             </div>
         </div>

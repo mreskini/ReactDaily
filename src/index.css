@@ -185,14 +185,12 @@
 }
 /* end icons */
 .notification{
-  top: 0;
-  left: 0;
-  margin-top: 5.7%;
-  margin-left: 6%;
-  font-size: 15px;
-  padding: 5px 10px !important;
-  color: var(--theme-text-color) !important;
-  border-color: var(--theme-text-color) !important;
+  bottom: 0px;
+  right: 20px;
+  font-size: 17px;
+  padding: 10px 20px !important;
+  color: rgb(27, 25, 25) !important;
+  background-color: var(--theme-text-color) !important;
 }
 .todo-counter{
   width: 103.5px;
@@ -203,7 +201,6 @@
   border-style: solid;
   border-color: var(--theme-text-color);
   border-left-color: var(--light-dark-bg);
-  /* border-right-color: var(--light-dark-bg); */
   border-radius: 100%;
 }
 .creation-date{

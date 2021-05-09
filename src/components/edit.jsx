@@ -99,12 +99,28 @@ export default function Edit(){
     const onTodoInputChange = (e) => setTodoValue(e.target.value)
 
     const removeAttachedFile = () => {
-        setRemoved(true)
-        setFileUploadProgress(0.0)
-        setPending(false)
-        setUploaded(false)
-        setUploadedFileUrl("")
-        return setTimeout( () => { setRemoved(false) } , 3000 )
+        return axios.post(
+            `${process.env.REACT_APP_SERVER_HOST}/todos/deleteTodoFile`,
+            {id,},
+            { headers:
+                {
+                    "api-key": process.env.REACT_APP_API_KEY,
+                    "Content-Type": "application/json"
+                }
+            }
+        )
+        .then( (response) => {
+            if(response.status === 200)
+            {
+                setRemoved(true)
+                setFileUploadProgress(0.0)
+                setPending(false)
+                setUploaded(false)
+                setUploadedFileUrl("")
+                return setTimeout( () => { setRemoved(false) } , 3000 )
+            }
+        })
+        .catch((e) => {})
     }
 
     const handleAttachFileChange = async (e) => {

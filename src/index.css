@@ -243,11 +243,21 @@
 .error-text{
   font-size: 18px;
 }
-.idono{
-  height: 100% !important;
-  width: 5%;
-  position: fixed !important;
-  left: 0px;
-  top: 0px;
-  background-color: red;
+
+/* chaning the tab style */
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+  color: rgb(27, 25, 25) !important;
+  font-size: 17px;
+  background-color: var(--theme-text-color) !important;
+  border-radius: 0px;
+  border-color: var(--theme-text-color) !important;
 }
+.nav-tabs {
+  border-bottom: 1px solid var(--theme-text-color) !important;
+}
+.nav-item:hover a{
+  border-radius: 0px;
+  color: var(--theme-text-color) !important;
+  border-color: var(--theme-text-color) !important;
+}
+/* end chaning the tab styles */

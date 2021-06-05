@@ -19,7 +19,7 @@ import {
     BsPencil,
 } from "react-icons/bs";
 import axios from "axios";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Nav, OverlayTrigger, Tooltip } from "react-bootstrap";
 
 export default function Todos(){
 
@@ -300,83 +300,89 @@ export default function Todos(){
     return(
         <div className="text-white">
             <div className="container-fluid">
-                <div className="row">
-                    <div className="idono">
-                        Hello
-                    </div>
-                    <div className="col-lg-12 pl-5">
-                        <div className="row m-5">
-                            <div className="bg-object bg-object1"></div>
-                            <div className="bg-object bg-object2"></div>
-                            <div className="bg-object bg-object3"></div>
-                            <div className="row col-lg-12">
-                                <div className="todo-counter text-center">
-                                {
-                                    todos.length
-                                }
-                                </div>
-                                <Link  to="/logout" autoComplete="nope" className="btn btn-lg custom-btn btn-outline-dark-orange exit-btn my-auto ml-4">
-                                    Log Out
-                                </Link>
-                            </div>
-                            <p className="text-dark-orange display-1 col-lg-12 text-center pt-2">
-                                <span className="text-white">
-                                    Daily
-                                </span>
-                                <span className="px-5 align-middle text-white">
-                                    •
-                                </span>
-                                <span>
-                                    Todos
-                                </span>
-                            </p>
-                            <p className="col-lg-12 display-4">
-                                <span className="display-1 align-middle">•</span>Marked
-                            </p>
-                            {
-                                todos.filter(todo => todo.marked === 1).length === 0 ? nothingToShow : markedTodosBuilder
-                            }
-                            <p className="col-lg-12 display-4 mt-3">
-                                <span className="display-1 align-middle">•</span>Other
-                            </p>
-                            <Link to="/create" className="col-lg-4 p-3">
-                                <div className="w-100 marked add-todo-card todo-card py-4">
-                                    <BsPlus className="align-middle mx-auto my-auto" />
-                                </div>
-                            </Link>
-                            {
-                                todos.filter(todo => todo.marked === 0).length === 0 ? nothingToShow : todosBuilder
-                            }
-                            {
-                                copied
-                                &&
-                                <div class="alert alert-info notification position-fixed border-0">
-                                    Copied To Clipboard
-                                </div>
-                            }
-                            {
-                                removed
-                                &&
-                                <div class="alert alert-info notification position-fixed border-0">
-                                    Removed ToDo
-                                </div>
-                            }
-                            {
-                                marked
-                                &&
-                                <div class="alert alert-info notification position-fixed border-0">
-                                    Marked ToDo
-                                </div>
-                            }
-                            {
-                                unmarked
-                                &&
-                                <div class="alert alert-info notification position-fixed border-0">
-                                    Unmarked ToDo
-                                </div>
-                            }
+                <div className="row m-5">
+                    <div className="bg-object bg-object1"></div>
+                    <div className="bg-object bg-object2"></div>
+                    <div className="bg-object bg-object3"></div>
+                    <div className="row col-lg-12">
+                        <div className="todo-counter text-center">
+                        {
+                            todos.length
+                        }
                         </div>
+                        <Link  to="/logout" autoComplete="nope" className="btn btn-lg custom-btn btn-outline-dark-orange exit-btn my-auto ml-4">
+                            Log Out
+                        </Link>
                     </div>
+                    <p className="text-dark-orange display-1 col-lg-12 text-center pt-2">
+                        <span className="text-white">
+                            Daily
+                        </span>
+                        <span className="px-5 align-middle text-white">
+                            •
+                        </span>
+                        <span>
+                            Todos
+                        </span>
+                    </p>
+                    <p className="col-lg-12 display-4">
+                        <span className="display-1 align-middle">•</span>Marked
+                    </p>
+                    {
+                        todos.filter(todo => todo.marked === 1).length === 0 ? nothingToShow : markedTodosBuilder
+                    }
+                    <p className="col-lg-12 display-4 mt-3">
+                        <span className="display-1 align-middle">•</span>Other
+                    </p>
+                    <div className="col-lg-12 mb-5">
+                    <Nav justify variant="tabs">
+                        <Nav.Item>
+                            <Nav.Link eventKey="tab-1" className="text-dark-orange">Tab One</Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item>
+                            <Nav.Link eventKey="tab-2" className="text-dark-orange">Tab Two</Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item>
+                            <Nav.Link eventKey="tab-3" className="text-dark-orange">Tab Three</Nav.Link>
+                        </Nav.Item>
+                    </Nav>
+                    </div>
+                    <Link to="/create" className="col-lg-4 p-3">
+                        <div className="w-100 marked add-todo-card todo-card py-4">
+                            <BsPlus className="align-middle mx-auto my-auto" />
+                        </div>
+                    </Link>
+                    {
+                        todos.filter(todo => todo.marked === 0).length === 0 ? nothingToShow : todosBuilder
+                    }
+                    {
+                        copied
+                        &&
+                        <div class="alert alert-info notification position-fixed border-0">
+                            Copied To Clipboard
+                        </div>
+                    }
+                    {
+                        removed
+                        &&
+                        <div class="alert alert-info notification position-fixed border-0">
+                            Removed ToDo
+                        </div>
+                    }
+                    {
+                        marked
+                        &&
+                        <div class="alert alert-info notification position-fixed border-0">
+                            Marked ToDo
+                        </div>
+                    }
+                    {
+                        unmarked
+                        &&
+                        <div class="alert alert-info notification position-fixed border-0">
+                            Unmarked ToDo
+                        </div>
+                    }
                 </div>
             </div>
         </div>

@@ -343,7 +343,7 @@ export default function Todos(){
                         <span className="display-1 align-middle">•</span>Other
                     </p>
                     <div className="col-lg-12 mb-5">
-                    <Nav justify variant="tabs">
+                    <Nav justify variant="tabs" defaultActiveKey="tab-2">
                         <Nav.Item>
                             <Nav.Link eventKey="tab-1" className="text-dark-orange">Tab One</Nav.Link>
                         </Nav.Item>

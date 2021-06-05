@@ -11,6 +11,7 @@ import {
   Redirect
 } from "react-router-dom"
 import { ProtectedRoute } from "./protectedRoute"
+import PageNotFound from "./pageNotFound"
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <ProtectedRoute path="/todos" component={Todos} />
         <ProtectedRoute path="/create" component={Create} />
         <ProtectedRoute path="/edit/:todo_id" component={Edit} />
+        <Route path="/" component={PageNotFound} />
       </Switch>
     </HashRouter>
   );

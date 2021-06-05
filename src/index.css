@@ -266,3 +266,11 @@
   top: calc(50% - 2rem) !important;
   left: calc(50% - 2rem) !important;
 }
+.four-o-four{
+  font-size: 150px;
+  color: var(--theme-text-color);
+}
+.pageNotFound{
+  font-size: 30px;
+  letter-spacing: 10px;
+}

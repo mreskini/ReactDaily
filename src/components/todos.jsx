@@ -19,12 +19,13 @@ import {
     BsPencil,
 } from "react-icons/bs";
 import axios from "axios";
-import { Nav, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Nav, OverlayTrigger, Spinner, Tooltip } from "react-bootstrap";
 
 export default function Todos(){
 
     //properties
     const history = useHistory()
+    const [pending, setPending] = useState(true)
     const [todos, setTodos] = useState([])
     const [copied, setCopied] = useState(false)
     const [marked, setMarked] = useState(false)
@@ -95,7 +96,10 @@ export default function Todos(){
                     }
                 ).then( response => {
                     if(response.status === 200)
-                        return setTodos(response.data)
+                    {
+                        setTodos(response.data)
+                        return setPending(false)
+                    }
                 })
             }
             return history.push("/login")
@@ -298,6 +302,10 @@ export default function Todos(){
         getData()
     }, [])
     return(
+        pending
+        ?
+        <Spinner animation="border" className="text-dark-orange p-4 custom-spinner" role="status"></Spinner>
+        :
         <div className="text-white">
             <div className="container-fluid">
                 <div className="row m-5">

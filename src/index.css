@@ -261,3 +261,8 @@
   border-color: var(--theme-text-color) !important;
 }
 /* end chaning the tab styles */
+.custom-spinner{
+  position: fixed !important;
+  top: calc(50% - 2rem) !important;
+  left: calc(50% - 2rem) !important;
+}

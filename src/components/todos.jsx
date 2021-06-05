@@ -27,11 +27,46 @@ export default function Todos(){
     const history = useHistory()
     const [todos, setTodos] = useState([])
     const [copied, setCopied] = useState(false)
-    const [darkTheme, setDarkTheme] = useState(true)
+    const [marked, setMarked] = useState(false)
+    const [unmarked, setUnmarked] = useState(false)
+    const [removed, setRemoved] = useState(false)
+
     //methods
-    const toggleTheme= () => {
-        setDarkTheme(!darkTheme)
+    const neutralAlert = () => {
+        setCopied(false)
+        setMarked(false)
+        setUnmarked(false)
+        setRemoved(false)
     }
+
+    const setCopiedAlert = () => {
+        setCopied(true)
+        setMarked(false)
+        setUnmarked(false)
+        setRemoved(false)
+    }
+
+    const setMarkedAlert = () => {
+        setCopied(false)
+        setMarked(true)
+        setUnmarked(false)
+        setRemoved(false)
+    }
+
+    const setUnmarkedAlert = () => {
+        setCopied(false)
+        setMarked(false)
+        setUnmarked(true)
+        setRemoved(false)
+    }
+
+    const setRemovedAlert = () => {
+        setCopied(false)
+        setMarked(false)
+        setUnmarked(false)
+        setRemoved(true)
+    }
+
     const getData = async () => {
         const userToken = localStorage.getItem("user_token")
         //I get all the todos (marked & unmarked) here:
@@ -82,7 +117,11 @@ export default function Todos(){
         )
         .then( (response) => {
             if(response.status === 200)
-                return getData()
+            {
+                getData()
+                setTimeout( () => neutralAlert(), process.env.REACT_APP_TODO_ACTION_ALERT_DELAY)
+                return setRemovedAlert()
+            }
         })
         .catch((e) => {})
     }
@@ -100,7 +139,11 @@ export default function Todos(){
         )
         .then( (response) => {
             if(response.status === 200)
-                return getData()
+            {
+                getData()
+                setTimeout( () => neutralAlert(), process.env.REACT_APP_TODO_ACTION_ALERT_DELAY)
+                return setMarkedAlert()
+            }
         })
         .catch((e) => {})
     }
@@ -118,7 +161,11 @@ export default function Todos(){
         )
         .then( response => {
             if(response.status === 200)
-                return getData()
+            {
+                getData()
+                setTimeout( () => neutralAlert(), process.env.REACT_APP_TODO_ACTION_ALERT_DELAY)
+                return setUnmarkedAlert()
+            }
         })
         .catch((e) => {})
     }
@@ -127,9 +174,10 @@ export default function Todos(){
         if(todo === null)
             return false
         navigator.clipboard.writeText(todo.task)
-        setTimeout( () => setCopied(false), 3000)
-        return setCopied(true)
+        setTimeout( () => neutralAlert(), process.env.REACT_APP_TODO_ACTION_ALERT_DELAY)
+        return setCopiedAlert(true)
     }
+
 
     const getFullDateFromDateString = (dateString) => {
         const date = new Date(dateString)
@@ -237,16 +285,13 @@ export default function Todos(){
         )
     })
 
-    const nothingToShow = <p className="col-lg-12 h2 text-center">Nothing to show</p>
+    const nothingToShow =
+        <Link to="/create" className="col-lg-4 p-3">
+            <div className="w-100 marked add-todo-card todo-card py-4">
+                <BsPlus className="align-middle mx-auto my-auto" />
+            </div>
+        </Link>
 
-    const themeSwitcher = darkTheme ?
-            <div onClick={toggleTheme} className="text-center theme-switcher-dark">
-                <BsMoon />
-            </div>
-            :
-            <div onClick={toggleTheme} className="text-center theme-switcher-light">
-                <BsSun />
-            </div>
 
     //hooks (this method will be fired only once on the laod time)
     useEffect( () => {
@@ -302,6 +347,27 @@ export default function Todos(){
                         &&
                         <div class="alert alert-info notification position-fixed border-0">
                             Copied To Clipboard
+                        </div>
+                    }
+                    {
+                        removed
+                        &&
+                        <div class="alert alert-info notification position-fixed border-0">
+                            Removed ToDo
+                        </div>
+                    }
+                    {
+                        marked
+                        &&
+                        <div class="alert alert-info notification position-fixed border-0">
+                            Marked ToDo
+                        </div>
+                    }
+                    {
+                        unmarked
+                        &&
+                        <div class="alert alert-info notification position-fixed border-0">
+                            Unmarked ToDo
                         </div>
                     }
                 </div>

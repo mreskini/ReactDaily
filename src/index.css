@@ -243,3 +243,11 @@
 .error-text{
   font-size: 18px;
 }
+.idono{
+  height: 100% !important;
+  width: 5%;
+  position: fixed !important;
+  left: 0px;
+  top: 0px;
+  background-color: red;
+}

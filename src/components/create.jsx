@@ -20,7 +20,7 @@ export default function Create(){
     const [fileUploadProgress, setFileUploadProgress] = useState(0.0)
     const [uploaded, setUploaded] = useState(false)
     const [pending, setPending] = useState(false)
-
+    const [labelId, setLabelId] = useState(1)
     //properties - from data
     const [todoValue, setTodoValue] = useState("")
     const [uploadedFileUrl, setUploadedFileUrl] = useState("")
@@ -51,6 +51,7 @@ export default function Create(){
                 {
                     task: todoValue,
                     fileUrl: uploadedFileUrl,
+                    labelId,
                     id: user.id,
                 },
                 { headers:
@@ -105,6 +106,11 @@ export default function Create(){
         })
         .catch((e) => {})
     }
+    const changeTodoLabel = (e) => {
+        setLabelId(
+            parseInt(e.target.value)
+        )
+    }
     //hooks
     useEffect( () => getUserByToken() , [])
 
@@ -153,17 +159,17 @@ export default function Create(){
                         </div>
                         <input type="file" onChange={handleAttachFileChange} className="d-none" id="add-a-file"/>
                         <div className="col-lg-12 mt-4 text-left">
-                            <select name="" id="" className="btn btn-outline-dark-orange-no-over p-2 col-lg-4 h5">
-                                <option value="" defaultChecked >
+                            <select name="todo-label" onChange={changeTodoLabel} className="btn btn-outline-dark-orange-no-over p-2 col-lg-4 h5">
+                                <option value="1" defaultChecked >
                                     Label
                                 </option>
-                                <option value="">
+                                <option value="1">
                                     General
                                 </option>
-                                <option value="">
+                                <option value="2">
                                     Important
                                 </option>
-                                <option value="">
+                                <option value="3">
                                     To Do
                                 </option>
                             </select>

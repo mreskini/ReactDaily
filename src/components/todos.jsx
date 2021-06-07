@@ -14,8 +14,6 @@ import {
     BsFiles,
     BsPaperclip,
     BsPlus,
-    BsMoon,
-    BsSun,
     BsPencil,
 } from "react-icons/bs";
 import axios from "axios";
@@ -26,6 +24,7 @@ export default function Todos(){
     //properties
     const history = useHistory()
     const [pending, setPending] = useState(true)
+    const [todosChangePending, setTodosChangePending] = useState(false)
     const [initialized, setInitialized] = useState(false)
     const [todos, setTodos] = useState([])
     const [copied, setCopied] = useState(false)
@@ -33,13 +32,13 @@ export default function Todos(){
     const [unmarked, setUnmarked] = useState(false)
     const [removed, setRemoved] = useState(false)
 
-
     //methods
     const neutralAlert = () => {
         setCopied(false)
         setMarked(false)
         setUnmarked(false)
         setRemoved(false)
+        setTodosChangePending(false)
     }
 
     const setCopiedAlert = () => {
@@ -108,7 +107,7 @@ export default function Todos(){
         })
     }
 
-    const removeTodo = async (todo) => {
+    const removeTodo = async (todo, currentTab) => {
         if(todo === null)
             return false
         return axios.post(
@@ -121,9 +120,10 @@ export default function Todos(){
                 }
             }
         )
-        .then( (response) => {
+        .then( async (response) => {
             if(response.status === 200)
             {
+                setTodosChangePending(true)
                 getData()
                 setTimeout( () => neutralAlert(), process.env.REACT_APP_TODO_ACTION_ALERT_DELAY)
                 return setRemovedAlert()
@@ -191,56 +191,6 @@ export default function Todos(){
     }
 
     //partial components
-    const todosBuilder = todos === null ? nothingToShow : todos.filter(todo => todo.marked === 0).map((todo) => {
-        const todoDate = getFullDateFromDateString(todo.created_at)
-        return(
-            <div className="col-lg-4 p-3" key={todo.id}>
-                <div className="w-100 todo-card py-4">
-                    <br/>
-                    {
-                        todo.task
-                    }
-                    <OverlayTrigger overlay={<Tooltip>Mark</Tooltip>}>
-                        <div className="btn btn-lg p-0 todo-icon mark-icon">
-                            <BsBookmark onClick={() => markTodo(todo.id)}/>
-                        </div>
-                    </OverlayTrigger>
-                    <OverlayTrigger overlay={<Tooltip>Remove</Tooltip>}>
-                        <div className="btn btn-lg p-0 todo-icon trash-icon">
-                            <BsFillTrashFill onClick={() => removeTodo(todo)}/>
-                        </div>
-                    </OverlayTrigger>
-                    <OverlayTrigger overlay={<Tooltip>Copy</Tooltip>}>
-                        <div className="btn btn-lg p-0 todo-icon copy-icon" onClick={() => copyTodo(todo)}>
-                            <BsFiles />
-                        </div>
-                    </OverlayTrigger>
-                    <OverlayTrigger overlay={<Tooltip>Edit</Tooltip>}>
-                        <Link to={`/edit/${todo.id}`} className="btn btn-lg p-0 todo-icon edit-icon">
-                            <BsPencil />
-                        </Link>
-                    </OverlayTrigger>
-                    {
-                        todo?.file_url?.length !== 0
-                        ?
-                        <OverlayTrigger overlay={<Tooltip>File</Tooltip>}>
-                            <a href={todo.file_url} rel="noreferrer" target="_blank" className="btn btn-lg p-0 todo-icon attach-icon">
-                                <BsPaperclip />
-                            </a>
-                        </OverlayTrigger>
-                        :
-                        <></>
-                    }
-                    <div className="creation-date mx-auto">
-                    {
-                        todoDate
-                    }
-                    </div>
-                </div>
-            </div>
-        )
-    })
-
     const generalTodosBuilder = todos === null ? nothingToShow : todos.filter(todo => todo.label_id === 1).map((todo) => {
         const todoDate = getFullDateFromDateString(todo.created_at)
         return(
@@ -257,7 +207,7 @@ export default function Todos(){
                     </OverlayTrigger>
                     <OverlayTrigger overlay={<Tooltip>Remove</Tooltip>}>
                         <div className="btn btn-lg p-0 todo-icon trash-icon">
-                            <BsFillTrashFill onClick={() => removeTodo(todo)}/>
+                            <BsFillTrashFill onClick={() => removeTodo(todo, 1)}/>
                         </div>
                     </OverlayTrigger>
                     <OverlayTrigger overlay={<Tooltip>Copy</Tooltip>}>
@@ -307,7 +257,7 @@ export default function Todos(){
                     </OverlayTrigger>
                     <OverlayTrigger overlay={<Tooltip>Remove</Tooltip>}>
                         <div className="btn btn-lg p-0 todo-icon trash-icon">
-                            <BsFillTrashFill onClick={() => removeTodo(todo)}/>
+                            <BsFillTrashFill onClick={() => removeTodo(todo, 2)}/>
                         </div>
                     </OverlayTrigger>
                     <OverlayTrigger overlay={<Tooltip>Copy</Tooltip>}>
@@ -357,7 +307,7 @@ export default function Todos(){
                     </OverlayTrigger>
                     <OverlayTrigger overlay={<Tooltip>Remove</Tooltip>}>
                         <div className="btn btn-lg p-0 todo-icon trash-icon">
-                            <BsFillTrashFill onClick={() => removeTodo(todo)}/>
+                            <BsFillTrashFill onClick={() => removeTodo(todo, 3)}/>
                         </div>
                     </OverlayTrigger>
                     <OverlayTrigger overlay={<Tooltip>Copy</Tooltip>}>
@@ -408,7 +358,7 @@ export default function Todos(){
                     </OverlayTrigger>
                     <OverlayTrigger overlay={<Tooltip>Remove</Tooltip>}>
                         <div className="btn btn-lg todo-icon p-0 marked trash-icon">
-                            <BsFillTrashFill onClick={() => removeTodo(todo)}/>
+                            <BsFillTrashFill onClick={() => removeTodo(todo, 0)}/>
                         </div>
                     </OverlayTrigger>
                     <OverlayTrigger overlay={<Tooltip>Copy</Tooltip>}>
@@ -484,6 +434,9 @@ export default function Todos(){
     const showTodoTodos = () => {
         setTodosLabelBuilder(
             <>
+                {
+                    todoTodosBuilder
+                }
             </>
         )
     }
@@ -552,6 +505,10 @@ export default function Todos(){
                         </div>
                     </Link>
                     {
+                        todosChangePending
+                        ?
+                        <Spinner animation="border" className="text-dark-orange p-4 custom-spinner" role="status"></Spinner>
+                        :
                         todosLabelBuilder
                     }
                     {

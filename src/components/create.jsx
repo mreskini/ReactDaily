@@ -130,7 +130,7 @@ export default function Create(){
                         {
                             error?.length > 0 &&  <p className="col-lg-12 text-left text-danger text-error"> { error } </p>
                         }
-                        <input type="text" autoFocus placeholder="Task Message" onChange={onTodoInputChange} className="login-form-input" /> <br/>
+                        <input type="text" autoFocus placeholder="Task Message" onChange={onTodoInputChange} className="login-form-input bg-darkish" /> <br/>
                         <div className="col-lg-12 border-0 text-left mt-3">
                             <label htmlFor="add-a-file" className="btn btn-outline-dark-orange col-lg-4 h5">
                                 <AiOutlinePaperClip className="h4 align-middle my-auto mr-1" />
@@ -152,13 +152,29 @@ export default function Create(){
                             <ProgressBar variant="" label={uploaded ? "100%" : ""} striped now={fileUploadProgress} max={100} className="bg-light-darkish mt-4" />
                         </div>
                         <input type="file" onChange={handleAttachFileChange} className="d-none" id="add-a-file"/>
+                        <div className="col-lg-12 mt-4 text-left">
+                            <select name="" id="" className="btn btn-outline-dark-orange-no-over p-2 col-lg-4 h5">
+                                <option value="" defaultChecked >
+                                    Label
+                                </option>
+                                <option value="">
+                                    General
+                                </option>
+                                <option value="">
+                                    Important
+                                </option>
+                                <option value="">
+                                    To Do
+                                </option>
+                            </select>
+                        </div>
                         <Link to="/todos" className="btn btn-outline-light px-5 mt-5 btn-lg mr-3">Cancel</Link>
                         {
                             pending
                             ?
-                            <input type="submit" disabled value="Add" className="btn disabled btn-secondary px-5 mt-5 btn-lg"/>
+                            <input type="submit" disabled value="Add" className="btn disabled bg-darkish btn-secondary px-5 mt-5 btn-lg"/>
                             :
-                            <input type="submit" value="Add" className="btn btn-outline-dark-orange px-5 mt-5 btn-lg"/>
+                            <input type="submit" value="Add" className="btn bg-darkish btn-dark-orange px-5 mt-5 btn-lg"/>
                         }
                    </form>
                 </div>

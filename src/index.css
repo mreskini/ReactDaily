@@ -100,12 +100,18 @@
 }
 /* buttons */
 .btn-outline-dark-orange {
+  background-color: var(--dark-bg) !important;
   color: var(--theme-text-color) !important;
   border-color: var(--theme-text-color) !important;
 }
 .btn-outline-dark-orange:hover {
   color: #fff !important;
   background-color: var(--theme-text-color) !important;
+  border-color: var(--theme-text-color) !important;
+}
+.btn-outline-dark-orange-no-over{
+  background-color: var(--dark-bg) !important;
+  color: var(--theme-text-color) !important;
   border-color: var(--theme-text-color) !important;
 }
 .btn-dark-orange{

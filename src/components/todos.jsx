@@ -26,11 +26,13 @@ export default function Todos(){
     //properties
     const history = useHistory()
     const [pending, setPending] = useState(true)
+    const [initialized, setInitialized] = useState(false)
     const [todos, setTodos] = useState([])
     const [copied, setCopied] = useState(false)
     const [marked, setMarked] = useState(false)
     const [unmarked, setUnmarked] = useState(false)
     const [removed, setRemoved] = useState(false)
+
 
     //methods
     const neutralAlert = () => {
@@ -239,6 +241,157 @@ export default function Todos(){
         )
     })
 
+    const generalTodosBuilder = todos === null ? nothingToShow : todos.filter(todo => todo.label_id === 1).map((todo) => {
+        const todoDate = getFullDateFromDateString(todo.created_at)
+        return(
+            <div className="col-lg-4 p-3" key={todo.id}>
+                <div className="w-100 todo-card py-4">
+                    <br/>
+                    {
+                        todo.task
+                    }
+                    <OverlayTrigger overlay={<Tooltip>Mark</Tooltip>}>
+                        <div className="btn btn-lg p-0 todo-icon mark-icon">
+                            <BsBookmark onClick={() => markTodo(todo.id)}/>
+                        </div>
+                    </OverlayTrigger>
+                    <OverlayTrigger overlay={<Tooltip>Remove</Tooltip>}>
+                        <div className="btn btn-lg p-0 todo-icon trash-icon">
+                            <BsFillTrashFill onClick={() => removeTodo(todo)}/>
+                        </div>
+                    </OverlayTrigger>
+                    <OverlayTrigger overlay={<Tooltip>Copy</Tooltip>}>
+                        <div className="btn btn-lg p-0 todo-icon copy-icon" onClick={() => copyTodo(todo)}>
+                            <BsFiles />
+                        </div>
+                    </OverlayTrigger>
+                    <OverlayTrigger overlay={<Tooltip>Edit</Tooltip>}>
+                        <Link to={`/edit/${todo.id}`} className="btn btn-lg p-0 todo-icon edit-icon">
+                            <BsPencil />
+                        </Link>
+                    </OverlayTrigger>
+                    {
+                        todo?.file_url?.length !== 0
+                        ?
+                        <OverlayTrigger overlay={<Tooltip>File</Tooltip>}>
+                            <a href={todo.file_url} rel="noreferrer" target="_blank" className="btn btn-lg p-0 todo-icon attach-icon">
+                                <BsPaperclip />
+                            </a>
+                        </OverlayTrigger>
+                        :
+                        <></>
+                    }
+                    <div className="creation-date mx-auto">
+                    {
+                        todoDate
+                    }
+                    </div>
+                </div>
+            </div>
+        )
+    })
+
+    const importantTodosBuilder = todos === null ? nothingToShow : todos.filter(todo => todo.label_id === 2).map((todo) => {
+        const todoDate = getFullDateFromDateString(todo.created_at)
+        return(
+            <div className="col-lg-4 p-3" key={todo.id}>
+                <div className="w-100 todo-card py-4">
+                    <br/>
+                    {
+                        todo.task
+                    }
+                    <OverlayTrigger overlay={<Tooltip>Mark</Tooltip>}>
+                        <div className="btn btn-lg p-0 todo-icon mark-icon">
+                            <BsBookmark onClick={() => markTodo(todo.id)}/>
+                        </div>
+                    </OverlayTrigger>
+                    <OverlayTrigger overlay={<Tooltip>Remove</Tooltip>}>
+                        <div className="btn btn-lg p-0 todo-icon trash-icon">
+                            <BsFillTrashFill onClick={() => removeTodo(todo)}/>
+                        </div>
+                    </OverlayTrigger>
+                    <OverlayTrigger overlay={<Tooltip>Copy</Tooltip>}>
+                        <div className="btn btn-lg p-0 todo-icon copy-icon" onClick={() => copyTodo(todo)}>
+                            <BsFiles />
+                        </div>
+                    </OverlayTrigger>
+                    <OverlayTrigger overlay={<Tooltip>Edit</Tooltip>}>
+                        <Link to={`/edit/${todo.id}`} className="btn btn-lg p-0 todo-icon edit-icon">
+                            <BsPencil />
+                        </Link>
+                    </OverlayTrigger>
+                    {
+                        todo?.file_url?.length !== 0
+                        ?
+                        <OverlayTrigger overlay={<Tooltip>File</Tooltip>}>
+                            <a href={todo.file_url} rel="noreferrer" target="_blank" className="btn btn-lg p-0 todo-icon attach-icon">
+                                <BsPaperclip />
+                            </a>
+                        </OverlayTrigger>
+                        :
+                        <></>
+                    }
+                    <div className="creation-date mx-auto">
+                    {
+                        todoDate
+                    }
+                    </div>
+                </div>
+            </div>
+        )
+    })
+
+    const todoTodosBuilder = todos === null ? nothingToShow : todos.filter(todo => todo.label_id === 3).map((todo) => {
+        const todoDate = getFullDateFromDateString(todo.created_at)
+        return(
+            <div className="col-lg-4 p-3" key={todo.id}>
+                <div className="w-100 todo-card py-4">
+                    <br/>
+                    {
+                        todo.task
+                    }
+                    <OverlayTrigger overlay={<Tooltip>Mark</Tooltip>}>
+                        <div className="btn btn-lg p-0 todo-icon mark-icon">
+                            <BsBookmark onClick={() => markTodo(todo.id)}/>
+                        </div>
+                    </OverlayTrigger>
+                    <OverlayTrigger overlay={<Tooltip>Remove</Tooltip>}>
+                        <div className="btn btn-lg p-0 todo-icon trash-icon">
+                            <BsFillTrashFill onClick={() => removeTodo(todo)}/>
+                        </div>
+                    </OverlayTrigger>
+                    <OverlayTrigger overlay={<Tooltip>Copy</Tooltip>}>
+                        <div className="btn btn-lg p-0 todo-icon copy-icon" onClick={() => copyTodo(todo)}>
+                            <BsFiles />
+                        </div>
+                    </OverlayTrigger>
+                    <OverlayTrigger overlay={<Tooltip>Edit</Tooltip>}>
+                        <Link to={`/edit/${todo.id}`} className="btn btn-lg p-0 todo-icon edit-icon">
+                            <BsPencil />
+                        </Link>
+                    </OverlayTrigger>
+                    {
+                        todo?.file_url?.length !== 0
+                        ?
+                        <OverlayTrigger overlay={<Tooltip>File</Tooltip>}>
+                            <a href={todo.file_url} rel="noreferrer" target="_blank" className="btn btn-lg p-0 todo-icon attach-icon">
+                                <BsPaperclip />
+                            </a>
+                        </OverlayTrigger>
+                        :
+                        <></>
+                    }
+                    <div className="creation-date mx-auto">
+                    {
+                        todoDate
+                    }
+                    </div>
+                </div>
+            </div>
+        )
+    })
+
+
     const markedTodosBuilder = todos.filter(todo => todo.marked === 1).map( (todo) => {
         const todoDate = getFullDateFromDateString(todo.created_at)
         return(
@@ -296,6 +449,44 @@ export default function Todos(){
             </div>
         </Link>
 
+    const [todosLabelBuilder, setTodosLabelBuilder] = useState()
+    if( !initialized && !pending ){
+        setTodosLabelBuilder(
+            <>
+                {
+                    generalTodosBuilder
+                }
+            </>
+        )
+        setInitialized(true)
+    }
+
+    const showGeneralTodos = () => {
+        setTodosLabelBuilder(
+            <>
+                {
+                    generalTodosBuilder
+                }
+            </>
+        )
+    }
+
+    const showImportantTodos = () => {
+        setTodosLabelBuilder(
+            <>
+                {
+                    importantTodosBuilder
+                }
+            </>
+        )
+    }
+
+    const showTodoTodos = () => {
+        setTodosLabelBuilder(
+            <>
+            </>
+        )
+    }
 
     //hooks (this method will be fired only once on the laod time)
     useEffect( () => {
@@ -343,17 +534,17 @@ export default function Todos(){
                         <span className="display-1 align-middle">•</span>Other
                     </p>
                     <div className="col-lg-12 mb-5">
-                    <Nav justify variant="tabs" defaultActiveKey="tab-2">
-                        <Nav.Item>
-                            <Nav.Link eventKey="tab-1" className="text-dark-orange">Tab One</Nav.Link>
-                        </Nav.Item>
-                        <Nav.Item>
-                            <Nav.Link eventKey="tab-2" className="text-dark-orange">Tab Two</Nav.Link>
-                        </Nav.Item>
-                        <Nav.Item>
-                            <Nav.Link eventKey="tab-3" className="text-dark-orange">Tab Three</Nav.Link>
-                        </Nav.Item>
-                    </Nav>
+                        <Nav justify variant="tabs" defaultActiveKey="general-todos">
+                            <Nav.Item>
+                                <Nav.Link eventKey="general-todos" onSelect={showGeneralTodos}  className="text-dark-orange">General</Nav.Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Nav.Link eventKey="important-todos" onSelect={showImportantTodos} className="text-dark-orange">Important</Nav.Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Nav.Link eventKey="todo-todos" onClick={showTodoTodos} className="text-dark-orange">To Do</Nav.Link>
+                            </Nav.Item>
+                        </Nav>
                     </div>
                     <Link to="/create" className="col-lg-4 p-3">
                         <div className="w-100 marked add-todo-card todo-card py-4">
@@ -361,7 +552,7 @@ export default function Todos(){
                         </div>
                     </Link>
                     {
-                        todos.filter(todo => todo.marked === 0).length === 0 ? nothingToShow : todosBuilder
+                        todosLabelBuilder
                     }
                     {
                         copied

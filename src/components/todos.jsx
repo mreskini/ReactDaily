@@ -31,6 +31,7 @@ export default function Todos(){
     const [marked, setMarked] = useState(false)
     const [unmarked, setUnmarked] = useState(false)
     const [removed, setRemoved] = useState(false)
+    const [labelId, setLabelId] = useState(1)
 
     //methods
     const neutralAlert = () => {
@@ -107,7 +108,7 @@ export default function Todos(){
         })
     }
 
-    const removeTodo = async (todo, currentTab) => {
+    const removeTodo = async (todo) => {
         if(todo === null)
             return false
         return axios.post(
@@ -191,7 +192,7 @@ export default function Todos(){
     }
 
     //partial components
-    const generalTodosBuilder = todos === null ? nothingToShow : todos.filter(todo => todo.label_id === 1).map((todo) => {
+    const generalTodosBuilder = todos === null ? nothingToShow : todos.filter(todo => todo.label_id === 1 && todo.marked == 0).map((todo) => {
         const todoDate = getFullDateFromDateString(todo.created_at)
         return(
             <div className="col-lg-4 p-3" key={todo.id}>
@@ -207,7 +208,7 @@ export default function Todos(){
                     </OverlayTrigger>
                     <OverlayTrigger overlay={<Tooltip>Remove</Tooltip>}>
                         <div className="btn btn-lg p-0 todo-icon trash-icon">
-                            <BsFillTrashFill onClick={() => removeTodo(todo, 1)}/>
+                            <BsFillTrashFill onClick={() => removeTodo(todo)}/>
                         </div>
                     </OverlayTrigger>
                     <OverlayTrigger overlay={<Tooltip>Copy</Tooltip>}>
@@ -241,7 +242,7 @@ export default function Todos(){
         )
     })
 
-    const importantTodosBuilder = todos === null ? nothingToShow : todos.filter(todo => todo.label_id === 2).map((todo) => {
+    const importantTodosBuilder = todos === null ? nothingToShow : todos.filter(todo => todo.label_id === 2 && todo.marked == 0).map((todo) => {
         const todoDate = getFullDateFromDateString(todo.created_at)
         return(
             <div className="col-lg-4 p-3" key={todo.id}>
@@ -257,7 +258,7 @@ export default function Todos(){
                     </OverlayTrigger>
                     <OverlayTrigger overlay={<Tooltip>Remove</Tooltip>}>
                         <div className="btn btn-lg p-0 todo-icon trash-icon">
-                            <BsFillTrashFill onClick={() => removeTodo(todo, 2)}/>
+                            <BsFillTrashFill onClick={() => removeTodo(todo)}/>
                         </div>
                     </OverlayTrigger>
                     <OverlayTrigger overlay={<Tooltip>Copy</Tooltip>}>
@@ -291,7 +292,7 @@ export default function Todos(){
         )
     })
 
-    const todoTodosBuilder = todos === null ? nothingToShow : todos.filter(todo => todo.label_id === 3).map((todo) => {
+    const todoTodosBuilder = todos === null ? nothingToShow : todos.filter(todo => todo.label_id === 3 && todo.marked == 0).map((todo) => {
         const todoDate = getFullDateFromDateString(todo.created_at)
         return(
             <div className="col-lg-4 p-3" key={todo.id}>
@@ -307,7 +308,7 @@ export default function Todos(){
                     </OverlayTrigger>
                     <OverlayTrigger overlay={<Tooltip>Remove</Tooltip>}>
                         <div className="btn btn-lg p-0 todo-icon trash-icon">
-                            <BsFillTrashFill onClick={() => removeTodo(todo, 3)}/>
+                            <BsFillTrashFill onClick={() => removeTodo(todo)}/>
                         </div>
                     </OverlayTrigger>
                     <OverlayTrigger overlay={<Tooltip>Copy</Tooltip>}>
@@ -358,7 +359,7 @@ export default function Todos(){
                     </OverlayTrigger>
                     <OverlayTrigger overlay={<Tooltip>Remove</Tooltip>}>
                         <div className="btn btn-lg todo-icon p-0 marked trash-icon">
-                            <BsFillTrashFill onClick={() => removeTodo(todo, 0)}/>
+                            <BsFillTrashFill onClick={() => removeTodo(todo)}/>
                         </div>
                     </OverlayTrigger>
                     <OverlayTrigger overlay={<Tooltip>Copy</Tooltip>}>
@@ -399,45 +400,13 @@ export default function Todos(){
             </div>
         </Link>
 
-    const [todosLabelBuilder, setTodosLabelBuilder] = useState()
     if( !initialized && !pending ){
-        setTodosLabelBuilder(
-            <>
-                {
-                    generalTodosBuilder
-                }
-            </>
-        )
         setInitialized(true)
     }
 
-    const showGeneralTodos = () => {
-        setTodosLabelBuilder(
-            <>
-                {
-                    generalTodosBuilder
-                }
-            </>
-        )
-    }
-
-    const showImportantTodos = () => {
-        setTodosLabelBuilder(
-            <>
-                {
-                    importantTodosBuilder
-                }
-            </>
-        )
-    }
-
-    const showTodoTodos = () => {
-        setTodosLabelBuilder(
-            <>
-                {
-                    todoTodosBuilder
-                }
-            </>
+    const changeTodoLabel = (e) => {
+        setLabelId(
+            parseInt(e.target.value)
         )
     }
 
@@ -457,7 +426,7 @@ export default function Todos(){
                     <div className="bg-object bg-object2"></div>
                     <div className="bg-object bg-object3"></div>
                     <div className="row col-lg-12">
-                        <div className="todo-counter text-center">
+                        <div className="todo-counter text-center my-auto">
                         {
                             todos.length
                         }
@@ -465,39 +434,33 @@ export default function Todos(){
                         <Link  to="/logout" autoComplete="nope" className="btn btn-lg custom-btn btn-outline-dark-orange exit-btn my-auto ml-4">
                             Log Out
                         </Link>
+                        <div className="text-dark-orange display-1 ml-5  text-center">
+                            <span className="text-white">
+                                Daily
+                            </span>
+                            <span className="px-5 my-auto text-white">
+                                •
+                            </span>
+                            <span>
+                                Todos
+                            </span>
+                        </div>
                     </div>
-                    <p className="text-dark-orange display-1 col-lg-12 text-center pt-2">
-                        <span className="text-white">
-                            Daily
-                        </span>
-                        <span className="px-5 align-middle text-white">
-                            •
-                        </span>
-                        <span>
-                            Todos
-                        </span>
-                    </p>
-                    <p className="col-lg-12 display-4">
-                        <span className="display-1 align-middle">•</span>Marked
-                    </p>
-                    {
-                        todos.filter(todo => todo.marked === 1).length === 0 ? nothingToShow : markedTodosBuilder
-                    }
                     <p className="col-lg-12 display-4 mt-3">
-                        <span className="display-1 align-middle">•</span>Other
+                        <span className="display-1 align-middle">•</span>All
                     </p>
-                    <div className="col-lg-12 mb-5">
-                        <Nav justify variant="tabs" defaultActiveKey="general-todos">
-                            <Nav.Item>
-                                <Nav.Link eventKey="general-todos" onSelect={showGeneralTodos}  className="text-dark-orange">General</Nav.Link>
-                            </Nav.Item>
-                            <Nav.Item>
-                                <Nav.Link eventKey="important-todos" onSelect={showImportantTodos} className="text-dark-orange">Important</Nav.Link>
-                            </Nav.Item>
-                            <Nav.Item>
-                                <Nav.Link eventKey="todo-todos" onClick={showTodoTodos} className="text-dark-orange">To Do</Nav.Link>
-                            </Nav.Item>
-                        </Nav>
+                    <div className="col-lg-12 mb-3">
+                        <select name="todo-label" onChange={changeTodoLabel} className="btn btn-outline-dark-orange-no-over col-lg-12 p-2 h5">
+                            <option value="1">
+                                General
+                            </option>
+                            <option value="2">
+                                Important
+                            </option>
+                            <option value="3" defaultChecked>
+                                To Do
+                            </option>
+                        </select>
                     </div>
                     <Link to="/create" className="col-lg-4 p-3">
                         <div className="w-100 marked add-todo-card todo-card py-4">
@@ -509,7 +472,23 @@ export default function Todos(){
                         ?
                         <Spinner animation="border" className="text-dark-orange p-4 custom-spinner" role="status"></Spinner>
                         :
-                        todosLabelBuilder
+                        <>
+                        {
+                            labelId == 1
+                            ?
+                            generalTodosBuilder
+                            :
+                                labelId == 2
+                                ?
+                                importantTodosBuilder
+                                :
+                                    labelId == 3
+                                    ?
+                                    todoTodosBuilder
+                                    :
+                                    <></>
+                        }
+                        </>
                     }
                     {
                         copied
@@ -538,6 +517,12 @@ export default function Todos(){
                         <div class="alert alert-info notification position-fixed border-0">
                             Unmarked ToDo
                         </div>
+                    }
+                    <p className="col-lg-12 display-4">
+                        <span className="display-1 align-middle">•</span>Marked
+                    </p>
+                    {
+                        todos.filter(todo => todo.marked === 1).length === 0 ? nothingToShow : markedTodosBuilder
                     }
                 </div>
             </div>

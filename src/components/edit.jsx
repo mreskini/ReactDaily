@@ -217,7 +217,7 @@ export default function Edit(){
                             ?
                             <input type="submit" disabled value="Add" className="btn disabled btn-secondary px-5 mt-5 btn-lg"/>
                             :
-                            <input type="submit" value="Edit" className="btn btn-outline-dark-orange px-5 mt-5 btn-lg"/>
+                            <input type="submit" value="Edit" className="btn btn-dark-orange px-5 mt-5 btn-lg"/>
                         }
                    </form>
                     {

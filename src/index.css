@@ -86,6 +86,7 @@
   transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
   color: var(--theme-text-color) !important;
   transition: 400ms;
+  background-color: var(--dark-bg);
 }
 .add-todo-card{
   font-size: 30px;

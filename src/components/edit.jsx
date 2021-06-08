@@ -10,7 +10,8 @@ import {
 } from "react-router-dom";
 import { AiOutlinePaperClip } from "react-icons/ai";
 import axios from "axios";
-import { ProgressBar } from "react-bootstrap";
+import { ProgressBar, Spinner } from "react-bootstrap";
+import { data } from "jquery";
 
 export default function Edit(){
 
@@ -23,7 +24,8 @@ export default function Edit(){
     const [uploaded, setUploaded] = useState(false)
     const [pending, setPending] = useState(false)
     const [removed, setRemoved] = useState(false)
-
+    const [labelId, setLabelId] = useState(0)
+    const [loading, setLoading] = useState(true)
 
     //properties - from data
     const [todoValue, setTodoValue] = useState("")
@@ -60,6 +62,8 @@ export default function Edit(){
                     {
                         setTodoValue(response?.data?.task)
                         setUploadedFileUrl(response?.data?.file_url)
+                        setLabelId(response?.data?.label_id)
+                        setLoading(false)
                         if(response?.data?.file_url?.length > 0){
                             setPending(false)
                             setFileUploadProgress(100)
@@ -81,6 +85,7 @@ export default function Edit(){
                     task: todoValue,
                     fileUrl: uploadedFileUrl,
                     id,
+                    labelId,
                 },
                 { headers:
                     {
@@ -159,10 +164,19 @@ export default function Edit(){
         })
         .catch((e) => {})
     }
+    const changeTodoLabel = (e) => {
+        setLabelId(
+            parseInt(e.target.value)
+        )
+    }
     //hooks
     useEffect( () => getData() , [])
 
     return(
+        loading
+        ?
+        <Spinner animation="border" className="text-dark-orange p-4 custom-spinner" role="status"></Spinner>
+        :
         <div className="text-white">
             <div className="container-fluid">
                 <div className="row">
@@ -180,7 +194,7 @@ export default function Edit(){
                             Todo
                         </span>
                     </p>
-                   <form className="col-lg-6 mx-auto mt-4 p-0 text-center"  onSubmit={handleSubmit}>
+                <form className="col-lg-6 mx-auto mt-4 p-0 text-center"  onSubmit={handleSubmit}>
                         {
                             error?.length > 0 &&  <p className="col-lg-12 text-left text-danger text-error"> { error } </p>
                         }
@@ -211,6 +225,19 @@ export default function Edit(){
                             <ProgressBar variant="" label={uploaded ? "100%" : ""} striped now={fileUploadProgress} max={100} className="bg-light-darkish mt-4" />
                         </div>
                         <input type="file" onChange={handleAttachFileChange} className="d-none" id="add-a-file"/>
+                        <div className="col-lg-12 mt-4 text-left">
+                            <select name="todo-label" value={labelId} onChange={changeTodoLabel} className="btn btn-outline-dark-orange-no-over p-2 col-lg-4 h5">
+                                <option value="1">
+                                    General
+                                </option>
+                                <option value="2">
+                                    Important
+                                </option>
+                                <option value="3">
+                                    To Do
+                                </option>
+                            </select>
+                        </div>
                         <Link to="/todos" className="btn btn-outline-light px-5 mt-5 btn-lg mr-3">Cancel</Link>
                         {
                             pending
@@ -219,7 +246,7 @@ export default function Edit(){
                             :
                             <input type="submit" value="Edit" className="btn btn-dark-orange px-5 mt-5 btn-lg"/>
                         }
-                   </form>
+                </form>
                     {
                         removed
                         &&

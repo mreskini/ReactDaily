@@ -426,7 +426,7 @@ export default function Todos(){
                     <div className="bg-object bg-object2"></div>
                     <div className="bg-object bg-object3"></div>
                     <div className="row col-lg-12">
-                        <div className="todo-counter text-center my-auto">
+                        <div className="todo-counter bg-darkish text-center my-auto">
                         {
                             todos.length
                         }

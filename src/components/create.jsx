@@ -160,10 +160,7 @@ export default function Create(){
                         <input type="file" onChange={handleAttachFileChange} className="d-none" id="add-a-file"/>
                         <div className="col-lg-12 mt-4 text-left">
                             <select name="todo-label" onChange={changeTodoLabel} className="btn btn-outline-dark-orange-no-over p-2 col-lg-4 h5">
-                                <option value="1" defaultChecked >
-                                    Label
-                                </option>
-                                <option value="1">
+                                <option value="1" defaultChecked>
                                     General
                                 </option>
                                 <option value="2">

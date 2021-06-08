@@ -23,7 +23,7 @@ function App() {
         <Route path="/login" component={Login} />
         <Route path="/logout" component={Logout} />
         <ProtectedRoute path="/todos" component={Todos} />
-        <ProtectedRoute path="/create" component={Create} />
+        <ProtectedRoute path="/create/:label_id" component={Create} />
         <ProtectedRoute path="/edit/:todo_id" component={Edit} />
         <Route path="/" component={PageNotFound} />
       </Switch>

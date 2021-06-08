@@ -31,7 +31,7 @@ export default function Todos(){
     const [marked, setMarked] = useState(false)
     const [unmarked, setUnmarked] = useState(false)
     const [removed, setRemoved] = useState(false)
-    const [labelId, setLabelId] = useState(1)
+    const [labelId, setLabelId] = useState(3)
 
     //methods
     const neutralAlert = () => {
@@ -394,7 +394,14 @@ export default function Todos(){
     })
 
     const nothingToShow =
-        <Link to="/create" className="col-lg-4 p-3">
+        <Link to={`/create/${labelId}`} className="col-lg-4 p-3">
+            <div className="w-100 marked add-todo-card todo-card py-4">
+                <BsPlus className="align-middle mx-auto my-auto" />
+            </div>
+        </Link>
+
+    const addNewTodoLink =
+        <Link to={`/create/${labelId}`} className="col-lg-4 p-3">
             <div className="w-100 marked add-todo-card todo-card py-4">
                 <BsPlus className="align-middle mx-auto my-auto" />
             </div>
@@ -450,7 +457,7 @@ export default function Todos(){
                         <span className="display-1 align-middle">•</span>All
                     </p>
                     <div className="col-lg-12 mb-3">
-                        <select name="todo-label" onChange={changeTodoLabel} className="btn btn-outline-dark-orange-no-over col-lg-12 p-2 h5">
+                        <select name="todo-label" value={labelId} onChange={changeTodoLabel} className="btn btn-outline-dark-orange-no-over col-lg-12 p-2 h5">
                             <option value="1">
                                 General
                             </option>
@@ -462,11 +469,9 @@ export default function Todos(){
                             </option>
                         </select>
                     </div>
-                    <Link to="/create" className="col-lg-4 p-3">
-                        <div className="w-100 marked add-todo-card todo-card py-4">
-                            <BsPlus className="align-middle mx-auto my-auto" />
-                        </div>
-                    </Link>
+                    {
+                        addNewTodoLink
+                    }
                     {
                         todosChangePending
                         ?

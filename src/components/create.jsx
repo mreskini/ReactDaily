@@ -5,7 +5,8 @@ import {
 } from "react";
 import {
     Link,
-    useHistory
+    useHistory,
+    useParams
 } from "react-router-dom";
 import { AiOutlinePaperClip } from "react-icons/ai";
 import axios from "axios";
@@ -20,7 +21,9 @@ export default function Create(){
     const [fileUploadProgress, setFileUploadProgress] = useState(0.0)
     const [uploaded, setUploaded] = useState(false)
     const [pending, setPending] = useState(false)
-    const [labelId, setLabelId] = useState(1)
+    const {label_id: labelIdFromRoute} = useParams()
+    console.log(labelIdFromRoute)
+    const [labelId, setLabelId] = useState(labelIdFromRoute)
     //properties - from data
     const [todoValue, setTodoValue] = useState("")
     const [uploadedFileUrl, setUploadedFileUrl] = useState("")
@@ -39,7 +42,9 @@ export default function Create(){
             }
         )
         .then( response =>
-            response.status === 200 ? setUser(response.data) : history.push("/login")
+            {
+                response.status === 200 ? setUser(response.data) : history.push("/login")
+            }
         )
     }
 
@@ -159,7 +164,7 @@ export default function Create(){
                         </div>
                         <input type="file" onChange={handleAttachFileChange} className="d-none" id="add-a-file"/>
                         <div className="col-lg-12 mt-4 text-left">
-                            <select name="todo-label" onChange={changeTodoLabel} className="btn btn-outline-dark-orange-no-over p-2 col-lg-4 h5">
+                            <select name="todo-label" value={labelId} onChange={changeTodoLabel} className="btn btn-outline-dark-orange-no-over p-2 col-lg-4 h5">
                                 <option value="1" defaultChecked>
                                     General
                                 </option>

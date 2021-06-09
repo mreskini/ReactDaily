@@ -2,15 +2,15 @@
 import {
     useState,
     useEffect
-} from "react";
+} from "react"
 import {
     Link,
     useHistory,
     useParams
-} from "react-router-dom";
-import { AiOutlinePaperClip } from "react-icons/ai";
-import axios from "axios";
-import { ProgressBar } from "react-bootstrap";
+} from "react-router-dom"
+import { AiOutlinePaperClip } from "react-icons/ai"
+import axios from "axios"
+import { ProgressBar } from "react-bootstrap"
 
 export default function Create(){
 
@@ -172,5 +172,5 @@ export default function Create(){
                 </div>
             </div>
         </div>
-    );
+    )
 }

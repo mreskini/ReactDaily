@@ -1,5 +1,5 @@
 //requirements
-import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom"
 
 export default function Logout(){
 
@@ -11,5 +11,5 @@ export default function Logout(){
 
     return(
         <></>
-    );
+    )
 }

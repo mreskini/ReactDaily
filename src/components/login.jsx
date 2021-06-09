@@ -1,7 +1,7 @@
 //requirements
-import { useState } from "react";
-import { useHistory } from "react-router-dom";
-import axios  from "axios";
+import { useState } from "react"
+import { useHistory } from "react-router-dom"
+import axios  from "axios"
 
 export default function Login(){
 
@@ -17,7 +17,7 @@ export default function Login(){
     const handlePasswordChange = (e) => setPassword(e.target.value)
 
     const handleSubmit = (e) => {
-        e.preventDefault();
+        e.preventDefault()
         if( username.length === 0 || password.length === 0 )
             return setError("Username Or Password Cannot Be Empty!")
         return axios.post(
@@ -34,7 +34,7 @@ export default function Login(){
             if(response.status === 200)
             {
                 if (typeof(Storage) !== "undefined") //checks if the browser supports localstorages
-                    localStorage.setItem("user_token", response.data.user_token);
+                    localStorage.setItem("user_token", response.data.user_token)
                 return history.push("/todos")
             }
             else
@@ -79,5 +79,5 @@ export default function Login(){
                 </div>
             </div>
         </div>
-    );
+    )
 }

@@ -2,15 +2,15 @@
 import {
     useState,
     useEffect
-} from "react";
+} from "react"
 import {
     Link,
     useHistory,
     useParams
-} from "react-router-dom";
-import { AiOutlinePaperClip } from "react-icons/ai";
-import axios from "axios";
-import { ProgressBar, Spinner } from "react-bootstrap";
+} from "react-router-dom"
+import { AiOutlinePaperClip } from "react-icons/ai"
+import axios from "axios"
+import { ProgressBar, Spinner } from "react-bootstrap"
 
 export default function Edit(){
 
@@ -117,7 +117,7 @@ export default function Edit(){
 
     const handleAttachFileChange = async (e) => {
         setPending(true)
-        const file = e.target.files[0];
+        const file = e.target.files[0]
         const fd = new FormData()
         setFileUploadProgress(0.0)
         fd.append("file", file)
@@ -229,5 +229,5 @@ export default function Edit(){
                 </div>
             </div>
         </div>
-    );
+    )
 }

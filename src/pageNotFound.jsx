@@ -20,5 +20,5 @@ export default function PageNotFound(){
                 </div>
             </div>
         </div>
-    );
+    )
 }

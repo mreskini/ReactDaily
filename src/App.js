@@ -28,7 +28,7 @@ function App() {
         <Route path="/" component={PageNotFound} />
       </Switch>
     </HashRouter>
-  );
+  )
 }
 
-export default App;
+export default App

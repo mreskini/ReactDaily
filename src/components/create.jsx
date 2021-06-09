@@ -20,10 +20,10 @@ export default function Create(){
     const [error, setError] = useState("")
     const [fileUploadProgress, setFileUploadProgress] = useState(0.0)
     const [uploaded, setUploaded] = useState(false)
-    const [pending, setPending] = useState(false)
+    const [uploadFilePending, setuploadFilePending] = useState(false)
     const {label_id: labelIdFromRoute} = useParams()
-    console.log(labelIdFromRoute)
     const [labelId, setLabelId] = useState(labelIdFromRoute)
+
     //properties - from data
     const [todoValue, setTodoValue] = useState("")
     const [uploadedFileUrl, setUploadedFileUrl] = useState("")
@@ -31,91 +31,75 @@ export default function Create(){
     //methods
     const getUserByToken = async () => {
         let userToken = localStorage.getItem("user_token")
-        return axios.post(
-            `${process.env.REACT_APP_SERVER_HOST}/auth/getUserByToken`,
-            {userToken,},
-            { headers:
-                {
-                    "api-key": process.env.REACT_APP_API_KEY,
-                    "Content-Type": "application/json"
-                }
-            }
-        )
-        .then( response =>
-            {
-                response.status === 200 ? setUser(response.data) : history.push("/login")
-            }
-        )
+        const reqRoute = `${process.env.REACT_APP_SERVER_HOST}/auth/getUserByToken`
+        const reqBody = {userToken,}
+        const reqHeader = createReqHeader()
+        return axios.post(reqRoute, reqBody, reqHeader)
+            .then( response => response.status === 200 ? setUser(response.data) : history.push("/login"))
+            .catch( error => setError("User Not Found") )
     }
+
+    const createReqHeader = () => {
+        return {
+            headers:
+            {
+                "api-key": process.env.REACT_APP_API_KEY,
+                "Content-Type": "application/json"
+            }
+        }
+    }
+
+    const navigateToTodosRoute = () => history.push("/todos")
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        if(todoValue.length > 0)
-            return axios.post(
-                `${process.env.REACT_APP_SERVER_HOST}/todos/add`,
-                {
-                    task: todoValue,
-                    fileUrl: uploadedFileUrl,
-                    labelId,
-                    id: user.id,
-                },
-                { headers:
-                    {
-                        "api-key": process.env.REACT_APP_API_KEY,
-                        "Content-Type": "application/json"
-                    }
-                }
-            )
-            .then( response => {
-                if(response.status === 200)
-                    return history.push("/todos")
-            })
-            .catch( e => setError("Something Went Wrong!"))
+        const reqBody = {
+            task: todoValue,
+            fileUrl: uploadedFileUrl,
+            labelId,
+            id: user.id,
+        }
+        const reqHeader = createReqHeader()
+        const reqRoute = `${process.env.REACT_APP_SERVER_HOST}/todos/add`
+        if( todoValue.length )
+            return axios.post( reqRoute, reqBody, reqHeader )
+                .then( response => response.status === 200 && navigateToTodosRoute() )
+                .catch( error => setError("Something Went Wrong!") )
         return setError("Task Cannot Be Empty!")
     }
+
     const onTodoInputChange = (e) => setTodoValue(e.target.value)
 
     const handleAttachFileChange = async (e) => {
-        setPending(true)
-
-        //form file data
-        const file = e.target.files[0];
+        setuploadFilePending(true)
+        const file = e.target.files[0]
         const fd = new FormData()
-
         setFileUploadProgress(0.0)
-
-        //note: attach the file always at last.s
         fd.append("file", file)
 
-        //uploading the file to the server
-        return axios.post(
-            `${process.env.REACT_APP_SERVER_HOST}/todos/uploadFile`,
-            fd,
-            {
-                headers:
-                {
-                    "api-key": process.env.REACT_APP_API_KEY,
-                    "Content-Type": "application/json"
-                },
-                onUploadProgress: ProgressEvent =>
-                    setFileUploadProgress(Math.floor(ProgressEvent.loaded / ProgressEvent.total * 100))
-            }
-        )
-        .then( response => {
-            if(response.status === 200)
-            {
-                setUploadedFileUrl(response.data.fileDestinationUrl)
-                setUploaded(true)
-                setPending(false)
-            }
-        })
-        .catch((e) => {})
+        const reqRoute = `${process.env.REACT_APP_SERVER_HOST}/todos/uploadFile`
+        const reqHeader = createReqHeader()
+        reqHeader.onUploadProgress = ProgressEvent =>
+            setFileUploadProgress(
+                Math.floor(ProgressEvent.loaded / ProgressEvent.total * 100)
+            )
+
+        return axios.post(reqRoute, fd, reqHeader)
+            .then(
+                response => {
+                    if(response.status === 200)
+                    {
+                        setUploadedFileUrl(response.data.fileDestinationUrl)
+                        setUploaded(true)
+                        return setuploadFilePending(false)
+                    }
+                }
+            )
+            .catch( ( error ) => setError("Problem Uploading the File") )
     }
-    const changeTodoLabel = (e) => {
-        setLabelId(
-            parseInt(e.target.value)
-        )
-    }
+
+    const changeTodoLabel = (e) => setLabelId( parseInt(e.target.value) )
+
     //hooks
     useEffect( () => getUserByToken() , [])
 
@@ -178,7 +162,7 @@ export default function Create(){
                         </div>
                         <Link to="/todos" className="btn btn-outline-light px-5 mt-5 btn-lg mr-3">Cancel</Link>
                         {
-                            pending
+                            uploadFilePending
                             ?
                             <input type="submit" disabled value="Add" className="btn disabled bg-darkish btn-secondary px-5 mt-5 btn-lg"/>
                             :

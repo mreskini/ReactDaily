@@ -292,7 +292,7 @@ export default function Todos(){
                         </div>
                     </div>
 
-                    <p className="col-lg-12 display-4 mt-3">
+                    <p className="col-lg-12 display-4 mt-3 p-0 m-0">
                         <span className="display-1 align-middle">•</span>All
                     </p>
 
@@ -329,7 +329,7 @@ export default function Todos(){
                             { notifications.remove && "Removed ToDo" }
                         </div>
                     }
-                    <p className="col-lg-12 display-4">
+                    <p className="col-lg-12 display-4 m-0 p-0">
                         <span className="display-1 align-middle">•</span>Marked
                     </p>
                     {

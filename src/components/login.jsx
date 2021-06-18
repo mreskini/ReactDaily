@@ -70,7 +70,7 @@ export default function Login(){
                     </p>
                    <form className="col-lg-5 mx-auto mt-4 p-0" onSubmit={handleSubmit}>
                         {
-                            error?.length > 0 && <p className="col-lg-12 pl-2 text-danger text-left mx-auto error-text mt-3 font-weight-normal">{ error }</p>
+                            error?.length > 0 && <p className="col-lg-12 pl-2 text-danger text-left mx-auto error-text mt-3 font-weight-light">{ error }</p>
                         }
                         <input type="text" onChange={handleUsernameChange} autoFocus placeholder="Username" className="login-form-input" /> <br/>
                         <div className="position-relative">

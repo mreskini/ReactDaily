@@ -18,6 +18,7 @@ import {
     Spinner,
     Tooltip
 } from "react-bootstrap"
+import { Button, Modal } from "react-bootstrap"
 
 export default function Todos(){
 
@@ -27,6 +28,8 @@ export default function Todos(){
     const [todosChangePending, setTodosChangePending] = useState(false)
     const [initialized, setInitialized] = useState(false)
     const [todos, setTodos] = useState([])
+    const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] = useState(false)
+    const [tobeDeletedTodo, setTobeDeletedTodo] = useState({})
     const [notifications, setNotifications] = useState(
         {
             copy: false,
@@ -44,7 +47,10 @@ export default function Todos(){
         )
         setTodosChangePending(false)
     }
-
+    const changeTobeDeletedTodo = (todo) => {
+        setShowDeleteConfirmationModal(true)
+        setTobeDeletedTodo(todo)
+    }
     const setCopiedAlert = () => setNotifications( { copy: true, mark: false, unmark: false, remove: false } )
 
     const setMarkedAlert = () => setNotifications( { copy: false, mark: true, unmark: false, remove: false } )
@@ -92,12 +98,13 @@ export default function Todos(){
 
     const navigateToLoginRoute = () => history.push("/login")
 
-    const removeTodo = async (todo) => {
-        if(todo === null)
+    const removeTodo = async () => {
+        if(tobeDeletedTodo === null)
             return false
-
+        console.log(tobeDeletedTodo)
+        setShowDeleteConfirmationModal(false)
         const reqRoute = `${process.env.REACT_APP_SERVER_HOST}/todos/delete`
-        const reqBody = {id : todo.id}
+        const reqBody = {id : tobeDeletedTodo.id}
         const reqHeader = createReqHeader()
 
         return axios.post( reqRoute, reqBody, reqHeader, )
@@ -165,36 +172,38 @@ export default function Todos(){
         const todosBuilder = todos === null ? <></> : todos.filter(todo => todo.label_id === labelId && todo.marked == 0).map((todo) => {
             const todoDate = getFullDateFromDateString(todo.created_at)
             return(
-                <div className="col-lg-4 p-3" key={todo.id}>
-                    <div className="w-100 todo-card py-4">
-                        <br/>
-                        { todo.task }
-                        <OverlayTrigger overlay={<Tooltip>Mark</Tooltip>}>
-                            <div className="btn btn-lg p-0 todo-icon mark-icon"> <BsBookmark onClick={() => markTodo(todo.id)}/> </div>
-                        </OverlayTrigger>
-                        <OverlayTrigger overlay={<Tooltip>Remove</Tooltip>}>
-                            <div className="btn btn-lg p-0 todo-icon trash-icon"> <BsFillTrashFill onClick={() => removeTodo(todo)}/> </div>
-                        </OverlayTrigger>
-                        <OverlayTrigger overlay={<Tooltip>Copy</Tooltip>}>
-                            <div className="btn btn-lg p-0 todo-icon copy-icon" onClick={() => copyTodo(todo)}> <BsFiles /> </div>
-                        </OverlayTrigger>
-                        <OverlayTrigger overlay={<Tooltip>Edit</Tooltip>}>
-                            <Link to={`/edit/${todo.id}`} className="btn btn-lg p-0 todo-icon edit-icon"> <BsPencil /> </Link>
-                        </OverlayTrigger>
-                        {
-                            todo?.file_url?.length !== 0
-                            ?
-                                <OverlayTrigger overlay={<Tooltip>File</Tooltip>}>
-                                    <a href={todo.file_url} rel="noreferrer" target="_blank" className="btn btn-lg p-0 todo-icon attach-icon">
-                                        <BsPaperclip />
-                                    </a>
-                                </OverlayTrigger>
-                            :
-                            <></>
-                        }
-                        <div className="creation-date mx-auto"> { todoDate } </div>
+                <>
+                    <div className="col-lg-4 p-3" key={todo.id}>
+                        <div className="w-100 todo-card py-4">
+                            <br/>
+                            { todo.task }
+                            <OverlayTrigger overlay={<Tooltip>Mark</Tooltip>}>
+                                <div className="btn btn-lg p-0 todo-icon mark-icon"> <BsBookmark onClick={() => markTodo(todo.id)}/> </div>
+                            </OverlayTrigger>
+                            <OverlayTrigger overlay={<Tooltip>Remove</Tooltip>}>
+                                <div className="btn btn-lg p-0 todo-icon trash-icon"> <BsFillTrashFill onClick={ () => changeTobeDeletedTodo(todo) }/> </div>
+                            </OverlayTrigger>
+                            <OverlayTrigger overlay={<Tooltip>Copy</Tooltip>}>
+                                <div className="btn btn-lg p-0 todo-icon copy-icon" onClick={() => copyTodo(todo)}> <BsFiles /> </div>
+                            </OverlayTrigger>
+                            <OverlayTrigger overlay={<Tooltip>Edit</Tooltip>}>
+                                <Link to={`/edit/${todo.id}`} className="btn btn-lg p-0 todo-icon edit-icon"> <BsPencil /> </Link>
+                            </OverlayTrigger>
+                            {
+                                todo?.file_url?.length !== 0
+                                ?
+                                    <OverlayTrigger overlay={<Tooltip>File</Tooltip>}>
+                                        <a href={todo.file_url} rel="noreferrer" target="_blank" className="btn btn-lg p-0 todo-icon attach-icon">
+                                            <BsPaperclip />
+                                        </a>
+                                    </OverlayTrigger>
+                                :
+                                <></>
+                            }
+                            <div className="creation-date mx-auto"> { todoDate } </div>
+                        </div>
                     </div>
-                </div>
+                </>
             )
         })
         return todosBuilder
@@ -217,7 +226,7 @@ export default function Todos(){
                     </OverlayTrigger>
                     <OverlayTrigger overlay={<Tooltip>Remove</Tooltip>}>
                         <div className="btn btn-lg todo-icon p-0 marked trash-icon">
-                            <BsFillTrashFill onClick={() => removeTodo(todo)}/>
+                            <BsFillTrashFill onClick={() => changeTobeDeletedTodo(todo)} />
                         </div>
                     </OverlayTrigger>
                     <OverlayTrigger overlay={<Tooltip>Copy</Tooltip>}>
@@ -332,9 +341,30 @@ export default function Todos(){
                     <p className="col-lg-12 display-4 m-0 p-0">
                         <span className="display-1 align-middle">•</span>Marked
                     </p>
+
                     {
                         todos.filter(todo => todo.marked === 1).length === 0 ? addNewTodoLink : markedTodosBuilder
                     }
+
+                    <Modal className="delete-todo-modal mt-5 py-5" show={showDeleteConfirmationModal} onHide={() => setShowDeleteConfirmationModal(false)}>
+
+                        <Modal.Header className="delete-todo-modal-header">
+                            <Modal.Title className="h4 font-weight-light">Delete Todo Confirmation</Modal.Title>
+                        </Modal.Header>
+
+                        <Modal.Body className="delete-todo-modal-body font-weight-light">Do You Want To Delete This Todo?</Modal.Body>
+
+                        <Modal.Footer className="delete-todo-modal-footer">
+                            <button className="btn btn-outline-light" onClick={() => setShowDeleteConfirmationModal(false)}>
+                                Cancel
+                            </button>
+                            <button className="btn btn-dark-orange" onClick={removeTodo}>
+                                Yes
+                            </button>
+                        </Modal.Footer>
+
+                    </Modal>
+
                 </div>
             </div>
         </div>

@@ -298,3 +298,32 @@
   letter-spacing: 10px;
 }
 
+.delete-todo-modal{
+  color: lightgrey;
+  border-radius: 0px !important;
+}
+
+.delete-todo-modal-header{
+  background-color: var(--dark-bg);
+  font-weight: 500 !important;
+  border-radius: 0px !important;
+  border-color: var(--light-dark-bg) !important;
+  border-width: 2px !important;
+}
+
+.delete-todo-modal-body{
+  background-color: var(--dark-bg);
+  font-weight: 500 !important;
+  border-radius: 0px !important;
+  border-color: var(--light-dark-bg) !important;
+  border-width: 2px !important;
+}
+
+.delete-todo-modal-footer{
+  background-color: var(--dark-bg);
+  font-weight: 500 !important;
+  border-radius: 0px !important;
+  border-color: var(--light-dark-bg) !important;
+  border-width: 2px !important;
+}
+

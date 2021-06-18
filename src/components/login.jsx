@@ -2,6 +2,7 @@
 import { useState } from "react"
 import { useHistory } from "react-router-dom"
 import axios  from "axios"
+import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 
 export default function Login(){
 
@@ -10,6 +11,7 @@ export default function Login(){
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState("")
+    const [showPassword, setShowPassword] = useState(false)
 
     //methods
     const handleUsernameChange = (e) => setUsername(e.target.value)
@@ -70,8 +72,23 @@ export default function Login(){
                         {
                             error?.length > 0 && <p className="col-lg-12 pl-2 text-danger text-left mx-auto error-text mt-3 font-weight-normal">{ error }</p>
                         }
-                        <input type="text" onChange={handleUsernameChange} placeholder="Username" className="login-form-input" /> <br/>
-                        <input type="password" onChange={handlePasswordChange} placeholder="Password" className="login-form-input" />
+                        <input type="text" onChange={handleUsernameChange} autoFocus placeholder="Username" className="login-form-input" /> <br/>
+                        <div className="position-relative">
+                            {
+                                showPassword
+                                ?
+                                <>
+                                    <input type="text" onChange={handlePasswordChange} placeholder="Password" className="login-form-input" />
+                                    <BsFillEyeSlashFill onClick={() => setShowPassword(false)} className="show-password-toggler"/>
+                                </>
+                                :
+                                <>
+                                    <input type="password" onChange={handlePasswordChange} placeholder="Password" className="login-form-input" />
+                                    <BsFillEyeFill onClick={() => setShowPassword(true)} className="show-password-toggler"/>
+                                </>
+
+                            }
+                        </div>
                         <div className="col-lg-12 text-center mt-5">
                             <input type="submit" value="Sign In" className="btn btn-outline-dark-orange px-5 btn-lg" />
                         </div>

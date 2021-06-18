@@ -70,8 +70,24 @@
   background-color: transparent;
 }
 ::placeholder{
-  color: rgba(228, 222, 222, 0.5)
+  color: rgba(228, 222, 222, 0.5);
 }
+
+.show-password-toggler{
+  color: rgba(228, 222, 222, 0.5);
+  cursor: pointer;
+  position: absolute !important;
+  right: 10px;
+  top: 25%;
+  font-size: 25px;
+  padding: 4px;
+  transition: 500ms;
+}
+
+.show-password-toggler:hover{
+  color: whitesmoke;
+}
+
 .todo-card{
   display: inline-block;
   color: #212529;
@@ -281,3 +297,4 @@
   font-size: 30px;
   letter-spacing: 10px;
 }
+

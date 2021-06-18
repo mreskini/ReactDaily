@@ -178,10 +178,10 @@ export default function Todos(){
                             <br/>
                             { todo.task }
                             <OverlayTrigger overlay={<Tooltip>Mark</Tooltip>}>
-                                <div className="btn btn-lg p-0 todo-icon mark-icon"> <BsBookmark onClick={() => markTodo(todo.id)}/> </div>
+                                <div className="btn btn-lg p-0 todo-icon mark-icon" onClick={() => markTodo(todo.id)} > <BsBookmark /> </div>
                             </OverlayTrigger>
                             <OverlayTrigger overlay={<Tooltip>Remove</Tooltip>}>
-                                <div className="btn btn-lg p-0 todo-icon trash-icon"> <BsFillTrashFill onClick={ () => changeTobeDeletedTodo(todo) }/> </div>
+                                <div className="btn btn-lg p-0 todo-icon trash-icon" onClick={ () => changeTobeDeletedTodo(todo) } > <BsFillTrashFill /> </div>
                             </OverlayTrigger>
                             <OverlayTrigger overlay={<Tooltip>Copy</Tooltip>}>
                                 <div className="btn btn-lg p-0 todo-icon copy-icon" onClick={() => copyTodo(todo)}> <BsFiles /> </div>
@@ -220,13 +220,13 @@ export default function Todos(){
                         todo.task
                     }
                     <OverlayTrigger overlay={<Tooltip>Unmark</Tooltip>}>
-                        <div className="btn btn-lg todo-icon p-0 marked mark-icon">
-                            <BsBookmarkFill onClick={() => unmarkTodo(todo.id)} />
+                        <div className="btn btn-lg todo-icon p-0 marked mark-icon" onClick={() => unmarkTodo(todo.id)}>
+                            <BsBookmarkFill />
                         </div>
                     </OverlayTrigger>
                     <OverlayTrigger overlay={<Tooltip>Remove</Tooltip>}>
-                        <div className="btn btn-lg todo-icon p-0 marked trash-icon">
-                            <BsFillTrashFill onClick={() => changeTobeDeletedTodo(todo)} />
+                        <div className="btn btn-lg todo-icon p-0 marked trash-icon" onClick={() => changeTobeDeletedTodo(todo)}>
+                            <BsFillTrashFill />
                         </div>
                     </OverlayTrigger>
                     <OverlayTrigger overlay={<Tooltip>Copy</Tooltip>}>

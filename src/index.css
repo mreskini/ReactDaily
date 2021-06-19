@@ -115,22 +115,6 @@
   color: #1c1f29;
 }
 
-.todo-card:hover .mark-icon{
-  color: lightgrey !important;
-}
-
-.todo-card:hover .trash-icon{
-  color: lightgrey !important;
-}
-
-.todo-card:hover .copy-icon{
-  color: lightgrey !important;
-}
-
-.todo-card:hover .edit-icon{
-  color: lightgrey !important;
-}
-
 .add-todo-card{
   font-size: 30px;
 }
@@ -332,7 +316,7 @@
 }
 
 .delete-todo-modal-header{
-  background-color: var(--dark-bg);
+  background-color: var(--dark-bg) !important;
   font-weight: 500 !important;
   border-radius: 0px !important;
   border-color: var(--light-dark-bg) !important;

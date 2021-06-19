@@ -331,7 +331,7 @@ export default function Todos(){
                     {
                         ( notifications.copy || notifications.mark || notifications.unmark || notifications.remove )
                         &&
-                        <div className="alert alert-info notification position-fixed border-0">
+                        <div className="alert alert-info notification position-fixed border-0 buttom-to-top-animation">
                             { notifications.copy && "Copied To Clipboard" }
                             { notifications.mark && "Marked ToDo" }
                             { notifications.unmark && "Unmarked ToDo" }

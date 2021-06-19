@@ -339,3 +339,15 @@
   border-width: 2px !important;
 }
 
+.buttom-to-top-animation{
+  animation: bottom-top 500ms !important;
+}
+
+@keyframes bottom-top {
+  from{
+    bottom: -100px;
+  }
+  to{
+    bottom: 0px;
+  }
+}

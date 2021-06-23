@@ -1,5 +1,5 @@
 //requirements
-import { useState, useEffect } from "react"
+import { useState, useEffect, useReducer } from "react"
 import { Link, useHistory } from "react-router-dom"
 import {
     BsBookmarkFill,
@@ -18,7 +18,8 @@ import {
     Spinner,
     Tooltip
 } from "react-bootstrap"
-import { Button, Modal } from "react-bootstrap"
+import { Modal } from "react-bootstrap"
+import notificationReducer from "../reducers/notificationReducer"
 
 export default function Todos(){
 
@@ -30,34 +31,18 @@ export default function Todos(){
     const [todos, setTodos] = useState([])
     const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] = useState(false)
     const [tobeDeletedTodo, setTobeDeletedTodo] = useState({})
-    const [notifications, setNotifications] = useState(
-        {
-            copy: false,
-            mark: false,
-            unmark: false,
-            remove: false
-        }
-    )
+    const [notificationsState, notificationsDispatch] = useReducer(notificationReducer, { copy: false, mark: false, unmark: false, remove: false })
     const [labelId, setLabelId] = useState(3)
 
     //methods
     const neutralAlert = () => {
-        setNotifications(
-            { copy: false, mark: false, unmark: false, remove: false }
-        )
+        notificationsDispatch({type: "NEUTRAL"})
         setTodosChangePending(false)
     }
     const changeTobeDeletedTodo = (todo) => {
         setShowDeleteConfirmationModal(true)
         setTobeDeletedTodo(todo)
     }
-    const setCopiedAlert = () => setNotifications( { copy: true, mark: false, unmark: false, remove: false } )
-
-    const setMarkedAlert = () => setNotifications( { copy: false, mark: true, unmark: false, remove: false } )
-
-    const setUnmarkedAlert = () => setNotifications( { copy: false, mark: false, unmark: true, remove: false } )
-
-    const setRemovedAlert = () => setNotifications( { copy: false, mark: false, unmark: false, remove: true } )
 
     const createReqHeader = () => {
         return {
@@ -114,7 +99,7 @@ export default function Todos(){
                     setTodosChangePending(true)
                     getData()
                     setTimeout( () => neutralAlert(), process.env.REACT_APP_TODO_ACTION_ALERT_DELAY)
-                    return setRemovedAlert()
+                    return notificationsDispatch({type: "REMOVE"})
                 }
             })
             .catch( ( error ) => {})
@@ -131,7 +116,7 @@ export default function Todos(){
                 {
                     getData()
                     setTimeout( () => neutralAlert(), process.env.REACT_APP_TODO_ACTION_ALERT_DELAY)
-                    return setMarkedAlert()
+                    return notificationsDispatch({type: "MARK"})
                 }
             })
             .catch( (error) => {} )
@@ -148,7 +133,7 @@ export default function Todos(){
                 {
                     getData()
                     setTimeout( () => neutralAlert(), process.env.REACT_APP_TODO_ACTION_ALERT_DELAY)
-                    return setUnmarkedAlert()
+                    return notificationsDispatch({type: "UNMARK"})
                 }
             })
             .catch( (error) => {} )
@@ -159,7 +144,7 @@ export default function Todos(){
             return false
         navigator.clipboard.writeText(todo.task)
         setTimeout( () => neutralAlert(), process.env.REACT_APP_TODO_ACTION_ALERT_DELAY)
-        return setCopiedAlert()
+        return notificationsDispatch({type: "COPY"})
     }
 
 
@@ -280,7 +265,7 @@ export default function Todos(){
                 }
             </div>
             :
-            <div className="btn btn-outline-dark-orange my-auto mr-3 disabled" onClick={() => changeTodoLabel(labelIndex)}>
+            <div className="btn btn-outline-dark-orange my-auto mr-3" onClick={() => changeTodoLabel(labelIndex)}>
                 {
                     title
                 }
@@ -352,13 +337,13 @@ export default function Todos(){
                         </>
                     }
                     {
-                        ( notifications.copy || notifications.mark || notifications.unmark || notifications.remove )
+                        ( notificationsState.copy || notificationsState.mark || notificationsState.unmark || notificationsState.remove )
                         &&
                         <div className="alert alert-info notification position-fixed border-0 buttom-to-top-animation">
-                            { notifications.copy && "Copied To Clipboard" }
-                            { notifications.mark && "Marked ToDo" }
-                            { notifications.unmark && "Unmarked ToDo" }
-                            { notifications.remove && "Removed ToDo" }
+                            { notificationsState.copy && "Copied To Clipboard" }
+                            { notificationsState.mark && "Marked ToDo" }
+                            { notificationsState.unmark && "Unmarked ToDo" }
+                            { notificationsState.remove && "Removed ToDo" }
                         </div>
                     }
                     <p className="col-lg-12 display-4 m-0 p-0">

@@ -143,7 +143,7 @@ export default function Todos(){
     }
 
     const createTodoBuilderTemplate = (labelId) => {
-        const todosBuilder = todos === null ? <></> : todos.filter(todo => todo.label_id === labelId && todo.marked == 0).map((todo) => {
+        const todosBuilder = todos !== null && todos.filter(todo => todo.label_id === labelId && todo.marked == 0).map((todo) => {
             const todoDate = getFullDateFromDateString(todo.created_at)
             return todoTemplate(todo, todoDate, markTodo, copyTodo, changeTobeDeletedTodo)
         })
@@ -160,11 +160,8 @@ export default function Todos(){
 
     const changeTodoLabel = (index) => setLabelId( parseInt(index) )
 
-    const createTodoButtonLabel = (labelIndex, title) => {
-        return(
-            labelId == labelIndex ? LabelButtonSelected(title, changeTodoLabel, labelIndex) : LabelButtonUnselected(title, changeTodoLabel, labelIndex)
-        )
-    }
+    const createTodoButtonLabel = (labelIndex, title) =>
+        labelId == labelIndex ? LabelButtonSelected(title, changeTodoLabel, labelIndex) : LabelButtonUnselected(title, changeTodoLabel, labelIndex)
 
     //hooks
     useEffect( () => getData(), [])
@@ -265,6 +262,7 @@ export default function Todos(){
         </div>
     )
 }
+//267
 //293
 //380
 //395

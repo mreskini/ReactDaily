@@ -110,7 +110,7 @@ export default function Create(){
                     <div className="bg-object bg-object1"></div>
                     <div className="bg-object bg-object2"></div>
                     <div className="bg-object bg-object3"></div>
-                    <p className="text-dark-orange col-lg-12 display-1 text-center pt-5 mt-5">
+                    <p className="text-dark-orange col-lg-12 display-1 text-center pt-5 mt-4">
                         <span className="text-white">
                             Add
                         </span>
@@ -144,7 +144,11 @@ export default function Create(){
                             }
                         </div>
                         <div className="login-form-input border-0 p-0">
-                            <ProgressBar variant="" label={uploaded ? "100%" : ""} striped now={fileUploadProgress} max={100} className="bg-light-darkish mt-4" />
+                            {
+                                fileUploadProgress > 0
+                                &&
+                                <ProgressBar variant="" label={uploaded ? "100%" : ""} striped now={fileUploadProgress} max={100} className="bg-light-darkish mt-4" />
+                            }
                         </div>
                         <input type="file" onChange={handleAttachFileChange} className="d-none" id="add-a-file"/>
                         <div className="col-lg-12 mt-4 text-left">

@@ -269,7 +269,24 @@ export default function Todos(){
 
     !initialized && !pending && setInitialized(true)
 
-    const changeTodoLabel = (e) => setLabelId( parseInt(e.target.value) )
+    const changeTodoLabel = (index) => setLabelId( parseInt(index) )
+    const createTodoButtonLabel = (labelIndex, title) => {
+        return(
+            labelId == labelIndex
+            ?
+            <div className="btn btn-dark-orange my-auto mr-3 active no-bg-hover-effect" onClick={() => changeTodoLabel(labelIndex)}>
+                {
+                    title
+                }
+            </div>
+            :
+            <div className="btn btn-outline-dark-orange my-auto mr-3 disabled" onClick={() => changeTodoLabel(labelIndex)}>
+                {
+                    title
+                }
+            </div>
+        )
+    }
 
     //hooks
     useEffect( () => getData(), [])
@@ -301,17 +318,23 @@ export default function Todos(){
                         </div>
                     </div>
 
-                    <p className="col-lg-12 display-4 mt-3 p-0 m-0">
-                        <span className="display-1 align-middle">•</span>All
+                    <p className="col-lg-12 h1 mt-3 p-0 m-0 my-auto">
+                        <div className="row m-0">
+                            <div className="my-auto align-middle mr-3">
+                                <span className="display-1 align-middle">•</span>
+                                <span className="align-middle my-auto">All</span>
+                            </div>
+                            {
+                                createTodoButtonLabel(1, "General")
+                            }
+                            {
+                                createTodoButtonLabel(2, "Important")
+                            }
+                            {
+                                createTodoButtonLabel(3, "To Do")
+                            }
+                        </div>
                     </p>
-
-                    <div className="col-lg-12 mb-3">
-                        <select name="todo-label" value={labelId} onChange={changeTodoLabel} className="btn btn-outline-dark-orange-no-over col-lg-12 p-2 h5">
-                            <option value="1"> General </option>
-                            <option value="2"> Important </option>
-                            <option value="3" defaultChecked> To Do </option>
-                        </select>
-                    </div>
                     {
                         addNewTodoLink
                     }

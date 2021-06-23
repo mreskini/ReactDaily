@@ -151,6 +151,10 @@
   background-color: transparent !important;
   border-color: var(--theme-text-color);
 }
+.btn-dark-orange.no-bg-hover-effect:hover{
+  color: white !important;
+  background-color: var(--theme-text-color) !important;
+}
 .custom-btn{
   text-align: center;
   background-color: transparent;

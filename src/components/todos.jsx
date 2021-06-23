@@ -4,7 +4,6 @@ import { Link, useHistory } from "react-router-dom"
 import {
     BsBookmarkFill,
     BsFillTrashFill,
-    BsBookmark,
     BsFiles,
     BsPaperclip,
     BsPencil,
@@ -21,6 +20,7 @@ import { Modal } from "react-bootstrap"
 import notificationReducer from "../reducers/notificationReducer"
 import addNewTodoLink from "../views/addNewTodoLinkView"
 import todoTemplate from "../views/todoTemplateView"
+import MarkedTodoTemplate from "../views/markedTodoTemplateView"
 
 export default function Todos(){
 
@@ -40,6 +40,7 @@ export default function Todos(){
         notificationsDispatch({type: "NEUTRAL"})
         setTodosChangePending(false)
     }
+
     const changeTobeDeletedTodo = (todo) => {
         setShowDeleteConfirmationModal(true)
         setTobeDeletedTodo(todo)
@@ -163,52 +164,7 @@ export default function Todos(){
     //partial components
     const markedTodosBuilder = todos.filter(todo => todo.marked === 1).map( (todo) => {
         const todoDate = getFullDateFromDateString(todo.created_at)
-        return(
-            <div className="col-lg-4 p-3" key={todo.id}>
-                <div className="w-100 marked todo-card py-4">
-                    <br/>
-                    {
-                        todo.task
-                    }
-                    <OverlayTrigger overlay={<Tooltip>Unmark</Tooltip>}>
-                        <div className="btn btn-lg todo-icon p-0 marked mark-icon" onClick={() => unmarkTodo(todo.id)}>
-                            <BsBookmarkFill />
-                        </div>
-                    </OverlayTrigger>
-                    <OverlayTrigger overlay={<Tooltip>Remove</Tooltip>}>
-                        <div className="btn btn-lg todo-icon p-0 marked trash-icon" onClick={() => changeTobeDeletedTodo(todo)}>
-                            <BsFillTrashFill />
-                        </div>
-                    </OverlayTrigger>
-                    <OverlayTrigger overlay={<Tooltip>Copy</Tooltip>}>
-                        <div className="btn btn-lg todo-icon p-0 marked copy-icon" onClick={() => copyTodo(todo)}>
-                            <BsFiles />
-                        </div>
-                    </OverlayTrigger>
-                    <OverlayTrigger overlay={<Tooltip>Edit</Tooltip>}>
-                        <Link to={`/edit/${todo.id}`} className="btn btn-lg p-0 todo-icon edit-icon">
-                            <BsPencil />
-                        </Link>
-                    </OverlayTrigger>
-                    {
-                        todo.file_url.length !== 0
-                        ?
-                        <OverlayTrigger overlay={<Tooltip>File</Tooltip>}>
-                            <a href={todo.file_url} rel="noreferrer" target="_blank" className="btn btn-lg p-0 todo-icon attach-icon">
-                                <BsPaperclip />
-                            </a>
-                        </OverlayTrigger>
-                        :
-                        <></>
-                    }
-                    <div className="creation-date mx-auto">
-                    {
-                        todoDate
-                    }
-                    </div>
-                </div>
-            </div>
-        )
+        return MarkedTodoTemplate(todo, unmarkTodo, changeTobeDeletedTodo, copyTodo, todoDate)
     })
 
     !initialized && !pending && setInitialized(true)

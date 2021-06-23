@@ -79,12 +79,12 @@ export default function Login(){
                                 ?
                                 <>
                                     <input type="text" onChange={handlePasswordChange} placeholder="Password" className="login-form-input" />
-                                    <BsFillEyeSlashFill onClick={() => setShowPassword(false)} className="show-password-toggler"/>
+                                    <BsFillEyeSlashFill onClick={() => setShowPassword(false)} className="show-password-toggler mt-1"/>
                                 </>
                                 :
                                 <>
                                     <input type="password" onChange={handlePasswordChange} placeholder="Password" className="login-form-input" />
-                                    <BsFillEyeFill onClick={() => setShowPassword(true)} className="show-password-toggler"/>
+                                    <BsFillEyeFill onClick={() => setShowPassword(true)} className="show-password-toggler mt-1"/>
                                 </>
 
                             }

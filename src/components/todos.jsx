@@ -1,26 +1,15 @@
 //requirements
 import { useState, useEffect, useReducer } from "react"
 import { Link, useHistory } from "react-router-dom"
-import {
-    BsBookmarkFill,
-    BsFillTrashFill,
-    BsFiles,
-    BsPaperclip,
-    BsPencil,
-} from "react-icons/bs"
-
 import axios from "axios"
-
-import {
-    OverlayTrigger,
-    Spinner,
-    Tooltip
-} from "react-bootstrap"
+import { Spinner } from "react-bootstrap"
 import { Modal } from "react-bootstrap"
 import notificationReducer from "../reducers/notificationReducer"
 import addNewTodoLink from "../views/addNewTodoLinkView"
 import todoTemplate from "../views/todoTemplateView"
 import MarkedTodoTemplate from "../views/markedTodoTemplateView"
+import LabelButtonUnselected from "../views/labelButtonUnselectedView"
+import LabelButtonSelected from "../views/labelButtonSelectedView"
 
 export default function Todos(){
 
@@ -170,21 +159,10 @@ export default function Todos(){
     !initialized && !pending && setInitialized(true)
 
     const changeTodoLabel = (index) => setLabelId( parseInt(index) )
+
     const createTodoButtonLabel = (labelIndex, title) => {
         return(
-            labelId == labelIndex
-            ?
-            <div className="btn btn-dark-orange my-auto mr-3 active no-bg-hover-effect" onClick={() => changeTodoLabel(labelIndex)}>
-                {
-                    title
-                }
-            </div>
-            :
-            <div className="btn btn-outline-dark-orange my-auto mr-3" onClick={() => changeTodoLabel(labelIndex)}>
-                {
-                    title
-                }
-            </div>
+            labelId == labelIndex ? LabelButtonSelected(title, changeTodoLabel, labelIndex) : LabelButtonUnselected(title, changeTodoLabel, labelIndex)
         )
     }
 
@@ -268,13 +246,10 @@ export default function Todos(){
                     }
 
                     <Modal className="delete-todo-modal mt-5 py-5" show={showDeleteConfirmationModal} onHide={() => setShowDeleteConfirmationModal(false)}>
-
                         <Modal.Header className="delete-todo-modal-header">
                             <Modal.Title className="h4 font-weight-light">Delete Todo Confirmation</Modal.Title>
                         </Modal.Header>
-
                         <Modal.Body className="delete-todo-modal-body font-weight-light">Do You Want To Delete This Todo?</Modal.Body>
-
                         <Modal.Footer className="delete-todo-modal-footer">
                             <button className="btn btn-outline-light" onClick={() => setShowDeleteConfirmationModal(false)}>
                                 Cancel
@@ -283,7 +258,6 @@ export default function Todos(){
                                 Yes
                             </button>
                         </Modal.Footer>
-
                     </Modal>
 
                 </div>
@@ -291,5 +265,6 @@ export default function Todos(){
         </div>
     )
 }
+//293
 //380
 //395

@@ -7,7 +7,6 @@ import {
     BsBookmark,
     BsFiles,
     BsPaperclip,
-    BsPlus,
     BsPencil,
 } from "react-icons/bs"
 
@@ -20,6 +19,7 @@ import {
 } from "react-bootstrap"
 import { Modal } from "react-bootstrap"
 import notificationReducer from "../reducers/notificationReducer"
+import addNewTodoLink from "../views/addNewTodoLinkView"
 
 export default function Todos(){
 
@@ -86,7 +86,6 @@ export default function Todos(){
     const removeTodo = async () => {
         if(tobeDeletedTodo === null)
             return false
-        console.log(tobeDeletedTodo)
         setShowDeleteConfirmationModal(false)
         const reqRoute = `${process.env.REACT_APP_SERVER_HOST}/todos/delete`
         const reqBody = {id : tobeDeletedTodo.id}
@@ -245,13 +244,6 @@ export default function Todos(){
         )
     })
 
-    const addNewTodoLink =
-        <Link to={`/create/${labelId}`} className="col-lg-4 p-3">
-            <div className="w-100 marked add-todo-card todo-card py-4">
-                <BsPlus className="align-middle mx-auto my-auto" />
-            </div>
-        </Link>
-
     !initialized && !pending && setInitialized(true)
 
     const changeTodoLabel = (index) => setLabelId( parseInt(index) )
@@ -275,7 +267,6 @@ export default function Todos(){
 
     //hooks
     useEffect( () => getData(), [])
-
     return(
         pending
         ?
@@ -321,7 +312,7 @@ export default function Todos(){
                         </div>
                     </p>
                     {
-                        addNewTodoLink
+                        addNewTodoLink(labelId)
                     }
                     {
                         todosChangePending
@@ -349,9 +340,8 @@ export default function Todos(){
                     <p className="col-lg-12 display-4 m-0 p-0">
                         <span className="display-1 align-middle">•</span>Marked
                     </p>
-
                     {
-                        todos.filter(todo => todo.marked === 1).length === 0 ? addNewTodoLink : markedTodosBuilder
+                        todos.filter(todo => todo.marked === 1).length === 0 ? addNewTodoLink(labelId) : markedTodosBuilder
                     }
 
                     <Modal className="delete-todo-modal mt-5 py-5" show={showDeleteConfirmationModal} onHide={() => setShowDeleteConfirmationModal(false)}>
@@ -378,3 +368,5 @@ export default function Todos(){
         </div>
     )
 }
+//380
+//395
